@@ -3,6 +3,11 @@
 .idea/
 venv/
 
+# python
+__pycache__/
+*.py[cod]
+*$py.class
+
 # Security
 *.key
 
