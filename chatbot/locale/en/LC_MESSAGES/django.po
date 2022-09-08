@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-08 00:16-0300\n"
+"POT-Creation-Date: 2022-09-08 01:05-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,14 +17,22 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\templates\chatbot\login.html:12
-msgid "I still don't have a Prometeo account"
+#: .\templates\chatbot\guest.html:13
+msgid "Create a Prometeo account"
 msgstr ""
 
-#: .\templates\chatbot\login.html:13
+#: .\templates\chatbot\guest.html:14
+msgid "Try Prometeo Open Banking without an account."
+msgstr ""
+
+#: .\templates\chatbot\index.html:13
+msgid "I still don't have a Prometeo account..."
+msgstr ""
+
+#: .\templates\chatbot\index.html:14
 msgid "I already have a Prometeo account!"
 msgstr ""
 
-#: .\views.py:6
-msgid "Hello!"
+#: .\templates\chatbot\login.html:14
+msgid "Let's go!"
 msgstr ""
