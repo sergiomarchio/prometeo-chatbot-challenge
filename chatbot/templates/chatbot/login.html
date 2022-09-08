@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load i18n %}
 <html>
 
     <head>
@@ -8,9 +9,10 @@
 
     <body>
         <h1>Prometeo Chatbot</h1>
-        <p>{% translate "This is the title." %}</p>
-        <p>{% translate "I already have a Prometeo account!" %}</p>
-
+        <div>
+            <button>{% translate "I still don't have a Prometeo account..." %}</button>
+            <button>{% translate "I already have a Prometeo account!" %}</button>
+        </div>
     </body>
 
 </html>
