@@ -4,4 +4,4 @@ from django.utils.translation import gettext_lazy as _
 
 
 def homepage(request):
-    return render(request, 'chatbot/login.html')
+    return render(request, 'chatbot/index.html')
