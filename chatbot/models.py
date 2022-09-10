@@ -1,3 +1,10 @@
-from django.db import models
+from . import settings
 
-# Create your models here.
+
+class API:
+    @staticmethod
+    def guest_key():
+        return getattr(settings, "API_KEY")
+
+
+

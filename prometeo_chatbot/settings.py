@@ -37,8 +37,8 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'chatbot.apps.ChatbotConfig',
     # 'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
+    # 'django.contrib.auth',
+    # 'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -66,7 +66,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
+                # 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
@@ -137,4 +137,13 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Cached session
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# After 10 minutes of inactivity, closes session automatically
+SESSION_COOKIE_AGE = 10
+SESSION_SAVE_EVERY_REQUEST = True

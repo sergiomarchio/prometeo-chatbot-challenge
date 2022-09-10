@@ -2,17 +2,20 @@
 {% load i18n %}
 <html>
 
-    <head>
-        <meta charset="utf-8">
-        <title>Prometeo chatbot - login</title>
-    </head>
+<head>
+    <meta charset="utf-8">
+    <title>Prometeo chatbot - login</title>
+</head>
 
-    <body>
-        <h1>Prometeo Chatbot</h1>
-        <div>
-            <input id="api_key" placeholder="API key">
-            <a id="login" class="button" href="chatbot">{% translate "Let's go!" %}</a>
-        </div>
-    </body>
+<body>
+<h1>Prometeo Chatbot</h1>
+<div>
+    <form action="{% url 'chatbot:login' %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" class="button" value="{% translate 'Let\'s go!' %}">
+    </form>
+</div>
+</body>
 
 </html>
