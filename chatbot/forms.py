@@ -12,9 +12,9 @@ class LoginForm(forms.Form):
 
 
 class ChatForm(forms.Form):
-    attrs = {
+    text_field_attrs = {
         'placeholder': _('Type your message here...')
     }
 
     text_field = forms.CharField(label="",
-                                 widget=forms.TextInput(attrs=attrs))
+                                 widget=forms.TextInput(attrs=text_field_attrs))

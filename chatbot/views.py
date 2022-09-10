@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .forms import LoginForm, ChatForm
-from .models import API, MessageHistory
+from .models import API, BotMessage, UserMessage, MessageHistory
 
 
 def homepage(request):
@@ -30,20 +30,28 @@ def login(request):
 
 
 def chat(request):
-    if 'messages' not in request.session.keys():
-        request.session['messages'] = MessageHistory()
+    if 'message_history' not in request.session.keys():
+        request.session['message_history'] = MessageHistory()
 
     if request.method == 'POST':
         form = ChatForm(request.POST)
         if form.is_valid():
             user_message = form.cleaned_data['text_field']
 
-            request.session['messages'].add_user_message(user_message)
-            print(request.session['messages'].messages)
+            request.session['message_history'].add(UserMessage(user_message))
+            request.session['message_history'].add(BotMessage("ok"))
+
+            print(request.session['message_history'])
+
             return HttpResponseRedirect(reverse('chatbot:chat'))
     else:
         form = ChatForm()
 
     # TODO delete this!
     print(request.session['api-key'])
-    return render(request, 'chatbot/chat.html', {'form': form})
+    context = {
+        'form': form,
+        'message_history': request.session['message_history']
+    }
+
+    return render(request, 'chatbot/chat.html', context)

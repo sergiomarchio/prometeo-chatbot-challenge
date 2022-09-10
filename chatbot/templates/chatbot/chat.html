@@ -10,6 +10,9 @@
     <body>
         <h1>Prometeo Chatbot</h1>
         <div>
+            {% for message in message_history.messages %}
+            <div class="message {{ message.sender }}">{{ message.content }}</div>
+            {% endfor %}
             <form action="{% url 'chatbot:chat' %}" method="post">
                 {% csrf_token %}
                 {{ form }}
