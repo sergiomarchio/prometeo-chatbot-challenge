@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 {% load i18n %}
+{% load static %}
 <html>
 
     <head>
         <meta charset="utf-8">
         <title>Prometeo chatbot</title>
+        <link rel="stylesheet" href="{% static 'chatbot/chat.css' %}">
     </head>
 
     <body>
-        <h1>Prometeo Chatbot</h1>
-        <div>
-            {% for message in message_history.messages %}
-            <div class="message {{ message.sender }}">{{ message.content }}</div>
-            {% endfor %}
-            <form action="{% url 'chatbot:chat' %}" method="post">
+        <a id="prometeo-logo" href="https://prometeoapi.com/">
+            <img src="{% static 'chatbot/images/prometeo.png' %}">
+        </a>
+        <div class="chat-box">
+            <div class="chat-history">
+                {% for message in message_history.messages %}
+                <div class="message {{ message.sender }}">{{ message.content }}</div>
+                {% endfor %}
+            </div>
+            <form class="chat-form" action="{% url 'chatbot:chat' %}" method="post">
                 {% csrf_token %}
                 {{ form }}
-                <input type="submit" class="button" value=">">
+                <input id="submit" type="submit" class="button --round" value=">">
             </form>
         </div>
     </body>

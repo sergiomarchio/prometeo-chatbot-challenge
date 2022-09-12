@@ -145,5 +145,5 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # After 10 minutes of inactivity, closes session automatically
-SESSION_COOKIE_AGE = 10
+SESSION_COOKIE_AGE = 600
 SESSION_SAVE_EVERY_REQUEST = True
