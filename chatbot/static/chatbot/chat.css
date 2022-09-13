@@ -21,7 +21,19 @@ body {
     margin: 8px;
 }
 
+#top-banner {
+    align-items: center;
+    display: flex;
+}
+
+#logout {
+    font-color: var(--prometeo-red);
+    font-size: calc(2 * var(--font-size));
+}
+
 #prometeo-logo {
+    background: #000000AA;
+    border-radius: 10px;
     flex: 0;
     margin-right: auto;
     object-fit: none;

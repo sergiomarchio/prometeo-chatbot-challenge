@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
@@ -27,6 +27,11 @@ def login(request):
         form = LoginForm()
 
     return render(request, 'chatbot/login.html', {'form': form})
+
+
+def logout(request):
+    request.session.flush()
+    return HttpResponse()
 
 
 def chat(request):
