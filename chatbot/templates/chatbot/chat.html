@@ -21,6 +21,7 @@
         {% for message in message_history.messages %}
         <div class="message {{ message.sender }}">{{ message.content }}</div>
         {% endfor %}
+        <div id="end-marker"></div>
     </div>
     <form class="chat-form" action="{% url 'chatbot:chat' %}" method="post">
         {% csrf_token %}
@@ -28,6 +29,7 @@
         <input id="submit" type="submit" class="button --round" value=">">
     </form>
 </div>
+<script src="{% static 'chatbot/main.js' %}"></script>
 </body>
 
 </html>

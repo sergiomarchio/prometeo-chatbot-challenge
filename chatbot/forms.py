@@ -13,6 +13,7 @@ class LoginForm(forms.Form):
 
 class ChatForm(forms.Form):
     text_field_attrs = {
+        'id': "input-field",
         'placeholder': _('Type your message here...')
     }
 
