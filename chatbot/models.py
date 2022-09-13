@@ -24,7 +24,9 @@ class UserMessage(Message):
 
 
 class MessageHistory:
-    message_history = []
+
+    def __init__(self):
+        self.message_history = []
 
     def __str__(self):
         return [msg for msg in self.messages()].__str__()
