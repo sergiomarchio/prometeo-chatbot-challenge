@@ -17,13 +17,13 @@
     <a id="logout" href="{% url 'chatbot:logout' %}">{% translate "Logout" %}</a>
 </div>
 <div class="chat-box">
-    <div class="chat-history">
+    <div id="chat-history" class="chat-history">
         {% for message in message_history.messages %}
         <div class="message {{ message.sender }}">{{ message.content }}</div>
         {% endfor %}
         <div id="end-marker"></div>
     </div>
-    <form class="chat-form" action="{% url 'chatbot:chat' %}" method="post">
+    <form id="chat-form" class="chat-form" action="{% url 'chatbot:chat' %}" method="post">
         {% csrf_token %}
         {{ form }}
         <input id="submit" type="submit" class="button --round" value=">">
