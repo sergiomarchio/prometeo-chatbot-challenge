@@ -1,3 +1,8 @@
+from abc import ABC, abstractmethod
+from collections import defaultdict
+from django.utils.translation import gettext as _
+from requests import Response
+
 from chatbot import settings
 
 import requests
@@ -16,19 +21,52 @@ class Api:
     def url(self):
         return urljoin(self.base_url, self.parameters)
 
+    @abstractmethod
+    def call(self) -> Response:
+        pass
+
+    @abstractmethod
+    def digest_message(self) -> str:
+        """
+        Processes the response and returns the message
+        """
+        pass
+
 
 class Provider(Api):
     parameters = "provider/"
 
     def __init__(self, api_key):
         super().__init__(api_key)
+        self.response = None
 
-    def get(self):
+    def call(self):
+        print()
         print(self.url())
         print(self.headers)
-        response = requests.get(self.url(), headers=self.headers)
-        print(response.status_code)
-        print(response.headers)
-        print(response.content)
+        print()
 
-        return response
+        self.response = requests.get(self.url(), headers=self.headers)
+
+        print(self.response.status_code)
+        print()
+        print(self.response.headers)
+        print()
+        print(self.response.content)
+        print()
+
+        return self.response
+
+    def digest_message(self) -> str:
+        if not self.response:
+            raise ReferenceError(_("Oh no! Something went wrong!"))
+
+        banks_per_country = defaultdict(list)
+        for bank in self.response.json()['providers']:
+            banks_per_country[bank['country']].append(bank['name'])
+
+        bank_string = _("The available banks per country are:") + "\n"
+        for country, banks in sorted(banks_per_country.items()):
+            bank_string += country + ":\n" + "\n".join(banks) + "\n\n"
+
+        return bank_string

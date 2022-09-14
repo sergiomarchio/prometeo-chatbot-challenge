@@ -43,6 +43,8 @@ def chat(request):
         if form.is_valid():
             user_message = form.cleaned_data['text_field']
 
+            print(request.session['api-key'])
+
             request.session['message_history'].add(UserMessage(user_message))
 
             bot_message = MessageProcessor(request.session['api-key']).process_message(user_message)

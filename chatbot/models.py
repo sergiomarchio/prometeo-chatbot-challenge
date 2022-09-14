@@ -1,6 +1,7 @@
 import re
 
-from collections import defaultdict
+from typing import Optional
+
 from django.utils.translation import gettext as _
 
 from . import api
@@ -50,21 +51,28 @@ class MessageProcessor:
     def __init__(self, api_key):
         self.api_key = api_key
 
-    def process_message(self, message):
+    def parse_message(self, message) -> Optional[api.Api]:
+        """
+        Parse a message returning the object that corresponds
+        to the API that must be called
+        """
         if re.match(_("banks?"), message):
-            response = api.Provider(self.api_key).get()
+            return api.Provider(self.api_key)
+        else:
+            return None
 
-            if not 200 <= response.status_code < 300 or response.json()['status'] != 'success':
-                return _("There was an issue, please try again...")
+    def process_message(self, message):
+        api_object = self.parse_message(message)
+        if api_object is None:
+            return _("Sorry, could you give me more details about what you want to do?")
 
-            banks_per_country = defaultdict(list)
-            for bank in response.json()['providers']:
-                banks_per_country[bank['country']].append(bank['name'])
+        response = api_object.call()
+        json_response = response.json()
 
-            bank_string = _("The available banks per country are:") + "\n"
-            for country, banks in sorted(banks_per_country.items()):
-                bank_string += country + ":\n" + "\n".join(banks) + "\n\n"
+        if 'message' in json_response and json_response['message'] == 'Key not Found':
+            raise ValueError(_("There was an error with the API key, please log in again..."))
 
-            return bank_string
+        if not 200 <= response.status_code < 300 or json_response['status'] != 'success':
+            return _("There was an issue, please try again...")
 
-        return "ok"
+        return api_object.digest_message()
