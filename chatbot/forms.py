@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 class LoginForm(forms.Form):
     attrs = {
+        'id': "input-field",
         'placeholder': 'API key'
     }
 

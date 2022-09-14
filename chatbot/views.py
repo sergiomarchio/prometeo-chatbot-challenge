@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .forms import LoginForm, ChatForm
-from .models import API, BotMessage, UserMessage, MessageHistory
+from .models import ApiKey, BotMessage, UserMessage, MessageHistory, MessageProcessor
 
 
 def homepage(request):
@@ -11,7 +11,7 @@ def homepage(request):
 
 
 def guest(request):
-    request.session['api-key'] = API.guest_key()
+    request.session['api-key'] = ApiKey.guest_key()
 
     return render(request, 'chatbot/guest.html')
 
@@ -44,7 +44,10 @@ def chat(request):
             user_message = form.cleaned_data['text_field']
 
             request.session['message_history'].add(UserMessage(user_message))
-            request.session['message_history'].add(BotMessage("ok"))
+
+            bot_message = MessageProcessor(request.session['api-key']).process_message(user_message)
+
+            request.session['message_history'].add(BotMessage(bot_message))
 
             print(request.session['message_history'])
 
@@ -52,8 +55,6 @@ def chat(request):
     else:
         form = ChatForm()
 
-    # TODO delete this!
-    print(request.session['api-key'])
     context = {
         'form': form,
         'message_history': request.session['message_history']

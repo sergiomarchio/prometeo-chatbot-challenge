@@ -67,6 +67,7 @@ body {
     margin: 3px;
     max-width: 80%;
     padding: 0.2em 0.5em;
+    white-space: pre-wrap;
     word-wrap: anywhere;
 }
 

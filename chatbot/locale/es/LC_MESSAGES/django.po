@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-08 01:05-0300\n"
+"POT-Creation-Date: 2022-09-13 00:39-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,22 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\forms.py:18
+msgid "Type your message here..."
+msgstr "Escribe tu mensaje aquí..."
+
+#: .\models.py:52
+msgid "banks?"
+msgstr "bancos?"
+
+#: .\models.py:53
+msgid "banks"
+msgstr "bancos"
+
+#: .\templates\chatbot\chat.html:17
+msgid "Logout"
+msgstr "Salir"
 
 #: .\templates\chatbot\guest.html:13
 msgid "Create a Prometeo account..."
@@ -33,6 +49,6 @@ msgstr "Aún no tengo una cuenta en Prometeo..."
 msgid "I already have a Prometeo account!"
 msgstr "Ya tengo una cuenta en Prometeo!"
 
-#: .\templates\chatbot\login.html:14
+#: .\templates\chatbot\login.html:16
 msgid "Let's go!"
 msgstr "Vamos!"

@@ -13,7 +13,7 @@
     <form action="{% url 'chatbot:login' %}" method="post">
         {% csrf_token %}
         {{ form }}
-        <input type="submit" class="button" value="{% translate 'Let\'s go!' %}">
+        <input type="submit" class="button" value="{% blocktrans %}Let's go!{% endblocktrans %}">
     </form>
 </div>
 </body>
