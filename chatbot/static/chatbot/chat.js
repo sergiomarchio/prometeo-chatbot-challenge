@@ -1,4 +1,4 @@
-// getCookie() from https://docs.djangoproject.com/en/4.1/howto/csrf/
+// getCookie() taken from https://docs.djangoproject.com/en/4.1/howto/csrf/
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {

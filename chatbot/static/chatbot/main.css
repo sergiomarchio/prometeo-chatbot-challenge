@@ -1,0 +1,13 @@
+
+:root {
+    --font-size: 12pt;
+
+    /* Colors */
+    --prometeo-red: #F30A0A;
+}
+
+body {
+    background: black url("images/background.png") no-repeat left center fixed;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    font-size: var(--font-size);
+}

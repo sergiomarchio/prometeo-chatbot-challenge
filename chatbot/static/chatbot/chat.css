@@ -1,11 +1,10 @@
+ @import "main.css";
 
-:root {
+ :root {
     --chat-width: 50vw;
     --chat-height: 80%;
 
-    --font-size: 12pt;
-
-    --prometeo-red: #F30A0A;
+    /* Colors */
     --link-color: #EEE;
     --chat-background: #DDDD;
     --bot-chat-color: #99D6F0;
@@ -13,11 +12,8 @@
 }
 
 body {
-    background: black url("images/background.png") no-repeat left center fixed;
     display: flex;
     flex-direction: column;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-    font-size: var(--font-size);
     height: calc(100vh - 16px);
     margin: 8px;
 }
