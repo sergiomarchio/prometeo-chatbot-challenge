@@ -1,5 +1,4 @@
 import re
-
 from typing import Optional
 
 from django.utils.translation import gettext as _

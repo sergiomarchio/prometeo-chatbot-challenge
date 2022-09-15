@@ -1,5 +1,4 @@
-
-// https://docs.djangoproject.com/en/4.1/howto/csrf/
+// getCookie() from https://docs.djangoproject.com/en/4.1/howto/csrf/
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -25,6 +24,22 @@ function addNewMessage(message) {
     newMessage.appendChild(text);
 
     chatHistory.insertBefore(newMessage, messageEnd);
+
+    messageEnd.scrollIntoView();
+}
+
+function post(url, body, action) {
+    fetch(url, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+        "X-CSRFToken": getCookie("csrftoken"),
+      },
+      body: JSON.stringify(body)
+    })
+    .then(response => response.json())
+    .then(data => action(data));
 }
 
 function messageSubmit(e) {
@@ -37,11 +52,13 @@ function messageSubmit(e) {
     }
 
     addNewMessage(userMessage);
-    messageEnd.scrollIntoView();
 
     userMessageField.value = "";
     userMessageField.focus();
+
+    post("process_message/", userMessage, addNewMessage);
 }
+
 
 const csrftoken = getCookie('csrftoken');
 
@@ -51,7 +68,9 @@ const chatForm = document.getElementById("chat-form");
 const userMessageField = document.getElementById("input-field");
 const submitMessageBtn = document.getElementById("submit");
 
+
 chatForm.addEventListener("submit", messageSubmit);
+
 
 window.onload = function() {
     messageEnd.scrollIntoView();
