@@ -2,6 +2,7 @@ from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedire
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 
 import json
 
@@ -75,8 +76,14 @@ def process_message(request):
 
 
 def chat(request):
+    """
+    Main view for chat window.
+    The first time it's loaded, it creates a welcome message
+    """
     if 'message_history' not in request.session.keys():
-        request.session['message_history'] = MessageHistory()
+        messages = MessageHistory()
+        messages.add(BotMessage(_("Hi! What do you want to do with Prometeo today?")))
+        request.session['message_history'] = messages
 
     form = ChatForm()
 
