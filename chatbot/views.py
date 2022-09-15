@@ -11,7 +11,10 @@ from .models import ApiKey, BotMessage, UserMessage, MessageHistory, MessageProc
 
 
 def homepage(request):
-
+    """
+    Homepage if no user is logged in.
+    If a user is logged in, redirects to chat page.
+    """
     if 'message_history' in request.session.keys():
         return HttpResponseRedirect(reverse('chatbot:chat'))
 
@@ -38,8 +41,12 @@ def login(request):
 
 
 def logout(request):
+    """
+    Logs out and returns to home page
+    """
     request.session.flush()
-    return HttpResponse()
+
+    return HttpResponseRedirect(reverse('chatbot:homepage'))
 
 
 def process_message(request):
@@ -65,7 +72,14 @@ def process_message(request):
 
     request.session['message_history'].add(UserMessage(user_message_content))
 
-    bot_message_content = MessageProcessor(request.session['api-key']).process_message(user_message_content)
+    try:
+        bot_message_content = MessageProcessor(request.session['api-key']).process_message(user_message_content)
+    except ValueError as e:
+        return JsonResponse(BotMessage(str(e)).__dict__, status=500)
+    except Exception as e:
+        message = _("There was an unexpected error... Please try again later")
+        return JsonResponse(BotMessage(message).__dict__, status=500)
+
     bot_message = BotMessage(bot_message_content)
 
     request.session['message_history'].add(bot_message)

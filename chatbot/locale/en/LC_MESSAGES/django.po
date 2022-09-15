@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-13 00:39-0300\n"
+"POT-Creation-Date: 2022-09-15 00:01-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,16 +17,32 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: .\api.py:62
+msgid "Oh no! Something went wrong!"
+msgstr ""
+
+#: .\api.py:68
+msgid "The available banks per country are:"
+msgstr ""
+
 #: .\forms.py:18
 msgid "Type your message here..."
 msgstr ""
 
-#: .\models.py:52
+#: .\models.py:58
 msgid "banks?"
 msgstr ""
 
-#: .\models.py:53
-msgid "banks"
+#: .\models.py:66
+msgid "Sorry, could you give me more details about what you want to do?"
+msgstr ""
+
+#: .\models.py:72
+msgid "There was an error with the API key, please log in again..."
+msgstr ""
+
+#: .\models.py:75
+msgid "There was an issue, please try again..."
 msgstr ""
 
 #: .\templates\chatbot\chat.html:17
@@ -51,4 +67,8 @@ msgstr ""
 
 #: .\templates\chatbot\login.html:16
 msgid "Let's go!"
+msgstr ""
+
+#: .\views.py:97
+msgid "Hi! What do you want to do with Prometeo today?"
 msgstr ""

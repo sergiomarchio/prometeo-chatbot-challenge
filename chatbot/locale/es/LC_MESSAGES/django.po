@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-13 00:39-0300\n"
+"POT-Creation-Date: 2022-09-15 00:01-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,21 +17,37 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: .\api.py:62
+msgid "Oh no! Something went wrong!"
+msgstr "Oh no! Algo salió mal!"
+
+#: .\api.py:68
+msgid "The available banks per country are:"
+msgstr "Los bancos disponibles por país son:"
+
 #: .\forms.py:18
 msgid "Type your message here..."
 msgstr "Escribe tu mensaje aquí..."
 
-#: .\models.py:52
+#: .\models.py:58
 msgid "banks?"
 msgstr "bancos?"
 
-#: .\models.py:53
-msgid "banks"
-msgstr "bancos"
+#: .\models.py:66
+msgid "Sorry, could you give me more details about what you want to do?"
+msgstr "Lo siento, podrías darme más detalles acerca de lo que quieres hacer?"
+
+#: .\models.py:72
+msgid "There was an error with the API key, please log in again..."
+msgstr "Hubo un error con la API key, por favor inicia sesión nuevamente..."
+
+#: .\models.py:75
+msgid "There was an issue, please try again..."
+msgstr "Hubo un error, por favor intenta nuevamente..."
 
 #: .\templates\chatbot\chat.html:17
 msgid "Logout"
-msgstr "Salir"
+msgstr "Cerrar sesión"
 
 #: .\templates\chatbot\guest.html:13
 msgid "Create a Prometeo account..."
@@ -52,3 +68,10 @@ msgstr "Ya tengo una cuenta en Prometeo!"
 #: .\templates\chatbot\login.html:16
 msgid "Let's go!"
 msgstr "Vamos!"
+
+#: .\views.py:97
+msgid "Hi! What do you want to do with Prometeo today?"
+msgstr "Hola! Qué quieres hacer con Prometeo hoy?"
+
+#~ msgid "banks"
+#~ msgstr "bancos"
