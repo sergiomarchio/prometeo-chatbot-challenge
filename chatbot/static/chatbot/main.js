@@ -45,11 +45,6 @@ function messageSubmit(e) {
 
 const csrftoken = getCookie('csrftoken');
 
-window.onload = function() {
-    messageEnd.scrollIntoView();
-    userMessageField.focus();
-}
-
 const chatHistory = document.getElementById("chat-history");
 const messageEnd = document.getElementById("end-marker");
 const chatForm = document.getElementById("chat-form");
@@ -58,3 +53,7 @@ const submitMessageBtn = document.getElementById("submit");
 
 chatForm.addEventListener("submit", messageSubmit);
 
+window.onload = function() {
+    messageEnd.scrollIntoView();
+    userMessageField.focus();
+}

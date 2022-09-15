@@ -6,7 +6,8 @@
     --font-size: 12pt;
 
     --prometeo-red: #F30A0A;
-    --chat-background: #910606AA;
+    --link-color: #EEE;
+    --chat-background: #AAAC;
     --bot-chat-color: #00A6D0;
     --user-chat-color: #FF7F00;
 }
@@ -23,20 +24,26 @@ body {
 
 #top-banner {
     align-items: center;
+    background: #000000AA;
+    border-radius: 10px;
     display: flex;
 }
 
-#logout {
-    font-color: var(--prometeo-red);
-    font-size: calc(2 * var(--font-size));
-}
-
-#prometeo-logo {
-    background: #000000AA;
-    border-radius: 10px;
+#prometeo-link {
     flex: 0;
     margin-right: auto;
     object-fit: none;
+}
+
+#prometeo-logo {
+    height: 3em;
+}
+
+#logout {
+    color: var(--link-color);
+    font-size: calc(2 * var(--font-size));
+    margin: 0.5em;
+    text-decoration: none;
 }
 
 .chat-box {
@@ -104,10 +111,10 @@ body {
 }
 
 #submit {
-    align-self: stretch;
     aspect-ratio: 1/1;
     background: var(--prometeo-red);
     font-size: var(--font-size);
+    height: 100%;
 }
 
 .button {
