@@ -1,5 +1,9 @@
 function toggleModal(event, modal) {
     modal.classList.toggle("modal-show");
+
+    if(modal.id == "login-modal") {
+        clearInput();
+    }
 }
 
 function focusInput() {
@@ -10,16 +14,20 @@ function backgroundClick(event) {
     if(event.target.classList.contains("modal")) {
         toggleModal(event, event.target);
     }
-
-    if(event.target.id == "login-modal") {
-        clearInput();
-    }
 }
 
 function clearInput() {
     input_field.value = "";
 }
 
+function hideModals() {
+    if (guest_modal.classList.contains("modal-show")) {
+        toggleModal(null, guest_modal);
+    }
+    if (login_modal.classList.contains("modal-show")) {
+        toggleModal(null, login_modal);
+    }
+}
 
 const guest_button = document.getElementById("guest-button");
 const login_button = document.getElementById("login-button");
@@ -37,10 +45,13 @@ login_button.addEventListener("click", (e) => {
 });
 
 guest_modal.querySelector(".close").addEventListener("click", (e) => toggleModal(e, guest_modal));
-login_modal.querySelector(".close").addEventListener("click", (e) => {
-    toggleModal(e, login_modal);
-    clearInput();
-    });
+login_modal.querySelector(".close").addEventListener("click", (e) => toggleModal(e, login_modal));
+
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+        hideModals();
+    }
+});
 
 window.addEventListener("click", backgroundClick);
 

@@ -25,7 +25,7 @@
 
 <div id="guest-modal" class="modal">
     <div class="modal-content">
-        <input class="close button" value="&times;">
+        <button class="close button">&times;</button>
         <a id="create-account" class="button info message" href="https://prometeoapi.com/accounts/create/">{% translate "Create a Prometeo account..." %}</a>
         <a id="guest-account" class="button info message" href="{% url 'chatbot:guest' %}">{% translate "Try Prometeo Open Banking without an account!" %}</a>
     </div>
@@ -33,7 +33,7 @@
 
 <div id="login-modal" class="modal">
     <div class="modal-content">
-        <input class="close button" value="&times;">
+        <button class="close button">&times;</button>
         <form id="login-form" method="post">
             {% csrf_token %}
             {{ login_form }}
