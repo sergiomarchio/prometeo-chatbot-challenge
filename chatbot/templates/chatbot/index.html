@@ -5,11 +5,13 @@
 
 <head>
     <meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, post-check=0, pre-check=0" />     <meta http-equiv="Pragma" content="no-cache" />
     <title>Prometeo chatbot - login</title>
     <link rel="stylesheet" href="{% static 'chatbot/main.css' %}">
 </head>
 
 <body>
+
 <div id="top-banner">
     <a id="prometeo-link" href="https://prometeoapi.com/">
         <img id="prometeo-logo" src="{% static 'chatbot/images/prometeo.png' %}">
@@ -17,9 +19,32 @@
 </div>
 <div class="content-box menu">
     <div class="info message">{% translate "Hi! To play with Prometeo chatbot you must log in first:" %}</div>
-    <a id="login" class="button info message">{% translate "I already have a Prometeo account!" %}</a>
-    <a id="guest" class="button info message">{% translate "I still don't have a Prometeo account..." %}</a>
+    <a id="login-button" class="button info message">{% translate "I already have a Prometeo account!" %}</a>
+    <a id="guest-button" class="button info message">{% translate "I still don't have a Prometeo account..." %}</a>
 </div>
+
+<div id="guest-modal" class="modal">
+    <div class="modal-content">
+        <input class="close button" value="&times;">
+        <a id="create-account" class="button" href="https://prometeoapi.com/accounts/create/">{% translate "Create a Prometeo account..." %}</a>
+        <a id="guest-account" class="button" href="{% url 'chatbot:chat' %}">{% translate "Try Prometeo Open Banking without an account!" %}</a>
+    </div>
+</div>
+
+<div id="login-modal" class="modal">
+    <div class="modal-content">
+        <input class="close button" value="&times;">
+        <form id="login-form" action="" method="post">
+            {% csrf_token %}
+            {{ login_form }}
+            <input type="submit" class="button" value="{% blocktrans %}Let's go!{% endblocktrans %}">
+        </form>
+    </div>
+</div>
+
+<script src="{% static 'chatbot/main.js' %}"></script>
+<script src="{% static 'chatbot/login.js' %}"></script>
+
 </body>
 
 </html>

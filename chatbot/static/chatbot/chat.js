@@ -26,9 +26,9 @@ function post(url, body, action) {
     .then(data => action(data));
 }
 
-function messageSubmit(e) {
+function messageSubmit(event) {
     // prevent page reload
-    e.preventDefault();
+    event.preventDefault();
 
     const userMessage = {
         content: userMessageField.value,

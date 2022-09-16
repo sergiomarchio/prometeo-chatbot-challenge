@@ -41,21 +41,6 @@
     margin: 3px;
 }
 
-#input-field {
-    border: 1px solid #0000;
-    border-radius: 10px;
-    flex-grow: 1;
-    font-size: var(--font-size);
-    margin-right: 4px;
-    padding: 6px;
-}
-
-#input-field:focus {
-    box-shadow: 0 0 5px #00BEBE;
-    border: 1px solid #00BEBE;
-    outline: 0;
-}
-
 #submit {
     aspect-ratio: 1/1;
     background: var(--prometeo-red);

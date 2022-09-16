@@ -18,26 +18,20 @@ def homepage(request):
     if 'message_history' in request.session.keys():
         return HttpResponseRedirect(reverse('chatbot:chat'))
 
-    return render(request, 'chatbot/index.html')
+    if request.method == 'POST':
+        login_form = LoginForm(request.POST)
+        if login_form.is_valid():
+            request.session['api-key'] = login_form.cleaned_data['api_key']
+
+            return HttpResponseRedirect(reverse('chatbot:chat'))
+
+    return render(request, 'chatbot/index.html', {'login_form': LoginForm()})
 
 
 def guest(request):
     request.session['api-key'] = ApiKey.guest_key()
 
-    return render(request, 'chatbot/guest.html')
-
-
-def login(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            request.session['api-key'] = form.cleaned_data['api_key']
-
-            return HttpResponseRedirect(reverse('chatbot:chat'))
-    else:
-        form = LoginForm()
-
-    return render(request, 'chatbot/login.html', {'form': form})
+    return HttpResponseRedirect(reverse('chatbot:chat'))
 
 
 def logout(request):
@@ -94,6 +88,10 @@ def chat(request):
     Main view for chat window.
     The first time it's loaded, it creates a welcome message
     """
+    # If there is no API key (the user entered the url directly) redirect to home page
+    if "api-key" not in request.session.keys():
+        return HttpResponseRedirect(reverse('chatbot:homepage'))
+
     if 'message_history' not in request.session.keys():
         messages = MessageHistory()
         messages.add(BotMessage(_("Hi! What do you want to do with Prometeo today?")))

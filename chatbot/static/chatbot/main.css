@@ -78,6 +78,50 @@ body {
     flex-grow: 0;
 }
 
+.modal {
+    visibility: hidden;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+
+    display: flex;
+
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.modal-content {
+    background-color: var(--content-background);
+    border-radius: var(--default-radius);
+    padding: 1em;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 50%;
+    margin: auto;
+}
+
+.modal-show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.close.button {
+    margin-left: auto;
+    padding: 0;
+    border-radius: 100%;
+    width: 1em;
+    height: 1em;
+    font-size: calc(2 * var(--font-size));
+}
+
+#login-form {
+    display: flex;
+}
 
 .button {
     background: var(--prometeo-red);
@@ -85,4 +129,19 @@ body {
     border-radius: var(--default-radius);
     cursor: pointer;
     text-align: center;
+}
+
+#input-field {
+    border: 1px solid #0000;
+    border-radius: 10px;
+    flex-grow: 1;
+    font-size: var(--font-size);
+    margin-right: 4px;
+    padding: 6px;
+}
+
+#input-field:focus {
+    box-shadow: 0 0 5px #00BEBE;
+    border: 1px solid #00BEBE;
+    outline: 0;
 }
