@@ -17,7 +17,7 @@
     <a id="logout" href="{% url 'chatbot:logout' %}">{% translate "Logout" %}</a>
 </div>
 <div class="chat-box">
-    <div id="chat-history" class="chat-history">
+    <div id="chat-history" class="content-box">
         {% for message in message_history.messages %}
         <div class="message {{ message.sender }}">{{ message.content }}</div>
         {% endfor %}
@@ -29,6 +29,7 @@
         <input id="submit" type="submit" class="button --round" value=">">
     </form>
 </div>
+<script src="{% static 'chatbot/main.js' %}"></script>
 <script src="{% static 'chatbot/chat.js' %}"></script>
 </body>
 

@@ -1,13 +1,88 @@
 
 :root {
+    --default-radius: 1em;
     --font-size: 12pt;
 
     /* Colors */
     --prometeo-red: #F30A0A;
+    --content-background: #DDDD;
+    --bot-color: #99D6F0;
+    --link-color: #EEE;
+    --user-color: #FFCF99;
 }
+
+.--round {
+    border-radius: 100%;
+}
+
 
 body {
     background: black url("images/background.png") no-repeat left center fixed;
+    display: flex;
+    flex-direction: column;
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     font-size: var(--font-size);
+    height: calc(100vh - 16px);
+    margin: 8px;
+}
+
+
+#top-banner {
+    align-items: center;
+    background: #000000AA;
+    border-radius: 10px;
+    display: flex;
+}
+
+#prometeo-link {
+    flex: 0;
+    margin-right: auto;
+    object-fit: none;
+}
+
+#prometeo-logo {
+    height: 3em;
+}
+
+
+.content-box {
+    background: var(--content-background);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin-bottom: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 2px;
+}
+
+.message {
+    border-radius: var(--default-radius);
+    margin: 0.2em;
+    max-width: 80%;
+    padding: 0.5em 1em;
+    white-space: pre-wrap;
+    word-wrap: anywhere;
+}
+
+.info {
+    background: var(--bot-color);
+    border-radius: var(--default-radius);
+    padding: 1em;
+    text-align: center;
+}
+
+.menu {
+    align-items: center;
+    flex-grow: 0;
+}
+
+
+.button {
+    background: var(--prometeo-red);
+    border: none;
+    border-radius: var(--default-radius);
+    cursor: pointer;
+    text-align: center;
 }
