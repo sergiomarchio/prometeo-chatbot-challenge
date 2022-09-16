@@ -129,6 +129,7 @@ body {
     border-radius: var(--default-radius);
     cursor: pointer;
     text-align: center;
+    text-decoration: none;
 }
 
 #input-field {
