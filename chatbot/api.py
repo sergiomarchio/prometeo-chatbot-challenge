@@ -67,6 +67,8 @@ class Provider(Api):
 
         bank_string = _("The available banks per country are:") + "\n"
         for country, banks in sorted(banks_per_country.items()):
-            bank_string += country + ":\n" + "\n".join(banks) + "\n\n"
+            bank_links = [f'<a class="message-link">{bank}</a>' for bank in banks]
+
+            bank_string += country + ":\n" + "\n".join(bank_links) + "\n\n"
 
         return bank_string

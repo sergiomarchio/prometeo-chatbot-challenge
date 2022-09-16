@@ -21,7 +21,7 @@
 <div class="chat-box">
     <div id="chat-history" class="content-box">
         {% for message in message_history.messages %}
-        <div class="message {{ message.sender }}">{{ message.content }}</div>
+        <div class="message {{ message.sender }}">{{ message.content | safe }}</div>
         {% endfor %}
         <div id="end-marker"></div>
     </div>

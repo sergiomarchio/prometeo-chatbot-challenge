@@ -1,15 +1,21 @@
 
 function addNewMessage(message) {
     let newMessage = document.createElement("div");
-    let text = document.createTextNode(message['content']);
+    newMessage.innerHTML = message['content'];
 
     newMessage.classList.add("message")
     newMessage.classList.add(message['sender'])
-    newMessage.appendChild(text);
 
     chatHistory.insertBefore(newMessage, messageEnd);
 
     messageEnd.scrollIntoView();
+}
+
+function clickListener(event) {
+    target = event.target;
+    if (target.classList.contains("message-link")) {
+        userMessageField.value = target.text;
+    }
 }
 
 function post(url, body, action) {
@@ -52,6 +58,8 @@ const chatForm = document.getElementById("chat-form");
 const userMessageField = document.getElementById("input-field");
 const submitMessageBtn = document.getElementById("submit");
 
+
+document.addEventListener('click', clickListener);
 
 chatForm.addEventListener("submit", messageSubmit);
 

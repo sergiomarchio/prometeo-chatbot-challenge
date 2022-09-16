@@ -35,6 +35,16 @@
     text-align: right;
 }
 
+.message-link {
+    cursor: pointer;
+    text-decoration: underline;
+    color: blue;
+}
+
+.message-link:hover {
+    color: darkred;
+}
+
 .chat-form {
     align-items: center;
     display: flex;
