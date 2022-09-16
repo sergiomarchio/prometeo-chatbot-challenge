@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 import json
 
+from . import api
 from .forms import LoginForm, ChatForm
 from .models import ApiKey, BotMessage, UserMessage, MessageHistory, MessageProcessor
 
@@ -21,9 +22,18 @@ def homepage(request):
     if request.method == 'POST':
         login_form = LoginForm(request.POST)
         if login_form.is_valid():
-            request.session['api-key'] = login_form.cleaned_data['api_key']
+            # Validate API key and get bank list
+            api_key = login_form.cleaned_data['api_key']
 
-            return HttpResponseRedirect(reverse('chatbot:chat'))
+            response = api.Provider(api_key).call()
+            response_json = response.json()
+
+            if response.status_code == 200 and response_json['status'] == "success":
+                request.session['providers'] = response_json['providers']
+
+                request.session['api-key'] = api_key
+
+                return HttpResponseRedirect(reverse('chatbot:chat'))
 
     return render(request, 'chatbot/index.html', {'login_form': LoginForm()})
 
