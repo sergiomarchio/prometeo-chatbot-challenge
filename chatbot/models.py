@@ -55,7 +55,9 @@ class MessageProcessor:
         Parse a message returning the object that corresponds
         to the API that must be called
         """
-        if re.match(_("banks?"), message):
+        message_lower = str.lower(message)
+
+        if re.match(_("banks?"), message_lower):
             return api.Provider(self.api_key)
         else:
             return None
