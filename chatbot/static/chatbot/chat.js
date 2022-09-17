@@ -15,6 +15,7 @@ function clickListener(event) {
     target = event.target;
     if (target.classList.contains("message-link")) {
         userMessageField.value = target.text;
+        messageSubmit();
     }
 }
 
@@ -34,7 +35,9 @@ function post(url, body, action) {
 
 function messageSubmit(event) {
     // prevent page reload
+    if (event) {
     event.preventDefault();
+    }
 
     const userMessage = {
         content: userMessageField.value,
