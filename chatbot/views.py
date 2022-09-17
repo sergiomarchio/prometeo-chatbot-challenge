@@ -81,6 +81,7 @@ def process_message(request):
     except ValueError as e:
         return JsonResponse(BotMessage(str(e)).__dict__, status=500)
     except Exception as e:
+        print("Exception: ", e)
         message = _("There was an unexpected error... Please try again later")
         return JsonResponse(BotMessage(message).__dict__, status=500)
 

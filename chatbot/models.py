@@ -56,17 +56,20 @@ class MessageProcessor:
         to the API that must be called
         """
         normalized_message = unicodedata.normalize('NFD', message) \
-            .encode('ascii', 'ignore') \
+            .encode('ascii', 'ignore').decode() \
             .lower()
 
-        if re.match(_("banks?"), normalized_message):
+        any_before = r"^(.* +)?"
+        any_after = r"( +.*)?$"
+
+        if re.match(any_before + _("banks?") + any_after, normalized_message):
             return api.Provider(self.api_key)
         else:
             return None
 
     def process_message(self, message):
         api_object = self.parse_message(message)
-        if api_object is None:
+        if not api_object:
             return _("Sorry, could you give me more details about what you want to do?")
 
         response = api_object.call()
