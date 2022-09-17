@@ -1,7 +1,7 @@
+from django.utils.translation import gettext as _
 import re
 from typing import Optional
-
-from django.utils.translation import gettext as _
+import unicodedata
 
 from . import api
 from . import settings
@@ -55,8 +55,11 @@ class MessageProcessor:
         Parse a message returning the object that corresponds
         to the API that must be called
         """
+        normalized_message = unicodedata.normalize('NFD', message) \
+            .encode('ascii', 'ignore') \
+            .lower()
 
-        if re.match(_("banks?"), message, re.IGNORECASE):
+        if re.match(_("banks?"), normalized_message):
             return api.Provider(self.api_key)
         else:
             return None
