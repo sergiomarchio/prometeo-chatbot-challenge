@@ -35,6 +35,10 @@
     text-align: right;
 }
 
+#end-marker {
+    transition: opacity 0.5s ease-in-out;
+}
+
 .message-link {
     cursor: pointer;
     text-decoration: underline;

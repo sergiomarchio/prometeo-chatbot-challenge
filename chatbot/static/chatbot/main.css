@@ -26,6 +26,12 @@ body {
     margin: 8px;
 }
 
+.hidden {
+    visibility: hidden;
+    overflow: hidden;
+    opacity: 0;
+    padding: 0 !important;
+}
 
 #top-banner {
     align-items: center;
@@ -145,4 +151,22 @@ body {
     box-shadow: 0 0 5px #00BEBE;
     border: 1px solid #00BEBE;
     outline: 0;
+}
+
+.spinner {
+    animation: spinner 1s infinite linear;
+    border: 0.25rem solid #eee;
+    border-radius: 50%;
+    border-top-color: #ccc;
+    width: 2em;
+    height: 2em;
+}
+
+@keyframes spinner {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

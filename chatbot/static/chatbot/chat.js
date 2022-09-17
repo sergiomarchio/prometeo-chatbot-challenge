@@ -11,6 +11,15 @@ function addNewMessage(message) {
     messageEnd.scrollIntoView();
 }
 
+function hideMessageSpinner() {
+    messageEnd.classList.add("hidden");
+}
+
+function showMessageSpinner() {
+    messageEnd.classList.remove("hidden");
+    messageEnd.scrollIntoView();
+}
+
 function clickListener(event) {
     target = event.target;
     if (target.classList.contains("message-link")) {
@@ -36,7 +45,7 @@ function post(url, body, action) {
 function messageSubmit(event) {
     // prevent page reload
     if (event) {
-    event.preventDefault();
+        event.preventDefault();
     }
 
     const userMessage = {
@@ -49,7 +58,11 @@ function messageSubmit(event) {
     userMessageField.value = "";
     userMessageField.focus();
 
-    post("process_message/", userMessage, addNewMessage);
+    showMessageSpinner();
+    post("process_message/", userMessage, (data) => {
+        hideMessageSpinner();
+        addNewMessage(data);
+    });
 }
 
 
