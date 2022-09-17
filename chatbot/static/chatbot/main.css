@@ -88,6 +88,7 @@ body {
     visibility: hidden;
     background-color: rgba(0, 0, 0, 0.5);
     opacity: 0;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s;
 
     display: flex;
 
@@ -131,6 +132,7 @@ body {
 
 .button {
     background: var(--prometeo-red);
+    color: black;
     border: none;
     border-radius: var(--default-radius);
     cursor: pointer;
