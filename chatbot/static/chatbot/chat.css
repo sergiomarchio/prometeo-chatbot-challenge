@@ -24,6 +24,10 @@
     height: var(--chat-height);
 }
 
+.chat-box .content-box {
+    flex-grow: 1;
+}
+
 .bot {
     align-self: flex-start;
     background: var(--bot-color);
