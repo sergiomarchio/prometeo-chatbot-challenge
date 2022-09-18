@@ -11,6 +11,31 @@ from .forms import LoginForm, ChatForm
 from .models import ApiKey, BotMessage, UserMessage, MessageHistory, MessageProcessor
 
 
+def log_me_in(session: dict, api_key: str) -> bool:
+    """
+    Validates the  key by requesting the provider list
+    saves the api key in the session
+    creates an empty dict to store cached responses
+    """
+
+    # Get bank list to validate API key
+    response = api.Provider(api_key).call()
+    response_json = response.json()
+
+    if response.status_code == 200 \
+            and response_json['status'] == "success"\
+            and 'providers' in response_json:
+
+        session['api-key'] = api_key
+        session['cache'] = {}
+
+        session['cache']['providers'] = response_json['providers']
+
+        return True
+
+    return False
+
+
 def homepage(request):
     """
     Homepage if no user is logged in.
@@ -21,27 +46,16 @@ def homepage(request):
 
     if request.method == 'POST':
         login_form = LoginForm(request.POST)
-        if login_form.is_valid():
-            # Validate API key and get bank list
-            api_key = login_form.cleaned_data['api_key']
 
-            response = api.Provider(api_key).call()
-            response_json = response.json()
-
-            if response.status_code == 200 and response_json['status'] == "success":
-                request.session['providers'] = response_json['providers']
-
-                request.session['api-key'] = api_key
-
-                return HttpResponseRedirect(reverse('chatbot:chat'))
+        if login_form.is_valid() and log_me_in(request.session, login_form.cleaned_data['api_key']):
+            return HttpResponseRedirect(reverse('chatbot:chat'))
 
     return render(request, 'chatbot/index.html', {'login_form': LoginForm()})
 
 
 def guest(request):
-    request.session['api-key'] = ApiKey.guest_key()
-
-    return HttpResponseRedirect(reverse('chatbot:chat'))
+    if log_me_in(request.session, ApiKey.guest_key()):
+        return HttpResponseRedirect(reverse('chatbot:chat'))
 
 
 def logout(request):
@@ -65,6 +79,12 @@ def process_message(request):
     if not request.method == 'POST':
         return JsonResponse({'status': 'Invalid request'}, status=400)
 
+    if 'api-key' not in request.session \
+            or 'message_history' not in request.session:
+
+        message = _("There was an unexpected error... Please log in again")
+        return JsonResponse(BotMessage(message).__dict__, status=400)
+
     user_message = json.loads(request.body)
     print(user_message)
 
@@ -72,8 +92,6 @@ def process_message(request):
         return JsonResponse({'status': 'Invalid request'}, status=400)
 
     user_message_content = user_message.get('content')
-    print(request.session['api-key'])
-
     request.session['message_history'].add(UserMessage(user_message_content))
 
     try:
@@ -89,6 +107,8 @@ def process_message(request):
 
     request.session['message_history'].add(bot_message)
 
+    print()
+    print(request.session['api-key'])
     print(request.session['message_history'])
 
     return JsonResponse(bot_message.__dict__, status=200)
@@ -105,7 +125,7 @@ def chat(request):
 
     if 'message_history' not in request.session.keys():
         messages = MessageHistory()
-        messages.add(BotMessage(_("Hi! What do you want to do with Prometeo today?")))
+        messages.add(BotMessage(_("Hi! What do you want to do in Prometeo today?")))
         request.session['message_history'] = messages
 
     form = ChatForm()
