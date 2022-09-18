@@ -41,7 +41,7 @@ const input_field = document.getElementById("input-field");
 guest_button.addEventListener("click", (e) => toggleModal(e, guest_modal));
 login_button.addEventListener("click", (e) => {
     toggleModal(e, login_modal);
-    focusInput();
+    setTimeout(focusInput, 100);
 });
 
 guest_modal.querySelector(".close").addEventListener("click", (e) => toggleModal(e, guest_modal));
@@ -56,4 +56,3 @@ document.addEventListener("keydown", (e) => {
 window.addEventListener("click", backgroundClick);
 
 window.addEventListener("unload", clearInput);
-
