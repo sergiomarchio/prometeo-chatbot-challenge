@@ -97,6 +97,6 @@ class MessageProcessor:
             raise ValueError(_("There was an error with the API key, please log in again..."))
 
         if not api_object.is_ok():
-            return _("There was an issue, please try again...")
+            return _("Oops! Something went wrong, please try again...")
 
         return api_object.digest_message()
