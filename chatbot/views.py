@@ -26,8 +26,8 @@ def log_me_in(session: dict, api_key: str) -> bool:
             and response_json['status'] == "success"\
             and 'providers' in response_json:
 
-        session['api-key'] = api_key
         session['cache'] = {}
+        session['cache']['api-key'] = api_key
 
         session['cache']['providers'] = response_json['providers']
 
@@ -41,7 +41,7 @@ def homepage(request):
     Homepage if no user is logged in.
     If a user is logged in, redirects to chat page.
     """
-    if 'message_history' in request.session.keys():
+    if 'message_history' in request.session:
         return HttpResponseRedirect(reverse('chatbot:chat'))
 
     if request.method == 'POST':
@@ -79,8 +79,9 @@ def process_message(request):
     if not request.method == 'POST':
         return JsonResponse({'status': 'Invalid request'}, status=400)
 
-    if 'api-key' not in request.session \
-            or 'message_history' not in request.session:
+    if 'cache' not in request.session \
+            or 'message_history' not in request.session\
+            or 'api-key' not in request.session['cache']:
 
         message = _("There was an unexpected error... Please log in again")
         return JsonResponse(BotMessage(message).__dict__, status=400)
@@ -95,7 +96,7 @@ def process_message(request):
     request.session['message_history'].add(UserMessage(user_message_content))
 
     try:
-        bot_message_content = MessageProcessor(request.session['api-key']).process_message(user_message_content)
+        bot_message_content = MessageProcessor(request.session['cache']).process_message(user_message_content)
     except ValueError as e:
         return JsonResponse(BotMessage(str(e)).__dict__, status=500)
     except Exception as e:
@@ -108,7 +109,7 @@ def process_message(request):
     request.session['message_history'].add(bot_message)
 
     print()
-    print(request.session['api-key'])
+    print(request.session['cache']['api-key'])
     print(request.session['message_history'])
 
     return JsonResponse(bot_message.__dict__, status=200)
@@ -120,10 +121,11 @@ def chat(request):
     The first time it's loaded, it creates a welcome message
     """
     # If there is no API key (the user entered the url directly) redirect to home page
-    if "api-key" not in request.session.keys():
+    if 'cache' not in request.session \
+            or 'api-key' not in request.session['cache']:
         return HttpResponseRedirect(reverse('chatbot:homepage'))
 
-    if 'message_history' not in request.session.keys():
+    if 'message_history' not in request.session:
         messages = MessageHistory()
         messages.add(BotMessage(_("Hi! What do you want to do in Prometeo today?")))
         request.session['message_history'] = messages

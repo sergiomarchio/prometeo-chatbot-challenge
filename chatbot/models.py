@@ -47,8 +47,9 @@ class MessageHistory:
 
 class MessageProcessor:
 
-    def __init__(self, api_key):
-        self.api_key = api_key
+    def __init__(self, cache: dict):
+        self.cache = cache
+        self.api_key = cache['api-key']
 
     def parse_message(self, message) -> Optional[api.Api]:
         """

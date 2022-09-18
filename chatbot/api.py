@@ -28,7 +28,7 @@ class Api:
     @abstractmethod
     def digest_message(self) -> str:
         """
-        Processes the response and returns the message
+        Processes the response and returns the bot message
         """
         pass
 
