@@ -31,6 +31,7 @@ body {
     overflow: hidden;
     opacity: 0;
     padding: 0 !important;
+    pointer-events: none;
 }
 
 #top-banner {
