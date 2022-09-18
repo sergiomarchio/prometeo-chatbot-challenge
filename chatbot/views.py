@@ -19,17 +19,12 @@ def log_me_in(session: dict, api_key: str) -> bool:
     """
 
     # Get bank list to validate API key
-    response = api.Provider(api_key).call()
-    response_json = response.json()
+    provider_api = api.Provider(api_key)
 
-    if response.status_code == 200 \
-            and response_json['status'] == "success"\
-            and 'providers' in response_json:
-
+    if provider_api.is_ok():
         session['cache'] = {}
         session['cache']['api-key'] = api_key
-
-        session['cache']['providers'] = response_json['providers']
+        session['cache']['providers'] = provider_api.response_json['providers']
 
         return True
 
@@ -79,9 +74,9 @@ def process_message(request):
     if not request.method == 'POST':
         return JsonResponse({'status': 'Invalid request'}, status=400)
 
-    if 'cache' not in request.session \
-            or 'message_history' not in request.session\
-            or 'api-key' not in request.session['cache']:
+    if ('cache' not in request.session
+            or 'message_history' not in request.session
+            or 'api-key' not in request.session['cache']):
 
         message = _("There was an unexpected error... Please log in again")
         return JsonResponse(BotMessage(message).__dict__, status=400)
@@ -110,7 +105,7 @@ def process_message(request):
 
     print()
     print(request.session['cache']['api-key'])
-    print(request.session['message_history'])
+    print(bot_message.content)
 
     return JsonResponse(bot_message.__dict__, status=200)
 
@@ -121,8 +116,9 @@ def chat(request):
     The first time it's loaded, it creates a welcome message
     """
     # If there is no API key (the user entered the url directly) redirect to home page
-    if 'cache' not in request.session \
-            or 'api-key' not in request.session['cache']:
+    if ('cache' not in request.session
+            or 'api-key' not in request.session['cache']):
+
         return HttpResponseRedirect(reverse('chatbot:homepage'))
 
     if 'message_history' not in request.session:

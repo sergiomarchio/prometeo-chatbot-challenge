@@ -45,6 +45,12 @@ class MessageHistory:
             yield {"sender": message.sender, "content": message.content}
 
 
+def normalize_string(string):
+    return (unicodedata.normalize('NFD', string)
+                          .encode('ascii', 'ignore').decode()
+                          .lower())
+
+
 class MessageProcessor:
 
     def __init__(self, cache: dict):
@@ -56,30 +62,31 @@ class MessageProcessor:
         Parse a message returning the object that corresponds
         to the API that must be called
         """
-        normalized_message = unicodedata.normalize('NFD', message) \
-            .encode('ascii', 'ignore').decode() \
-            .lower()
+        normalized_message = normalize_string(message)
 
         any_before = r"^(.* +)?"
         any_after = r"( +.*)?$"
 
         if re.match(any_before + _("banks?") + any_after, normalized_message):
             return api.Provider(self.api_key)
-        else:
-            return None
+
+        for provider in self.cache['providers']:
+            if normalized_message == normalize_string(provider['name']):
+                return api.ProviderLoginParameters(self.api_key, provider['code'])
+
+        return None
 
     def process_message(self, message):
         api_object = self.parse_message(message)
         if not api_object:
             return _("Sorry, could you give me more details about what you want to do?")
 
-        response = api_object.call()
-        json_response = response.json()
+        json_response = api_object.response_json
 
         if 'message' in json_response and json_response['message'] == 'Key not Found':
             raise ValueError(_("There was an error with the API key, please log in again..."))
 
-        if not 200 <= response.status_code < 300 or json_response['status'] != 'success':
+        if not api_object.is_ok():
             return _("There was an issue, please try again...")
 
         return api_object.digest_message()
