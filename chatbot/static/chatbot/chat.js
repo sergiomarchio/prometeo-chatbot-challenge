@@ -49,8 +49,8 @@ function messageSubmit(event) {
     }
 
     const userMessage = {
-        content: userMessageField.value,
-        sender: "user"
+        sender: "user",
+        content: userMessageField.value
     }
 
     addNewMessage(userMessage);

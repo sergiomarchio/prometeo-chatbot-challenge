@@ -79,7 +79,7 @@ def process_message(request):
             or 'api-key' not in request.session['cache']):
 
         message = _("There was an unexpected error... Please log in again")
-        return JsonResponse(BotMessage(message).__dict__, status=400)
+        return JsonResponse(BotMessage(message).dict(), status=400)
 
     user_message = json.loads(request.body)
     print(user_message)
@@ -93,11 +93,11 @@ def process_message(request):
     try:
         bot_message_content = MessageProcessor(request.session['cache']).process_message(user_message_content)
     except ValueError as e:
-        return JsonResponse(BotMessage(str(e)).__dict__, status=500)
+        return JsonResponse(BotMessage(str(e)).dict(), status=500)
     except Exception as e:
         print("Exception: ", e)
         message = _("There was an unexpected error... Please try again later")
-        return JsonResponse(BotMessage(message).__dict__, status=500)
+        return JsonResponse(BotMessage(message).dict(), status=500)
 
     bot_message = BotMessage(bot_message_content)
 
@@ -105,9 +105,9 @@ def process_message(request):
 
     print()
     print(request.session['cache']['api-key'])
-    print(bot_message.content)
+    print(bot_message.dict())
 
-    return JsonResponse(bot_message.__dict__, status=200)
+    return JsonResponse(bot_message.dict(), status=200)
 
 
 def chat(request):

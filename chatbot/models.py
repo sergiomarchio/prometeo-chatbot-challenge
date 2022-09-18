@@ -18,6 +18,16 @@ class Message:
         self.sender = sender
         self.content = content
 
+    def dict(self) -> dict:
+        """
+        @return
+        dictionary with the contents of the message
+        """
+        return {
+            "sender": self.sender,
+            "content": self.content
+        }
+
 
 class BotMessage(Message):
     def __init__(self, content):
