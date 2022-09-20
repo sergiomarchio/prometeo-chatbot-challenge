@@ -10,6 +10,7 @@ import json
 from . import api
 from .forms import LoginForm, ChatForm
 from .models import ApiKey, Message, BotMessage, UserMessage, MessageHistory, MessageProcessor
+from .utils import bot_response, default_error_response
 
 
 def log_me_in(session: dict, api_key: str) -> bool:
@@ -80,8 +81,7 @@ def process_message(request):
             or 'message_history' not in request.session
             or 'api-key' not in request.session['cache']):
 
-        message = _("There was an unexpected error... Please log in again")
-        return JsonResponse(BotMessage(message).dict(), status=500)
+        return default_error_response(500)
 
     user_message = json.loads(request.body)
     print(user_message)
@@ -93,23 +93,23 @@ def process_message(request):
     request.session['message_history'].add(UserMessage(user_message_content))
 
     try:
-        bot_response = MessageProcessor(request.session['cache'], request).process_message(user_message_content)
+        processing_result = MessageProcessor(request.session['cache'], request).process_message(user_message_content)
     except Exception as e:
         print("Exception: ", e)
         print(e.with_traceback())
-        message = _("There was an unexpected error... Please try again later")
-        return JsonResponse(BotMessage(message).dict(), status=500)
 
-    if isinstance(bot_response, Message):
-        request.session['message_history'].add(bot_response)
+        return default_error_response(500)
+
+    if isinstance(processing_result, Message):
+        request.session['message_history'].add(processing_result)
         # print(request.session['message_history'])
 
     print()
     print(request.session['cache']['api-key'])
     print("language", request.LANGUAGE_CODE)
-    print(bot_response)
+    print(processing_result)
 
-    return JsonResponse(bot_response.dict(), status=200)
+    return JsonResponse(processing_result.dict(), status=200)
 
 
 def provider_login(request):
@@ -125,10 +125,18 @@ def provider_login(request):
 
     if login.is_ok():
         request.session['cache']['active_provider']['key'] = login.response_json['key']
-        return JsonResponse(BotMessage(_('Successfully logged in!\n'
-                                         'To log out from this provider type'
-                                         ' <a class="message-link">logout</a>.')).dict(),
-                            status=200)
+
+        status = login.response_json['status']
+        if status == "logged_in":
+            return bot_response(_('Successfully logged in!\n'
+                                             'To log out from this provider type'
+                                             ' <a class="message-link">logout</a>.'),
+                                status=200)
+
+        # elif status == "interaction_required":
+
+        else:
+            return default_error_response(500)
 
     status = login.response_json['status']
     if status == "wrong_credentials":
@@ -136,10 +144,10 @@ def provider_login(request):
     elif status == "error":
         message = login.response_json['message']
         if message == "Unauthorized provider":
-            return JsonResponse(BotMessage(_('Sorry, this provider is not available at the moment...')).dict(),
+            return bot_response(_('Sorry, this provider is not available at the moment...'),
                                 status=400)
 
-    return JsonResponse(BotMessage('Logging into...').dict(), status=200)
+    return default_error_response()
 
 
 def chat(request):

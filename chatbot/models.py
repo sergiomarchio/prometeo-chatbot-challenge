@@ -1,4 +1,5 @@
 from django import forms
+from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
 import re
@@ -33,6 +34,12 @@ class Message(Dictionarizable):
                 'content': self.content
             }
         }
+
+    def json_response(self, status):
+        """
+        Converts the message into a JsonResponse object
+        """
+        return JsonResponse(self.dict(), status=status)
 
 
 class BotMessage(Message):

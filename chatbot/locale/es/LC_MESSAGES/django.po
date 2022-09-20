@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-20 19:21-0300\n"
+"POT-Creation-Date: 2022-09-20 19:56-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,19 +29,19 @@ msgstr "Los bancos disponibles por país son:"
 msgid "Type your message here..."
 msgstr "Escribe tu mensaje aquí..."
 
-#: .\models.py:106
+#: .\models.py:113
 msgid "banks?"
 msgstr "bancos?"
 
-#: .\models.py:136
+#: .\models.py:143
 msgid "Sorry, could you give me more details about what you want to do?"
 msgstr "Lo siento, podrías darme más detalles acerca de lo que quieres hacer?"
 
-#: .\models.py:141
+#: .\models.py:148
 msgid "There was an error with the API key, please log in again..."
 msgstr "Hubo un error con la API key, por favor inicia sesión nuevamente..."
 
-#: .\models.py:144
+#: .\models.py:151
 msgid "Oops! Something went wrong, please try again..."
 msgstr "Oops! Algo salió mal, por favor intenta nuevamente..."
 
@@ -78,15 +78,11 @@ msgstr "Vamos!"
 msgid "Log in"
 msgstr "Iniciar sesión"
 
-#: .\views.py:83
-msgid "There was an unexpected error... Please log in again"
-msgstr "Hubo un error inesperado... Por favor inicia sesión nuevamente"
+#: .\utils.py:20
+msgid "Something went wrong... Please try again later..."
+msgstr "Algo salió mal... por favor vuelve a intentarlo más tarde..."
 
-#: .\views.py:100
-msgid "There was an unexpected error... Please try again later"
-msgstr "Hubo un error inesperado... Por favor intenta nuevamente más tarde"
-
-#: .\views.py:128
+#: .\views.py:131
 msgid ""
 "Successfully logged in!\n"
 "To log out from this provider type <a class=\"message-link\">logout</a>."
@@ -94,15 +90,15 @@ msgstr ""
 "Inicio de sesión exitoso!\n"
 "Para cerrar sesión escribe <a class=\"message-link\">salir</a>."
 
-#: .\views.py:135
+#: .\views.py:143
 msgid "Wrong credentials!"
 msgstr "Credenciales erróneas!"
 
-#: .\views.py:139
+#: .\views.py:147
 msgid "Sorry, this provider is not available at the moment..."
 msgstr "Lo siento, este proveedor no está disponible de momento..."
 
-#: .\views.py:158
+#: .\views.py:166
 msgid ""
 "Hi! What do you want to do in Prometeo today?\n"
 "You can start typing <a class=\"message-link\">bank</a>.\n"
@@ -111,4 +107,5 @@ msgid ""
 msgstr ""
 "Hola! Qué quieres hacer en Prometeo hoy?\n"
 "Puedes empezar escribiendo <a class=\"message-link\">banco</a>.\n"
-"Si mis mensajes tienen enlaces, puedes hacerles click y yo lo escribiré por ti :)"
+"Si mis mensajes tienen enlaces, puedes hacerles click y yo lo escribiré por "
+"ti :)"

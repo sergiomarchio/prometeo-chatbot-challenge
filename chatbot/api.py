@@ -139,8 +139,8 @@ class Login(Api):
 
     def is_ok(self):
         return (self.response.status_code == 200
-                and self.response_json['status'] == "logged_in"
-                and 'key' in self.response_json)
+                and 'key' in self.response_json
+                and 'status' in self.response_json)
 
     def digest_message(self) -> str:
         super().digest_message()
