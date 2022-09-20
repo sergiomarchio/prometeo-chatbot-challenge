@@ -125,11 +125,12 @@ def provider_login(request):
 
     if login.is_ok():
         request.session['cache']['active_provider']['key'] = login.response_json['key']
-        return JsonResponse(BotMessage(_('Successfully logged in!')).dict(), status=200)
+        return JsonResponse(BotMessage(_('Successfully logged in!'
+                                         '\nTo log out type <a class="message-link">logout</a>')).dict(), status=200)
 
     status = login.response_json['status']
     if status == "wrong_credentials":
-        return JsonResponse(BotMessage(_('Wrong credentials!')).dict(), status=400)
+        return JsonResponse({'modal-feedback': _('Wrong credentials!')}, status=400)
     elif status == "error":
         message = login.response_json['message']
         if message == "Unauthorized provider":

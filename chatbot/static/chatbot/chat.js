@@ -9,6 +9,8 @@ function processMessageResponse(data) {
         addNewMessage(data['message']);
     } else if ('modal-form' in data) {
         showModalForm(data['modal-form']);
+    } else if ('modal-feedback' in data) {
+        setModalFeedback(data['modal-feedback']);
     } else {
         addErrorMessage();
     }
@@ -23,9 +25,19 @@ function hideBaseModal() {
     baseModal.classList.remove("modal-show");
 }
 
+function setModalFeedback(text) {
+    modalFeedbackElement().textContent = text;
+}
+
+function clearModalFeedback(text) {
+    setModalFeedback("");
+}
+
+
 function showModalForm(html) {
+
     modalContent.innerHTML = html;
-    modalContent.querySelector(".close").addEventListener("click", (e) => exitModal(e));
+    modalContent.querySelector(".close").addEventListener("click", (e) => exitModal());
 
     var modalForm = document.getElementById("modal-form");
     modalForm.addEventListener("submit", loginSubmit);
@@ -40,13 +52,13 @@ function showModalForm(html) {
 
 }
 
-function exitModal(event) {
+function exitModal(timeout = 500) {
     hideBaseModal();
 
     var modalContent = document.getElementById("modal-content");
     setTimeout(() => {
         modalContent.innerHTML = "";
-        }, 500);
+        }, timeout);
 }
 
 function addNewMessage(message) {
@@ -142,8 +154,16 @@ function loginSubmit(event) {
 
 function backgroundClick(event) {
     if(event.target.classList.contains("modal")) {
-        exitModal(event);
+        exitModal();
     }
+}
+
+function modalFormElement() {
+    return document.getElementById('modal-form');
+}
+
+function modalFeedbackElement() {
+    return modalFormElement().querySelector('#feedback');
 }
 
 
@@ -167,6 +187,8 @@ chatForm.addEventListener("submit", messageSubmit);
 document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
         exitModal();
+    } else {
+        clearModalFeedback();
     }
 });
 

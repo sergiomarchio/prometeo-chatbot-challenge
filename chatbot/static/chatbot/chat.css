@@ -71,3 +71,7 @@
     display: flex;
     align-items: center;
 }
+
+.modal #feedback {
+    font-style: italic;
+}
