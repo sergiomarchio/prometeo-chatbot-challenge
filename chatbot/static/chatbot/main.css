@@ -134,6 +134,15 @@ body {
     display: flex;
 }
 
+#modal-form {
+    display:flex;
+    flex-direction: column;
+}
+
+#modal-form > * {
+    margin: 0.5em;
+}
+
 .button {
     background: var(--prometeo-red);
     color: black;
@@ -144,7 +153,7 @@ body {
     text-decoration: none;
 }
 
-#input-field {
+.input-field {
     border: 1px solid #0000;
     border-radius: 10px;
     flex-grow: 1;
@@ -153,7 +162,7 @@ body {
     padding: 6px;
 }
 
-#input-field:focus {
+.input-field:focus {
     box-shadow: 0 0 5px #00BEBE;
     border: 1px solid #00BEBE;
     outline: 0;

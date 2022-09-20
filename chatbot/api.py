@@ -1,16 +1,22 @@
 from abc import abstractmethod
 from collections import defaultdict
 from django.utils.translation import gettext as _
+from enum import Enum
+import requests
 from requests import Response
+from urllib.parse import urljoin
 
 from chatbot import settings
 
-import requests
-from urllib.parse import urljoin
+
+class Method(Enum):
+    GET = "GET"
+    POST = "POST"
 
 
 class Api:
     base_url = getattr(settings, "CONFIG")['base_url'] + "/"
+    method = None
     parameters = ""
 
     def __init__(self, api_key, *path_params, **query_params):
@@ -35,7 +41,12 @@ class Api:
     @property
     def response(self) -> Response:
         if not self._response:
-            self._response = requests.get(self.url, headers=self.headers)
+            if self.method == Method.GET:
+                self._response = requests.get(self.url, data=self.query_params, headers=self.headers)
+            elif self.method == Method.POST:
+                self._response = requests.post(self.url, data=self.query_params, headers=self.headers)
+            else:
+                raise NameError(f"Unsupported method: '{self.method}'")
 
         self.log_response()
 
@@ -60,7 +71,10 @@ class Api:
         """
         Processes the response and returns the bot message
         """
-        pass
+        if not self.response:
+            raise ReferenceError(_("Oh no! Something went wrong!"))
+
+        return ""
 
     def log_response(self):
         print()
@@ -77,6 +91,7 @@ class Api:
 
 class Provider(Api):
     parameters = "provider/"
+    method = Method.GET
 
     def is_ok(self):
         return (200 <= self.response.status_code < 300
@@ -84,8 +99,7 @@ class Provider(Api):
                 and "providers" in self.response_json)
 
     def digest_message(self) -> str:
-        if not self.response:
-            raise ReferenceError(_("Oh no! Something went wrong!"))
+        super().digest_message()
 
         banks_per_country = defaultdict(list)
         for bank in self.response_json['providers']:
@@ -102,14 +116,33 @@ class Provider(Api):
 
 class ProviderLoginParameters(Api):
     parameters = "provider/{}/"
-
-    def __init__(self, api_key, code):
-        super().__init__(api_key, code)
+    method = Method.GET
 
     def is_ok(self) -> bool:
         return (200 <= self.response.status_code < 300
                 and self.response_json['status'] == "success")
 
     def digest_message(self) -> str:
-        return "---" + str(self.__dict__)
+        super().digest_message()
 
+        return f"Logging into {self.response_json['provider']['bank']['name']}..."
+
+
+class Login(Api):
+    parameters = "login/"
+    method = Method.POST
+
+    def __init__(self, api_key, *path_params, **query_params):
+        super().__init__(api_key, *path_params, **query_params)
+        self.headers["accept"] = "application/json"
+        self.headers["content-type"] = "application/x-www-form-urlencoded"
+
+    def is_ok(self):
+        return (self.response.status_code == 200
+                and self.response_json['status'] == "logged_in"
+                and 'key' in self.response_json)
+
+    def digest_message(self) -> str:
+        super().digest_message()
+
+        return self.response_json['status']

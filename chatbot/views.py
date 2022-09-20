@@ -1,3 +1,4 @@
+from django.core.exceptions import BadRequest
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -8,7 +9,7 @@ import json
 
 from . import api
 from .forms import LoginForm, ChatForm
-from .models import ApiKey, BotMessage, UserMessage, MessageHistory, MessageProcessor
+from .models import ApiKey, Message, BotMessage, UserMessage, MessageHistory, MessageProcessor
 
 
 def log_me_in(session: dict, api_key: str) -> bool:
@@ -62,17 +63,18 @@ def logout(request):
     return HttpResponseRedirect(reverse('chatbot:homepage'))
 
 
+def validate_ajax(request):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+    if not is_ajax or request.method != 'POST':
+        raise BadRequest
+
+
 def process_message(request):
     """
     Processes the message from the user (sent via AJAX) and returns the bot response.
     """
-    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-
-    if not is_ajax:
-        return HttpResponseBadRequest()
-
-    if not request.method == 'POST':
-        return JsonResponse({'status': 'Invalid request'}, status=400)
+    validate_ajax(request)
 
     if ('cache' not in request.session
             or 'message_history' not in request.session
@@ -91,23 +93,56 @@ def process_message(request):
     request.session['message_history'].add(UserMessage(user_message_content))
 
     try:
-        bot_message_content = MessageProcessor(request.session['cache']).process_message(user_message_content)
-    except ValueError as e:
-        return JsonResponse(BotMessage(str(e)).dict(), status=500)
+        bot_response = MessageProcessor(request.session['cache'], request).process_message(user_message_content)
     except Exception as e:
         print("Exception: ", e)
+        print(e.with_traceback())
         message = _("There was an unexpected error... Please try again later")
         return JsonResponse(BotMessage(message).dict(), status=500)
 
-    bot_message = BotMessage(bot_message_content)
-
-    request.session['message_history'].add(bot_message)
+    if isinstance(bot_response, Message):
+        request.session['message_history'].add(bot_response)
+        # print(request.session['message_history'])
 
     print()
     print(request.session['cache']['api-key'])
-    print(bot_message.dict())
+    print("language", request.LANGUAGE_CODE)
+    print(bot_response)
 
-    return JsonResponse(bot_message.dict(), status=200)
+    return JsonResponse(bot_response.dict(), status=200)
+
+
+def provider_login(request):
+    """
+    Processes the login request for a provider (sent via AJAX).
+    """
+    validate_ajax(request)
+
+    credentials = json.loads(request.body)
+
+    # TODO remove
+    print(credentials)
+
+    credentials["provider"] = request.session['cache']['active_provider']['provider']['name']
+    # TODO remove
+    print(credentials)
+
+    login = api.Login(request.session['cache']['api-key'], **credentials)
+
+    if login.is_ok():
+        request.session['cache']['active_provider']['key'] = login.response_json['key']
+        return JsonResponse(BotMessage(_('Successfully logged in!')).dict(), status=200)
+
+    status = login.response_json['status']
+    if status == "wrong_credentials":
+        return JsonResponse(BotMessage(_('Wrong credentials!')).dict(), status=400)
+    elif status == "error":
+        message = login.response_json['message']
+        if message == "Unauthorized provider":
+            return JsonResponse(BotMessage(_('Sorry, this provider is not available at the moment...')).dict(),
+                                status=400)
+
+    return JsonResponse(BotMessage('Logging into...').dict(), status=200)
 
 
 def chat(request):

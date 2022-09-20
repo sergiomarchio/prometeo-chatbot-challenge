@@ -9,4 +9,5 @@ urlpatterns = [
     path('guest/', views.guest, name='guest'),
     path('chat/', views.chat, name='chat'),
     path('chat/process_message/', views.process_message, name='process_message'),
+    path('chat/provider_login/', views.provider_login, name='provider_login'),
 ]

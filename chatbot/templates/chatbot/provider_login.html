@@ -1,0 +1,10 @@
+{% load i18n %}
+<div class="top-section">
+    <img class="provider logo" src="{{ logo }}" alt="{{ name }}">
+    <button class="close button">&times;</button>
+</div>
+<form id="modal-form" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" class="button info" value="{% blocktrans %}Log in{% endblocktrans %}">
+</form>

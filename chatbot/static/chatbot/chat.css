@@ -65,3 +65,9 @@
     font-size: var(--font-size);
     height: 100%;
 }
+
+.modal .top-section {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
