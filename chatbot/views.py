@@ -119,13 +119,7 @@ def provider_login(request):
     validate_ajax(request)
 
     credentials = json.loads(request.body)
-
-    # TODO remove
-    print(credentials)
-
     credentials["provider"] = request.session['cache']['active_provider']['provider']['name']
-    # TODO remove
-    print(credentials)
 
     login = api.Login(request.session['cache']['api-key'], **credentials)
 
