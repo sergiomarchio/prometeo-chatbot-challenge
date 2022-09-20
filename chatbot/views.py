@@ -81,7 +81,7 @@ def process_message(request):
             or 'api-key' not in request.session['cache']):
 
         message = _("There was an unexpected error... Please log in again")
-        return JsonResponse(BotMessage(message).dict(), status=400)
+        return JsonResponse(BotMessage(message).dict(), status=500)
 
     user_message = json.loads(request.body)
     print(user_message)
