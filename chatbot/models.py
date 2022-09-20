@@ -151,3 +151,17 @@ class MessageProcessor:
             raise Exception(_("Oops! Something went wrong, please try again..."))
 
         return BotMessage(api_object.digest_message())
+
+
+class MessageResponse(JsonResponse):
+    def __init__(self, content, status, **kwargs):
+        kwargs.setdefault('status', status)
+        super().__init__(BotMessage(content).dict(), **kwargs)
+
+
+class ErrorResponse(MessageResponse):
+    def __init__(self, content=None, status=500, **kwargs):
+        if content is None:
+            content = _("Something went wrong... Please try again later...")
+
+        super().__init__(content, status, **kwargs)

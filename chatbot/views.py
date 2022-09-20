@@ -9,8 +9,9 @@ import json
 
 from . import api
 from .forms import LoginForm, ChatForm
-from .models import ApiKey, Message, BotMessage, UserMessage, MessageHistory, MessageProcessor
-from .utils import bot_response, default_error_response
+from .models import ApiKey, MessageHistory, MessageProcessor,\
+    Message, BotMessage, UserMessage, \
+    MessageResponse, ErrorResponse
 
 
 def log_me_in(session: dict, api_key: str) -> bool:
@@ -81,7 +82,7 @@ def process_message(request):
             or 'message_history' not in request.session
             or 'api-key' not in request.session['cache']):
 
-        return default_error_response(500)
+        return ErrorResponse()
 
     user_message = json.loads(request.body)
     print(user_message)
@@ -98,7 +99,7 @@ def process_message(request):
         print("Exception: ", e)
         print(e.with_traceback())
 
-        return default_error_response(500)
+        return ErrorResponse()
 
     if isinstance(processing_result, Message):
         request.session['message_history'].add(processing_result)
@@ -128,15 +129,16 @@ def provider_login(request):
 
         status = login.response_json['status']
         if status == "logged_in":
-            return bot_response(_('Successfully logged in!\n'
-                                             'To log out from this provider type'
-                                             ' <a class="message-link">logout</a>.'),
-                                status=200)
+            return MessageResponse(_('Successfully logged in!\n'
+                                     'To log out from this provider type'
+                                     ' <a class="message-link">logout</a>.'),
+                                   status=200)
 
         # elif status == "interaction_required":
 
+
         else:
-            return default_error_response(500)
+            return ErrorResponse()
 
     status = login.response_json['status']
     if status == "wrong_credentials":
@@ -144,10 +146,10 @@ def provider_login(request):
     elif status == "error":
         message = login.response_json['message']
         if message == "Unauthorized provider":
-            return bot_response(_('Sorry, this provider is not available at the moment...'),
-                                status=400)
+            return ErrorResponse(_('Sorry, this provider is not available at the moment...'),
+                                 status=400)
 
-    return default_error_response()
+    return ErrorResponse
 
 
 def chat(request):
