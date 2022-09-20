@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-15 00:01-0300\n"
+"POT-Creation-Date: 2022-09-20 01:41-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,58 +17,91 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\api.py:62
+#: .\api.py:75
 msgid "Oh no! Something went wrong!"
 msgstr ""
 
-#: .\api.py:68
+#: .\api.py:108
 msgid "The available banks per country are:"
 msgstr ""
 
-#: .\forms.py:18
+#: .\forms.py:20
 msgid "Type your message here..."
 msgstr ""
 
-#: .\models.py:58
+#: .\models.py:106
 msgid "banks?"
 msgstr ""
 
-#: .\models.py:66
+#: .\models.py:136
 msgid "Sorry, could you give me more details about what you want to do?"
 msgstr ""
 
-#: .\models.py:72
+#: .\models.py:141
 msgid "There was an error with the API key, please log in again..."
 msgstr ""
 
-#: .\models.py:75
-msgid "There was an issue, please try again..."
+#: .\models.py:144
+msgid "Oops! Something went wrong, please try again..."
 msgstr ""
 
-#: .\templates\chatbot\chat.html:17
-msgid "Logout"
+#: .\templates\chatbot\chat.html:19
+msgid "Close"
 msgstr ""
 
-#: .\templates\chatbot\guest.html:13
-msgid "Create a Prometeo account..."
+#: .\templates\chatbot\index.html:21
+msgid "Hi! To play with Prometeo chatbot you must log in first:"
 msgstr ""
 
-#: .\templates\chatbot\guest.html:14
-msgid "Try Prometeo Open Banking without an account!"
-msgstr ""
-
-#: .\templates\chatbot\index.html:13
-msgid "I still don't have a Prometeo account..."
-msgstr ""
-
-#: .\templates\chatbot\index.html:14
+#: .\templates\chatbot\index.html:22
 msgid "I already have a Prometeo account!"
 msgstr ""
 
-#: .\templates\chatbot\login.html:16
+#: .\templates\chatbot\index.html:23
+msgid "I still don't have a Prometeo account..."
+msgstr ""
+
+#: .\templates\chatbot\index.html:29
+msgid "Create a Prometeo account..."
+msgstr ""
+
+#: .\templates\chatbot\index.html:30
+msgid "Try Prometeo Open Banking without an account!"
+msgstr ""
+
+#: .\templates\chatbot\index.html:40
 msgid "Let's go!"
 msgstr ""
 
-#: .\views.py:97
-msgid "Hi! What do you want to do with Prometeo today?"
+#: .\templates\chatbot\provider_login.html:10
+msgid "Log in"
+msgstr ""
+
+#: .\views.py:83
+msgid "There was an unexpected error... Please log in again"
+msgstr ""
+
+#: .\views.py:100
+msgid "There was an unexpected error... Please try again later"
+msgstr ""
+
+#: .\views.py:128
+msgid ""
+"Successfully logged in!\n"
+"To log out from this provider type <a class=\"message-link\">logout</a>"
+msgstr ""
+
+#: .\views.py:135
+msgid "Wrong credentials!"
+msgstr ""
+
+#: .\views.py:139
+msgid "Sorry, this provider is not available at the moment..."
+msgstr ""
+
+#: .\views.py:158
+msgid ""
+"Hi! What do you want to do in Prometeo today?\n"
+"You can start typing <a class=\"message-link\">bank</a>\n"
+"If my messages have links, you can click them also instead of writing :)"
 msgstr ""

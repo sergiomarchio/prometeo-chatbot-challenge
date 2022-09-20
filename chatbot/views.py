@@ -125,8 +125,10 @@ def provider_login(request):
 
     if login.is_ok():
         request.session['cache']['active_provider']['key'] = login.response_json['key']
-        return JsonResponse(BotMessage(_('Successfully logged in!'
-                                         '\nTo log out type <a class="message-link">logout</a>')).dict(), status=200)
+        return JsonResponse(BotMessage(_('Successfully logged in!\n'
+                                         'To log out from this provider type'
+                                         ' <a class="message-link">logout</a>')).dict(),
+                            status=200)
 
     status = login.response_json['status']
     if status == "wrong_credentials":
@@ -153,7 +155,9 @@ def chat(request):
 
     if 'message_history' not in request.session:
         messages = MessageHistory()
-        messages.add(BotMessage(_("Hi! What do you want to do in Prometeo today?")))
+        messages.add(BotMessage(_('Hi! What do you want to do in Prometeo today?\n'
+                                  'You can start typing <a class="message-link">bank</a>\n'
+                                  'If my messages have links, you can click them also instead of writing :)')))
         request.session['message_history'] = messages
 
     form = ChatForm()
