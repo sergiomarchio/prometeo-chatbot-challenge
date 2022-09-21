@@ -127,7 +127,7 @@ class MessageProcessor:
                 provider_fields = [
                     {'name': x['name'],
                      'type': x['type'],
-                     'label': x['label_es'] if self.request.LANGUAGE_CODE == 'es' else x['label_en']
+                     'placeholder': x['label_es'] if self.request.LANGUAGE_CODE == 'es' else x['label_en']
                      } for x in provider['auth_fields']
                     if not x['interactive'] and not x['optional']
                 ]

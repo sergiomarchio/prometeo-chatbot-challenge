@@ -7,11 +7,13 @@ from django.utils.translation import gettext_lazy as _
 
 import json
 
+import sys
+
 from . import api
-from .forms import LoginForm, ChatForm
-from .models import ApiKey, MessageHistory, MessageProcessor,\
+from .forms import LoginForm, ChatForm, ProviderLoginForm
+from .models import ApiKey, MessageHistory, MessageProcessor, \
     Message, BotMessage, UserMessage, \
-    MessageResponse, ErrorResponse
+    MessageResponse, ErrorResponse, ModalForm
 
 
 def log_me_in(session: dict, api_key: str) -> bool:
@@ -97,7 +99,7 @@ def process_message(request):
         processing_result = MessageProcessor(request.session['cache'], request).process_message(user_message_content)
     except Exception as e:
         print("Exception: ", e)
-        print(e.with_traceback())
+        print(e.with_traceback(sys.exc_info()))
 
         return ErrorResponse()
 
@@ -134,8 +136,25 @@ def provider_login(request):
                                      ' <a class="message-link">logout</a>.'),
                                    status=200)
 
-        # elif status == "interaction_required":
+        elif status == "interaction_required":
+            provider = request.session['cache']['active_provider']['provider']
+            logo = provider['logo']
 
+            provider_fields = [
+                {'name': x['name'],
+                 'type': x['type'],
+                 'label': login.response_json['context'],
+                 'placeholder': x['label_es'] if request.LANGUAGE_CODE == 'es' else x['label_en']
+                 } for x in provider['auth_fields']
+                if x['interactive'] and x['name'] == login.response_json['field']
+            ]
+
+            return JsonResponse(ModalForm('chatbot/provider_login.html',
+                                          ProviderLoginForm(provider_fields=provider_fields),
+                                          request,
+                                          logo=logo,
+                                          name=provider['bank']['name']).dict(),
+                                status=200)
 
         else:
             return ErrorResponse()
@@ -149,7 +168,7 @@ def provider_login(request):
             return ErrorResponse(_('Sorry, this provider is not available at the moment...'),
                                  status=400)
 
-    return ErrorResponse
+    return ErrorResponse()
 
 
 def chat(request):

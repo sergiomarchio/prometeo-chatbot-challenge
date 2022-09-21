@@ -75,3 +75,17 @@
 .modal #feedback {
     font-style: italic;
 }
+
+#modal-form label {
+    margin-left: 0.2em;
+    margin-right: 0.2em;
+}
+
+#modal-form .input-field {
+    box-sizing: border-box;
+    width: 100%;
+
+    margin-top: 0.5em;
+}
+
+

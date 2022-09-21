@@ -28,17 +28,16 @@ class ProviderLoginForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         self.provider_fields = kwargs.pop('provider_fields', [])
-        super(ProviderLoginForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         for field in self.provider_fields:
             text_field_attrs = {
                 'name': field['name'],
                 'class': "input-field",
-                'placeholder': field['label']
+                'placeholder': field['placeholder']
             }
 
             widget = forms.PasswordInput(attrs=text_field_attrs) if field['type'] == 'password' \
                 else forms.TextInput(attrs=text_field_attrs)
 
-            self.fields[field['name']] = forms.CharField(label="",
-                                                         widget=widget)
+            self.fields[field['name']] = forms.CharField(label=field.get('label', ''), widget=widget)
