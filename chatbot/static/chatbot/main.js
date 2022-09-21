@@ -14,3 +14,5 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
+const mainPage = document.getElementById("main-page");

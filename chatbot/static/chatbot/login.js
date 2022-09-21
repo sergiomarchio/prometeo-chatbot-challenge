@@ -1,4 +1,5 @@
 function toggleModal(event, modal) {
+    mainPage.toggleAttribute("inert");
     modal.classList.toggle("modal-show");
 
     if(modal.id == "login-modal") {
@@ -29,6 +30,7 @@ function hideModals() {
     }
 }
 
+
 const guest_button = document.getElementById("guest-button");
 const login_button = document.getElementById("login-button");
 
@@ -39,10 +41,20 @@ const input_field = document.getElementById("input-field");
 
 
 guest_button.addEventListener("click", (e) => toggleModal(e, guest_modal));
+guest_button.addEventListener("keydown", (e) => {if (e.key === "Enter") {
+    guest_button.blur();
+    toggleModal(e, guest_modal);
+}});
+
 login_button.addEventListener("click", (e) => {
     toggleModal(e, login_modal);
     setTimeout(focusInput, 100);
 });
+login_button.addEventListener("keydown", (e) => {if (e.key === "Enter") {
+    toggleModal(e, login_modal);
+    setTimeout(focusInput, 100);
+}});
+
 
 guest_modal.querySelector(".close").addEventListener("click", (e) => toggleModal(e, guest_modal));
 login_modal.querySelector(".close").addEventListener("click", (e) => toggleModal(e, login_modal));

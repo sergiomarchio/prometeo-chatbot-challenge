@@ -18,11 +18,13 @@ function processMessageResponse(data) {
 }
 
 function showBaseModal() {
+    mainPage.toggleAttribute("inert");
     baseModal.classList.add("modal-show");
 }
 
 function hideBaseModal() {
     baseModal.classList.remove("modal-show");
+    mainPage.toggleAttribute("inert");
 }
 
 function setModalFeedback(text) {
@@ -49,6 +51,10 @@ function showModalForm(html) {
     } else {
         showBaseModal();
     }
+
+    setTimeout(() => {
+         modalContent.querySelector(".input-field").focus();
+    }, 100);
 
 }
 
@@ -187,7 +193,7 @@ chatForm.addEventListener("submit", messageSubmit);
 document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
         exitModal();
-    } else {
+    } else if (modalFormElement()) {
         clearModalFeedback();
     }
 });

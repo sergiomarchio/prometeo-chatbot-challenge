@@ -11,27 +11,30 @@
 </head>
 
 <body>
-
-<div id="top-banner">
-    <a id="prometeo-link" href="https://prometeoapi.com/">
-        <img id="prometeo-logo" src="{% static 'chatbot/images/prometeo.png' %}">
-    </a>
-    <a id="logout" href="{% url 'chatbot:logout' %}">{% translate "Close" %}</a>
-</div>
-
-<div class="chat-box">
-    <div id="chat-history" class="content-box">
-        {% for message in message_history.messages %}
-        <div class="message {{ message.sender }}">{{ message.content | safe }}</div>
-        {% endfor %}
-        <div id="end-marker" class="message bot hidden"><div class="spinner"></div></div>
+<div id="main-page">
+    <div id="top-banner">
+        <a id="prometeo-link" href="https://prometeoapi.com/">
+            <img id="prometeo-logo" src="{% static 'chatbot/images/prometeo.png' %}">
+        </a>
+        <a id="logout" href="{% url 'chatbot:logout' %}">{% translate "Close" %}</a>
     </div>
 
-    <form id="chat-form" class="chat-form" action="{% url 'chatbot:chat' %}" method="post">
-        {% csrf_token %}
-        {{ form }}
-        <input id="submit" type="submit" class="button --round" value=">">
-    </form>
+    <div class="chat-box">
+        <div id="chat-history" class="content-box">
+            {% for message in message_history.messages %}
+            <div class="message {{ message.sender }}">{{ message.content | safe }}</div>
+            {% endfor %}
+            <div id="end-marker" class="message bot hidden">
+                <div class="spinner"></div>
+            </div>
+        </div>
+
+        <form id="chat-form" class="chat-form" action="{% url 'chatbot:chat' %}" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input id="submit" type="submit" class="button --round" value=">">
+        </form>
+    </div>
 </div>
 
 <div id="modal" class="modal">

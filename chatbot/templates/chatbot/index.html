@@ -5,22 +5,22 @@
 
 <head>
     <meta charset="utf-8">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, post-check=0, pre-check=0" />     <meta http-equiv="Pragma" content="no-cache" />
     <title>Prometeo chatbot - login</title>
     <link rel="stylesheet" href="{% static 'chatbot/main.css' %}">
 </head>
 
 <body>
-
-<div id="top-banner">
-    <a id="prometeo-link" href="https://prometeoapi.com/">
-        <img id="prometeo-logo" src="{% static 'chatbot/images/prometeo.png' %}">
-    </a>
-</div>
-<div class="content-box menu">
-    <div class="info message">{% translate "Hi! To play with Prometeo chatbot you must log in first:" %}</div>
-    <a id="login-button" class="button info message">{% translate "I already have a Prometeo account!" %}</a>
-    <a id="guest-button" class="button info message">{% translate "I still don't have a Prometeo account..." %}</a>
+<div id="main-page">
+    <div id="top-banner">
+        <a id="prometeo-link" href="https://prometeoapi.com/">
+            <img id="prometeo-logo" src="{% static 'chatbot/images/prometeo.png' %}">
+        </a>
+    </div>
+    <div class="content-box menu">
+        <div class="info message">{% translate "Hi! To play with Prometeo chatbot you must log in first:" %}</div>
+        <a id="login-button" class="button info message" tabindex="0">{% translate "I already have a Prometeo account!" %}</a>
+        <a id="guest-button" class="button info message" tabindex="0">{% translate "I still don't have a Prometeo account..." %}</a>
+    </div>
 </div>
 
 <div id="guest-modal" class="modal">
