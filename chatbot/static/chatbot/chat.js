@@ -18,13 +18,13 @@ function processMessageResponse(data) {
 }
 
 function showBaseModal() {
-    mainPage.toggleAttribute("inert");
+    mainPage.setAttribute("inert", "");
     baseModal.classList.add("modal-show");
 }
 
 function hideBaseModal() {
     baseModal.classList.remove("modal-show");
-    mainPage.toggleAttribute("inert");
+    mainPage.removeAttribute("inert");
 }
 
 function setModalFeedback(text) {

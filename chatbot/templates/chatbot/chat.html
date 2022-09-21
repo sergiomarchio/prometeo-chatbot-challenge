@@ -24,9 +24,7 @@
             {% for message in message_history.messages %}
             <div class="message {{ message.sender }}">{{ message.content | safe }}</div>
             {% endfor %}
-            <div id="end-marker" class="message bot hidden">
-                <div class="spinner"></div>
-            </div>
+            <div id="end-marker" class="message bot hidden"><div class="spinner"></div></div>
         </div>
 
         <form id="chat-form" class="chat-form" action="{% url 'chatbot:chat' %}" method="post">

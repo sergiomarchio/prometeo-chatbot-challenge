@@ -19,12 +19,14 @@ class Api:
     method = None
     parameters = ""
 
-    def __init__(self, api_key, *path_params, **query_params):
+    def __init__(self, api_key, path_params=None, query_params=None, data=None):
         self.headers = {
             'X-API-Key': api_key
         }
-        self.path_params = path_params
-        self.query_params = query_params
+        self.path_params = {} if path_params is None else path_params
+        self.query_params = {} if query_params is None else query_params
+        self.data = data
+
         self._url = None
         self._response = None
         self._response_json = None
@@ -32,7 +34,9 @@ class Api:
     @property
     def url(self):
         if not self._url:
-            self._url = urljoin(self.base_url, self.parameters.format(*self.path_params))
+            print(self.parameters)
+            print(self.path_params)
+            self._url = urljoin(self.base_url, self.parameters.format(**self.path_params))
 
         print("url:", self._url)
 
@@ -41,14 +45,18 @@ class Api:
     @property
     def response(self) -> Response:
         if not self._response:
+            print()
+            print("data:", self.data)
+            print("query:", self.query_params)
+
             if self.method == Method.GET:
-                self._response = requests.get(self.url, data=self.query_params, headers=self.headers)
+                self._response = requests.get(self.url, params=self.query_params, headers=self.headers)
             elif self.method == Method.POST:
-                self._response = requests.post(self.url, data=self.query_params, headers=self.headers)
+                self._response = requests.post(self.url, params=self.query_params, data=self.data, headers=self.headers)
             else:
                 raise NameError(f"Unsupported method: '{self.method}'")
 
-        self.log_response()
+            self.log_response()
 
         return self._response
 
@@ -82,9 +90,7 @@ class Api:
         print(self.headers)
         print()
         print(self._response.status_code)
-        print()
         print(self._response.headers)
-        print()
         print(self._response.content)
         print()
 
@@ -115,7 +121,7 @@ class Provider(Api):
 
 
 class ProviderLoginParameters(Api):
-    parameters = "provider/{}/"
+    parameters = "provider/{code}/"
     method = Method.GET
 
     def is_ok(self) -> bool:
@@ -132,8 +138,8 @@ class Login(Api):
     parameters = "login/"
     method = Method.POST
 
-    def __init__(self, api_key, *path_params, **query_params):
-        super().__init__(api_key, *path_params, **query_params)
+    def __init__(self, api_key, path_params=None, query_params=None, data=None):
+        super().__init__(api_key, path_params, query_params, data)
         self.headers["accept"] = "application/json"
         self.headers["content-type"] = "application/x-www-form-urlencoded"
 

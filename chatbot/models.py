@@ -118,7 +118,7 @@ class MessageProcessor:
     def process_message(self, message) -> Dictionarizable:
         for provider in self.cache['providers']:
             if normalize_string(message) == normalize_string(provider['name']):
-                provider_params = api.ProviderLoginParameters(self.api_key, provider['code'])
+                provider_params = api.ProviderLoginParameters(self.api_key, {'code': provider['code']})
                 self.cache['active_provider'] = provider_params.response_json
 
                 provider = provider_params.response_json['provider']

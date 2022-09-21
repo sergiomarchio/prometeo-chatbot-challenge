@@ -7,8 +7,6 @@ from django.utils.translation import gettext_lazy as _
 
 import json
 
-import sys
-
 from . import api
 from .forms import LoginForm, ChatForm, ProviderLoginForm
 from .models import ApiKey, MessageHistory, MessageProcessor, \
@@ -99,7 +97,7 @@ def process_message(request):
         processing_result = MessageProcessor(request.session['cache'], request).process_message(user_message_content)
     except Exception as e:
         print("Exception: ", e)
-        print(e.with_traceback(sys.exc_info()))
+        print(e.with_traceback())
 
         return ErrorResponse()
 
@@ -121,13 +119,18 @@ def provider_login(request):
     """
     validate_ajax(request)
 
-    credentials = json.loads(request.body)
-    credentials["provider"] = request.session['cache']['active_provider']['provider']['name']
+    active_provider = request.session['cache']['active_provider']
+    provider = active_provider['provider']
+    credentials = {
+        "provider": provider['name'],
+        **json.loads(request.body),
+        **active_provider.get("credentials", {})
+    }
 
-    login = api.Login(request.session['cache']['api-key'], **credentials)
+    login = api.Login(request.session['cache']['api-key'], query_params=active_provider.get('key', {}), data=credentials)
 
     if login.is_ok():
-        request.session['cache']['active_provider']['key'] = login.response_json['key']
+        active_provider['key'] = {'key': login.response_json['key']}
 
         status = login.response_json['status']
         if status == "logged_in":
@@ -137,7 +140,7 @@ def provider_login(request):
                                    status=200)
 
         elif status == "interaction_required":
-            provider = request.session['cache']['active_provider']['provider']
+            active_provider['credentials'] = credentials
             logo = provider['logo']
 
             provider_fields = [
