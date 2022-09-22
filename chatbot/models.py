@@ -237,9 +237,9 @@ class MessageProcessor:
             rows = [f'<div name="{key}" class="account row">'
                     '<div class="key">' + _(key) + ':</div>'
                     f'<div class="value">{value}</div>'
-                    f'</div>' for key, value in account.items()]
+                    f'</div>' for key, value in account.items() if key != 'id']
 
-            message_parts += [f'<div class="item link">' + "\n".join(rows) + '</div>']
+            message_parts += [f'<div class="item link" name=\"{account["id"]}\">' + "\n".join(rows) + '</div>']
 
         return BotMessage("\n".join(message_parts))
 
@@ -261,7 +261,7 @@ class MessageProcessor:
                     f'<div class="value">{value}</div>'
                     f'</div>' for key, value in card.items() if key != 'id']
 
-            message_parts += [f'<div class="item link">' + "\n".join(rows) + '</div>']
+            message_parts += [f'<div class="item link" name=\"{card["id"]}\">' + "\n".join(rows) + '</div>']
 
         return BotMessage("\n".join(message_parts))
 
