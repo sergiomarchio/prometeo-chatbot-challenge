@@ -11,7 +11,7 @@ from .api import api, auth, meta
 from .forms import LoginForm, ChatForm, ProviderLoginForm
 from .models import ApiKey, MessageHistory, MessageProcessor, \
     Message, BotMessage, UserMessage, \
-    MessageResponse, ErrorResponse, ModalForm
+    ErrorResponse, ModalForm
 
 
 def log_me_in(session: dict, api_key: str) -> bool:
@@ -148,10 +148,17 @@ def provider_login(request):
     active_provider['key'] = login_response['key']
 
     if status == "logged_in":
-        return MessageResponse(_('Successfully logged in!\n'
-                                 'To log out from this provider type'
-                                 ' <a class="message-link">logout</a>.'),
-                               status=200)
+        message = BotMessage(_('Successfully logged in!\n'
+                               'To log out from this provider type <a class="message-link">logout</a>.\n'
+                               'You can try also:\n'
+                               '<a class="message-link">info</a> for your personal information\n'
+                               '<a class="message-link">accounts</a> for your accounts in this provider\n'
+                               '<a class="message-link">cards</a> for your cards in this provider'
+                               ))
+
+        request.session['message_history'].add(message)
+
+        return JsonResponse(message.dict(), status=200)
 
     elif status == "interaction_required":
         active_provider['credentials'] = credentials
@@ -190,7 +197,7 @@ def chat(request):
     if 'message_history' not in request.session:
         messages = MessageHistory()
         messages.add(BotMessage(_('Hi! What do you want to do in Prometeo today?\n'
-                                  'You can start typing <a class="message-link">bank</a>.\n'
+                                  'You can start by typing <a class="message-link">banks</a>.\n'
                                   'If my messages have links, you can click them and I will write that for you :)')))
         request.session['message_history'] = messages
 

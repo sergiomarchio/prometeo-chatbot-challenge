@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-22 01:11-0300\n"
+"POT-Creation-Date: 2022-09-22 19:55-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\api\api.py:90
+#: .\api\api.py:89
 msgid "Something went wrong!"
 msgstr "Algo salió mal!"
 
-#: .\api\api.py:93
+#: .\api\api.py:92
 msgid "There was an error with the API key, please start again..."
 msgstr "Hubo un error con la API key, por favor comienza nuevamente..."
 
-#: .\api\api.py:96
+#: .\api\api.py:95
 msgid "Something went wrong... Please try again later..."
 msgstr "Algo salió mal... por favor vuelve a intentarlo más tarde..."
 
@@ -33,15 +33,31 @@ msgstr "Algo salió mal... por favor vuelve a intentarlo más tarde..."
 msgid "Type your message here..."
 msgstr "Escribe tu mensaje aquí..."
 
-#: .\models.py:121
+#: .\models.py:122
 msgid "log *out"
 msgstr "salir"
+
+#: .\models.py:123
+msgid "customers?"
+msgstr "clientes?"
 
 #: .\models.py:124
 msgid "banks?"
 msgstr "bancos?"
 
+#: .\models.py:125
+msgid "accounts?"
+msgstr "cuentas?"
+
+#: .\models.py:126
+msgid "cards?"
+msgstr "tarjetas?"
+
 #: .\models.py:127
+msgid "(data)|(info)"
+msgstr "(datos)|(info)"
+
+#: .\models.py:128
 msgid "(hi)|(hello)"
 msgstr "hola"
 
@@ -49,23 +65,32 @@ msgstr "hola"
 msgid "Hello! Nice to meet you :)"
 msgstr "¡Hola! Gusto en conocerte :)"
 
-#: .\models.py:130
+#: .\models.py:135
 msgid "Sorry, could you give me more details about what you want to do?"
 msgstr "Lo siento, podrías darme más detalles acerca de lo que quieres hacer?"
 
-#: .\models.py:139
+#: .\models.py:147
 msgid "The available banks per country are:"
 msgstr "Los bancos disponibles por país son:"
 
-#: .\models.py:170
+#: .\models.py:180 .\models.py:191 .\models.py:209 .\models.py:226
+#: .\models.py:248
 msgid "It seems that you are not logged in..."
 msgstr "Parece que no has iniciado sesión aún..."
 
-#: .\models.py:177
+#: .\models.py:187
 msgid "Thank you for operating with "
 msgstr "Gracias por operar con "
 
-#: .\models.py:189
+#: .\models.py:201
+msgid "There are no registered customers for this user"
+msgstr "No hay clientes registrados para este usuario"
+
+#: .\models.py:217
+msgid "Your info"
+msgstr "Tu información"
+
+#: .\models.py:278
 msgid "Beep-bop! Something went wrong... Please try again later..."
 msgstr "Beep-bop! Algo salió mal... por favor vuelve a intentarlo más tarde..."
 
@@ -102,34 +127,66 @@ msgstr "Vamos!"
 msgid "Log in"
 msgstr "Iniciar sesión"
 
-#: .\views.py:139
-msgid ""
-"Successfully logged in!\n"
-"To log out from this provider type <a class=\"message-link\">logout</a>."
-msgstr ""
-"Inicio de sesión exitoso!\n"
-"Para cerrar sesión escribe <a class=\"message-link\">salir</a>."
-
-#: .\views.py:165
-msgid "Incorrect credentials"
-msgstr "Credenciales erróneas!"
-
-#: .\views.py:171
-msgid "Wrong credentials!"
-msgstr "Credenciales erróneas!"
-
-#: .\views.py:175
+#: .\views.py:140
 msgid "Sorry, this provider is not available at the moment..."
 msgstr "Lo siento, este proveedor no está disponible de momento..."
 
-#: .\views.py:194
+#: .\views.py:144
+msgid "Wrong credentials!"
+msgstr "Credenciales erróneas!"
+
+#: .\views.py:151
+msgid ""
+"Successfully logged in!\n"
+"To log out from this provider type <a class=\"message-link\">logout</a>.\n"
+"You can try also:\n"
+"<a class=\"message-link\">info</a> for your personal information\n"
+"<a class=\"message-link\">accounts</a> for your accounts in this provider\n"
+"<a class=\"message-link\">cards</a> for your cards in this provider"
+msgstr ""
+"Inicio de sesión exitoso!\n"
+"Para cerrar sesión en este proveedor escribe <a class=\"message-link"
+"\">salir</a>.\n"
+"También puedes probar escribiendo:\n"
+"<a class=\"message-link\">info</a> para tu información personal\n"
+"<a class=\"message-link\">cuentas</a> para tus cuentas en este banco\n"
+"<a class=\"message-link\">tarjetas</a> para tus tarjetas en este banco"
+
+#: .\views.py:196
 msgid ""
 "Hi! What do you want to do in Prometeo today?\n"
-"You can start typing <a class=\"message-link\">bank</a>.\n"
+"You can start by typing <a class=\"message-link\">banks</a>.\n"
 "If my messages have links, you can click them and I will write that for "
 "you :)"
 msgstr ""
 "Hola! Qué quieres hacer en Prometeo hoy?\n"
-"Puedes empezar escribiendo <a class=\"message-link\">banco</a>.\n"
+"Puedes empezar escribiendo <a class=\"message-link\">bancos</a>.\n"
 "Si mis mensajes tienen enlaces, puedes hacerles click y yo lo escribiré por "
 "ti :)"
+
+msgid "name"
+msgstr "nombre"
+
+msgid "number"
+msgstr "número"
+
+msgid "branch"
+msgstr "sucursal"
+
+msgid "currency"
+msgstr "moneda"
+
+msgid "balance"
+msgstr "saldo"
+
+msgid "balance dollar"
+msgstr "saldo dólares"
+
+msgid "balance local"
+msgstr "saldo moneda local"
+
+msgid "close date"
+msgstr "fecha de cierre"
+
+msgid "due date"
+msgstr "fecha de vencimiento"

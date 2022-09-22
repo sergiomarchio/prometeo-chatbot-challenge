@@ -123,6 +123,7 @@ class MessageProcessor:
             _("customers?"): self.action_client,
             _("banks?"): self.action_provider,
             _("accounts?"): self.action_account,
+            _("cards?"): self.action_card,
             _("(data)|(info)"): self.action_info,
             _("(hi)|(hello)"): lambda: BotMessage(_("Hello! Nice to meet you :)")),
         }
@@ -213,7 +214,7 @@ class MessageProcessor:
 
         info = info_response['info']
 
-        message = (f"{_('Your info')}:\n"
+        message = (_('Your info') + ":\n"
                    f"{_('ID')}: {info['document']}\n"
                    f"{_('Name')}: {info['name']}\n"
                    f"{_('email')}: {info['email']}")
@@ -234,24 +235,41 @@ class MessageProcessor:
         message_parts = []
         for account in accounts:
             rows = [f'<div name="{key}" class="account row">'
-                    f'<div class="key">{_(key)}:</div>'
+                    '<div class="key">' + _(key) + ':</div>'
                     f'<div class="value">{value}</div>'
                     f'</div>' for key, value in account.items()]
 
-            message_parts += [f'<div class="account link">' + "\n".join(rows) + '</div>']
+            message_parts += [f'<div class="item link">' + "\n".join(rows) + '</div>']
+
+        return BotMessage("\n".join(message_parts))
+
+    def action_card(self):
+        if 'active_provider' not in self.cache:
+            return BotMessage(_("It seems that you are not logged in..."))
+
+        card_api = transactional.Card(self.api_key, self.cache['active_provider'].get('key'))
+        card_api.validate_response()
+        card_response = card_api.response_json
+
+        cards = card_response['credit_cards']
+        self.cache['active_provider']['cards'] = cards
+
+        message_parts = []
+        for card in cards:
+            rows = [f'<div name="{key}" class="card row">'
+                    '<div class="key">' + _(key.replace("_", " ")) + ':</div>'
+                    f'<div class="value">{value}</div>'
+                    f'</div>' for key, value in card.items() if key != 'id']
+
+            message_parts += [f'<div class="item link">' + "\n".join(rows) + '</div>']
 
         return BotMessage("\n".join(message_parts))
 
 
-class MessageResponse(JsonResponse):
-    def __init__(self, content, status, **kwargs):
-        kwargs.setdefault('status', status)
-        super().__init__(BotMessage(content).dict(), **kwargs)
-
-
-class ErrorResponse(MessageResponse):
-    def __init__(self, content=None, status=500, **kwargs):
+class ErrorResponse(JsonResponse):
+    def __init__(self, content=None, **kwargs):
+        kwargs.setdefault('status', 500)
         if content is None:
             content = _("Beep-bop! Something went wrong... Please try again later...")
 
-        super().__init__(content, status, **kwargs)
+        super().__init__(BotMessage(content).dict(), **kwargs)
