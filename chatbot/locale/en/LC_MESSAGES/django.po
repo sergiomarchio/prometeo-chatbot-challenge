@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-21 22:45-0300\n"
+"POT-Creation-Date: 2022-09-22 01:03-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,35 +17,55 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\api.py:83
-msgid "Oh no! Something went wrong!"
+#: .\api\api.py:90
+msgid "Something went wrong!"
 msgstr ""
 
-#: .\api.py:114
-msgid "The available banks per country are:"
+#: .\api\api.py:93
+msgid "There was an error with the API key, please start again..."
+msgstr ""
+
+#: .\api\api.py:96
+msgid "Something went wrong... Please try again later..."
 msgstr ""
 
 #: .\forms.py:20
 msgid "Type your message here..."
 msgstr ""
 
-#: .\models.py:113
+#: .\models.py:121
+msgid "log *out"
+msgstr ""
+
+#: .\models.py:124
 msgid "banks?"
 msgstr ""
 
-#: .\models.py:143
+#: .\models.py:127
+msgid "(hi)|(hello)"
+msgstr ""
+
+#: .\models.py:128
+msgid "Hello! Nice to meet you :)"
+msgstr ""
+
+#: .\models.py:130
 msgid "Sorry, could you give me more details about what you want to do?"
 msgstr ""
 
-#: .\models.py:148
-msgid "There was an error with the API key, please log in again..."
+#: .\models.py:139
+msgid "The available banks per country are:"
 msgstr ""
 
-#: .\models.py:151
-msgid "Oops! Something went wrong, please try again..."
+#: .\models.py:170
+msgid "It seems that you are not logged in..."
 msgstr ""
 
-#: .\models.py:165
+#: .\models.py:177
+msgid "Thank you for operating with "
+msgstr ""
+
+#: .\models.py:189
 msgid "Beep-bop! Something went wrong... Please try again later..."
 msgstr ""
 
@@ -81,21 +101,21 @@ msgstr ""
 msgid "Log in"
 msgstr ""
 
-#: .\views.py:137
+#: .\views.py:139
 msgid ""
 "Successfully logged in!\n"
 "To log out from this provider type <a class=\"message-link\">logout</a>."
 msgstr ""
 
-#: .\views.py:167
+#: .\views.py:169
 msgid "Wrong credentials!"
 msgstr ""
 
-#: .\views.py:171
+#: .\views.py:173
 msgid "Sorry, this provider is not available at the moment..."
 msgstr ""
 
-#: .\views.py:190
+#: .\views.py:192
 msgid ""
 "Hi! What do you want to do in Prometeo today?\n"
 "You can start typing <a class=\"message-link\">bank</a>.\n"
