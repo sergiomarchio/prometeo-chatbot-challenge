@@ -118,14 +118,17 @@ class MessageProcessor:
         any_before = r"^(.* +)?"
         any_after = r"( +.*)?$"
 
-        if re.match(any_before + _("log *out") + any_after, normalized_message):
-            return self.action_logout()
+        # Sequential parsing of message
+        actions = {
+            _("log *out"): self.action_logout,
+            _("customers?"): self.action_client,
+            _("banks?"): self.action_provider,
+            _("(hi)|(hello)"): lambda: BotMessage(_("Hello! Nice to meet you :)")),
+        }
 
-        if re.match(any_before + _("banks?") + any_after, normalized_message):
-            return self.action_provider()
-
-        if re.match(any_before + _("(hi)|(hello)") + any_after, normalized_message):
-            return BotMessage(_("Hello! Nice to meet you :)"))
+        for pattern, action in actions.items():
+            if re.match(any_before + pattern + any_after, normalized_message):
+                return action()
 
         return BotMessage(_("Sorry, could you give me more details about what you want to do?"))
 
@@ -148,7 +151,7 @@ class MessageProcessor:
         return BotMessage(bank_string)
 
     def action_login(self, provider_code) -> ModalForm:
-        provider = api.ProviderLoginParameters(self.api_key, {'code': provider_code})
+        provider = api.ProviderLoginParameters(self.api_key, code=provider_code)
         provider.validate_response()
         provider_response = provider.response_json
 
@@ -180,6 +183,24 @@ class MessageProcessor:
         del self.cache['active_provider']
 
         return BotMessage(_("Thank you for operating with ") + f"{name}")
+
+    def action_client(self) -> BotMessage:
+        if 'active_provider' not in self.cache:
+            return BotMessage(_("It seems that you are not logged in..."))
+
+        client_api = auth.Client(self.api_key, self.cache['active_provider'].get('key'))
+        client_api.validate_response()
+        client_response = client_api.response_json
+
+        clients = client_response['clients']
+        self.cache['active_provider']['clients'] = clients
+
+        if len(clients) == 0:
+            return BotMessage(_("There are no registered customers for this user"))
+
+        client_names = [client for client in clients.values()]
+
+        return BotMessage(client_names)
 
 
 class MessageResponse(JsonResponse):
