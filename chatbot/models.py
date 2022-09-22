@@ -6,7 +6,7 @@ from django.utils.translation import gettext as _
 import re
 import unicodedata
 
-from .api import api, auth, meta
+from .api import api, auth, meta, transactional
 from . import settings
 from .forms import ProviderLoginForm
 from .utils import Dictionarizable
@@ -122,6 +122,8 @@ class MessageProcessor:
             _("log *out"): self.action_logout,
             _("customers?"): self.action_client,
             _("banks?"): self.action_provider,
+            _("accounts?"): self.action_account,
+            _("(data)|(info)"): self.action_info,
             _("(hi)|(hello)"): lambda: BotMessage(_("Hello! Nice to meet you :)")),
         }
 
@@ -200,6 +202,45 @@ class MessageProcessor:
         client_names = [client for client in clients.values()]
 
         return BotMessage(client_names)
+
+    def action_info(self):
+        if 'active_provider' not in self.cache:
+            return BotMessage(_("It seems that you are not logged in..."))
+
+        info_api = transactional.Info(self.api_key, self.cache['active_provider'].get('key'))
+        info_api.validate_response()
+        info_response = info_api.response_json
+
+        info = info_response['info']
+
+        message = (f"{_('Your info')}:\n"
+                   f"{_('ID')}: {info['document']}\n"
+                   f"{_('Name')}: {info['name']}\n"
+                   f"{_('email')}: {info['email']}")
+
+        return BotMessage(message)
+    
+    def action_account(self):
+        if 'active_provider' not in self.cache:
+            return BotMessage(_("It seems that you are not logged in..."))
+
+        account_api = transactional.Account(self.api_key, self.cache['active_provider'].get('key'))
+        account_api.validate_response()
+        account_response = account_api.response_json
+
+        accounts = account_response['accounts']
+        self.cache['active_provider']['accounts'] = accounts
+
+        message_parts = []
+        for account in accounts:
+            rows = [f'<div name="{key}" class="account row">'
+                    f'<div class="key">{_(key)}:</div>'
+                    f'<div class="value">{value}</div>'
+                    f'</div>' for key, value in account.items()]
+
+            message_parts += [f'<div class="account link">' + "\n".join(rows) + '</div>']
+
+        return BotMessage("\n".join(message_parts))
 
 
 class MessageResponse(JsonResponse):

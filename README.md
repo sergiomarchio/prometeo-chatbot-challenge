@@ -18,3 +18,16 @@ In order to run this project, you must
 
  - To use the guest login feature, create a file named 'api.key' in the [chatbot](chatbot) directory, containing a vaild Prometeo API key in plain text.
 
+ - 
+
+
+## Features
+
+The bot supports the following Prometeo operations:
+
+- Provider listing
+- Provider login with basic fields, including interactive login
+- Provider logout
+
+
+

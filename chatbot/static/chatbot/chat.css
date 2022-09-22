@@ -88,4 +88,18 @@
     margin-top: 0.5em;
 }
 
+.account.link {
+    border-radius: 1em;
+    padding: 0.5em;
+    white-space: normal;
+}
 
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.key {
+    margin-right: 0.5em;
+}
