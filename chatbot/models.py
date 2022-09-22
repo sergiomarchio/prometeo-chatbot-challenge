@@ -1,3 +1,4 @@
+from collections import defaultdict
 from django import forms
 from django.http import JsonResponse
 from django.template.loader import render_to_string
@@ -6,7 +7,7 @@ import re
 from typing import Optional
 import unicodedata
 
-from . import api
+from .api import api, auth
 from . import settings
 from .forms import ProviderLoginForm
 from .utils import Dictionarizable
@@ -100,57 +101,80 @@ class MessageProcessor:
         self.api_key = cache['api-key']
         self.request = request
 
-    def parse_message(self, message) -> Optional[api.Api]:
+    def process_message(self, message) -> Dictionarizable:
         """
-        Parse a message returning the object that corresponds
-        to the API that must be called
+        Parses the message looking for fixed strings or patterns, and calls the corresponding action
+        @return
+        the result of that action (it could be a message, a modal, ...)
         """
         normalized_message = normalize_string(message)
 
+        # Check for exact provider names for login
+        for provider in self.cache['providers']:
+            if normalized_message == normalize_string(provider['name']):
+                return self.action_login(provider['code'])
+
+        # Useful regex common patterns
         any_before = r"^(.* +)?"
         any_after = r"( +.*)?$"
 
+        if re.match(any_before + _("log *out") + any_after, normalized_message):
+            return self.action_logout()
+
         if re.match(any_before + _("banks?") + any_after, normalized_message):
-            return api.Provider(self.api_key)
+            return self.action_provider()
 
-        return None
+        if re.match(any_before + _("(hi)|(hello)") + any_after, normalized_message):
+            return BotMessage(_("Hello! Nice to meet you :)"))
 
-    def process_message(self, message) -> Dictionarizable:
-        for provider in self.cache['providers']:
-            if normalize_string(message) == normalize_string(provider['name']):
-                provider_params = api.ProviderLoginParameters(self.api_key, {'code': provider['code']})
-                self.cache['active_provider'] = provider_params.response_json
+        return BotMessage(_("Sorry, could you give me more details about what you want to do?"))
 
-                provider = provider_params.response_json['provider']
-                logo = provider['logo']
+    def action_provider(self) -> BotMessage:
+        provider_response = api.Provider(self.api_key).response_json
 
-                provider_fields = [
-                    {'name': x['name'],
-                     'type': x['type'],
-                     'placeholder': x['label_es'] if self.request.LANGUAGE_CODE == 'es' else x['label_en']
-                     } for x in provider['auth_fields']
-                    if not x['interactive'] and not x['optional']
-                ]
+        banks_per_country = defaultdict(list)
+        for bank in provider_response['providers']:
+            banks_per_country[bank['country']].append(bank['name'])
 
-                return ModalForm('chatbot/provider_login.html',
-                                 ProviderLoginForm(provider_fields=provider_fields),
-                                 self.request,
-                                 logo=logo,
-                                 name=provider['bank']['name'])
+        bank_string = _("The available banks per country are:") + "\n"
+        for country, banks in sorted(banks_per_country.items()):
+            bank_links = [f'<a class="message-link">{bank}</a>' for bank in banks]
 
-        api_object = self.parse_message(message)
-        if not api_object:
-            return BotMessage(_("Sorry, could you give me more details about what you want to do?"))
+            bank_string += country + ":\n" + "\n".join(bank_links) + "\n\n"
 
-        json_response = api_object.response_json
+        return BotMessage(bank_string)
 
-        if 'message' in json_response and json_response['message'] == 'Key not Found':
-            raise Exception(_("There was an error with the API key, please log in again..."))
+    def action_login(self, provider_code) -> ModalForm:
+        provider_response = api.ProviderLoginParameters(self.api_key, {'code': provider_code}).response_json
 
-        if not api_object.is_ok():
-            raise Exception(_("Oops! Something went wrong, please try again..."))
+        self.cache['active_provider'] = provider_response
+        provider = provider_response['provider']
+        logo = provider['logo']
 
-        return BotMessage(api_object.digest_message())
+        provider_fields = [
+            {'name': x['name'],
+             'type': x['type'],
+             'placeholder': x['label_es'] if self.request.LANGUAGE_CODE == 'es' else x['label_en']
+             } for x in provider['auth_fields']
+            if not x['interactive'] and not x['optional']
+        ]
+
+        return ModalForm('chatbot/provider_login.html',
+                         ProviderLoginForm(provider_fields=provider_fields),
+                         self.request,
+                         logo=logo,
+                         name=provider['bank']['name'])
+
+    def action_logout(self) -> BotMessage:
+        if 'active_provider' not in self.cache:
+            return BotMessage(_("It seems that you are not logged in..."))
+
+        auth.Logout(self.api_key, self.cache['active_provider'].get('key')).validate_response()
+
+        name = self.cache['active_provider']['provider']['bank']['name']
+        del self.cache['active_provider']
+
+        return BotMessage(_("Thank you for operating with ") + f"{name}")
 
 
 class MessageResponse(JsonResponse):

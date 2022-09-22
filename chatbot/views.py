@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 
 import json
 
-from . import api
+from .api import api, auth
 from .forms import LoginForm, ChatForm, ProviderLoginForm
 from .models import ApiKey, MessageHistory, MessageProcessor, \
     Message, BotMessage, UserMessage, \
@@ -56,9 +56,9 @@ def guest(request):
         return HttpResponseRedirect(reverse('chatbot:chat'))
 
 
-def logout(request):
+def close(request):
     """
-    Logs out and returns to home page
+    Closes the chat, clearing the session and returning to home page
     """
     request.session.flush()
 
@@ -95,6 +95,8 @@ def process_message(request):
 
     try:
         processing_result = MessageProcessor(request.session['cache'], request).process_message(user_message_content)
+    except api.ApiException as e:
+        return ErrorResponse(e.message, e.status)
     except Exception as e:
         print("Exception: ", e)
         print(e.with_traceback())
@@ -127,10 +129,10 @@ def provider_login(request):
         **active_provider.get("credentials", {})
     }
 
-    login = api.Login(request.session['cache']['api-key'], query_params=active_provider.get('key', {}), data=credentials)
+    login = auth.Login(request.session['cache']['api-key'], key=active_provider.get('key'), data=credentials)
 
     if login.is_ok():
-        active_provider['key'] = {'key': login.response_json['key']}
+        active_provider['key'] = login.response_json['key']
 
         status = login.response_json['status']
         if status == "logged_in":

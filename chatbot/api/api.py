@@ -1,5 +1,4 @@
 from abc import abstractmethod
-from collections import defaultdict
 from django.utils.translation import gettext as _
 from enum import Enum
 import requests
@@ -12,6 +11,14 @@ from chatbot import settings
 class Method(Enum):
     GET = "GET"
     POST = "POST"
+
+
+class ApiException(Exception):
+    def __init__(self, message="", status=500):
+        super().__init__(message)
+
+        self.message = message
+        self.status = status
 
 
 class Api:
@@ -57,6 +64,7 @@ class Api:
                 raise NameError(f"Unsupported method: '{self.method}'")
 
             self.log_response()
+            self.validate_response()
 
         return self._response
 
@@ -74,15 +82,18 @@ class Api:
         """
         pass
 
-    @abstractmethod
-    def digest_message(self) -> str:
+    def validate_response(self):
         """
-        Processes the response and returns the bot message
+        Checks if the API was successful or not, raising API Exception if not
         """
         if not self.response:
-            raise ReferenceError(_("Oh no! Something went wrong!"))
+            raise ApiException(_("Something went wrong!"))
 
-        return ""
+        if self.response_json.get('message') == 'Key not Found':
+            raise ApiException(_("There was an error with the API key, please start again..."))
+
+        if not self.is_ok():
+            raise ApiException(_("Something went wrong... Please try again later..."))
 
     def log_response(self):
         print()
@@ -101,23 +112,8 @@ class Provider(Api):
 
     def is_ok(self):
         return (200 <= self.response.status_code < 300
-                and self.response_json['status'] == "success"
+                and self.response_json.get('status') == "success"
                 and "providers" in self.response_json)
-
-    def digest_message(self) -> str:
-        super().digest_message()
-
-        banks_per_country = defaultdict(list)
-        for bank in self.response_json['providers']:
-            banks_per_country[bank['country']].append(bank['name'])
-
-        bank_string = _("The available banks per country are:") + "\n"
-        for country, banks in sorted(banks_per_country.items()):
-            bank_links = [f'<a class="message-link">{bank}</a>' for bank in banks]
-
-            bank_string += country + ":\n" + "\n".join(bank_links) + "\n\n"
-
-        return bank_string
 
 
 class ProviderLoginParameters(Api):
@@ -126,29 +122,5 @@ class ProviderLoginParameters(Api):
 
     def is_ok(self) -> bool:
         return (200 <= self.response.status_code < 300
-                and self.response_json['status'] == "success")
+                and self.response_json.get('status') == "success")
 
-    def digest_message(self) -> str:
-        super().digest_message()
-
-        return f"Logging into {self.response_json['provider']['bank']['name']}..."
-
-
-class Login(Api):
-    parameters = "login/"
-    method = Method.POST
-
-    def __init__(self, api_key, path_params=None, query_params=None, data=None):
-        super().__init__(api_key, path_params, query_params, data)
-        self.headers["accept"] = "application/json"
-        self.headers["content-type"] = "application/x-www-form-urlencoded"
-
-    def is_ok(self):
-        return (self.response.status_code == 200
-                and 'key' in self.response_json
-                and 'status' in self.response_json)
-
-    def digest_message(self) -> str:
-        super().digest_message()
-
-        return self.response_json['status']

@@ -5,7 +5,7 @@ from . import views
 app_name = 'chatbot'
 urlpatterns = [
     path('', views.homepage, name='homepage'),
-    path('logout/', views.logout, name='logout'),
+    path('close/', views.close, name='close'),
     path('guest/', views.guest, name='guest'),
     path('chat/', views.chat, name='chat'),
     path('chat/process_message/', views.process_message, name='process_message'),

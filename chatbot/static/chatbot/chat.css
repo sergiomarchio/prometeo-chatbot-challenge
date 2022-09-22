@@ -6,7 +6,7 @@
 }
 
 
-#logout {
+#close {
     color: var(--link-color);
     font-size: calc(2 * var(--font-size));
     margin: 0.5em;
