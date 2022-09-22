@@ -103,26 +103,3 @@ class Api:
         print(self._response.headers)
         print(self._response.content)
         print()
-
-
-class Provider(Api):
-    parameters = "provider/"
-    method = Method.GET
-
-    def is_ok(self):
-        return (200 <= self.response.status_code < 300
-                and self.response_json.get('status') == "success"
-                and "providers" in self.response_json)
-
-
-class ProviderLoginParameters(Api):
-    parameters = "provider/{code}/"
-    method = Method.GET
-
-    def __init__(self, api_key, code):
-        super().__init__(api_key, path_params={'code': code})
-
-    def is_ok(self) -> bool:
-        return (200 <= self.response.status_code < 300
-                and self.response_json.get('status') == "success")
-

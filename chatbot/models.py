@@ -4,10 +4,9 @@ from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
 import re
-from typing import Optional
 import unicodedata
 
-from .api import api, auth
+from .api import api, auth, meta
 from . import settings
 from .forms import ProviderLoginForm
 from .utils import Dictionarizable
@@ -133,7 +132,7 @@ class MessageProcessor:
         return BotMessage(_("Sorry, could you give me more details about what you want to do?"))
 
     def action_provider(self) -> BotMessage:
-        provider_response = api.Provider(self.api_key)
+        provider_response = meta.Provider(self.api_key)
         provider_response.validate_response()
 
         provider_response = provider_response.response_json
@@ -151,7 +150,7 @@ class MessageProcessor:
         return BotMessage(bank_string)
 
     def action_login(self, provider_code) -> ModalForm:
-        provider = api.ProviderLoginParameters(self.api_key, code=provider_code)
+        provider = meta.ProviderDetail(self.api_key, provider_code=provider_code)
         provider.validate_response()
         provider_response = provider.response_json
 

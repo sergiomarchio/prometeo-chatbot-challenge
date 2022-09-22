@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 
 import json
 
-from .api import api, auth
+from .api import api, auth, meta
 from .forms import LoginForm, ChatForm, ProviderLoginForm
 from .models import ApiKey, MessageHistory, MessageProcessor, \
     Message, BotMessage, UserMessage, \
@@ -22,7 +22,7 @@ def log_me_in(session: dict, api_key: str) -> bool:
     """
 
     # Get bank list to validate API key
-    provider_api = api.Provider(api_key)
+    provider_api = meta.Provider(api_key)
 
     if provider_api.is_ok():
         session['cache'] = {}
