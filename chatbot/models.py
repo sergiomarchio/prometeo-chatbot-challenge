@@ -6,7 +6,7 @@ from django.utils.translation import gettext as _
 import re
 import unicodedata
 
-from .api import api, auth, meta, transactional
+from .api import auth, meta, transactional
 from . import settings
 from .forms import ProviderLoginForm
 from .utils import Dictionarizable
