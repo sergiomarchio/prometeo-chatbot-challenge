@@ -96,7 +96,7 @@ def process_message(request):
     try:
         processing_result = MessageProcessor(request.session['cache'], request).process_message(user_message_content)
     except api.ApiException as e:
-        return ErrorResponse(f"Beep-bop! {e.message}", e.status)
+        return ErrorResponse(f"Beep-bop! {e.message}", status=e.status)
     except Exception as e:
         print("Exception: ", e)
         print(e.with_traceback())
