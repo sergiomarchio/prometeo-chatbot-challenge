@@ -129,49 +129,49 @@ def provider_login(request):
         **active_provider.get("credentials", {})
     }
 
-    login = auth.Login(request.session['cache']['api-key'], key=active_provider.get('key'), data=credentials)
+    login = auth.Login(request.session['cache']['api-key'],
+                       key=active_provider.get('key'), data=credentials)
+    login_response = login.response_json
+    status = login_response.get('status')
 
-    if login.is_ok():
-        active_provider['key'] = login.response_json['key']
-
-        status = login.response_json['status']
-        if status == "logged_in":
-            return MessageResponse(_('Successfully logged in!\n'
-                                     'To log out from this provider type'
-                                     ' <a class="message-link">logout</a>.'),
-                                   status=200)
-
-        elif status == "interaction_required":
-            active_provider['credentials'] = credentials
-            logo = provider['logo']
-
-            provider_fields = [
-                {'name': x['name'],
-                 'type': x['type'],
-                 'label': login.response_json['context'],
-                 'placeholder': x['label_es'] if request.LANGUAGE_CODE == 'es' else x['label_en']
-                 } for x in provider['auth_fields']
-                if x['interactive'] and x['name'] == login.response_json['field']
-            ]
-
-            return JsonResponse(ModalForm('chatbot/provider_login.html',
-                                          ProviderLoginForm(provider_fields=provider_fields),
-                                          request,
-                                          logo=logo,
-                                          name=provider['bank']['name']).dict(),
-                                status=200)
-
-        else:
-            return ErrorResponse()
-
-    status = login.response_json['status']
-    if status == "wrong_credentials":
-        return JsonResponse({'modal-feedback': _('Wrong credentials!')}, status=400)
-    elif status == "error":
-        message = login.response_json['message']
+    if status == "error":
+        message = login_response['message']
         if message == "Unauthorized provider":
             return ErrorResponse(_('Sorry, this provider is not available at the moment...'),
                                  status=400)
+
+    elif status == "wrong_credentials":
+        return JsonResponse({'modal-feedback': _('Wrong credentials!')}, status=400)
+
+    login.validate_response()
+
+    active_provider['key'] = login_response['key']
+
+    if status == "logged_in":
+        return MessageResponse(_('Successfully logged in!\n'
+                                 'To log out from this provider type'
+                                 ' <a class="message-link">logout</a>.'),
+                               status=200)
+
+    elif status == "interaction_required":
+        active_provider['credentials'] = credentials
+        logo = provider['logo']
+
+        provider_fields = [
+            {'name': x['name'],
+             'type': x['type'],
+             'label': login_response['context'],
+             'placeholder': x['label_es'] if request.LANGUAGE_CODE == 'es' else x['label_en']
+             } for x in provider['auth_fields']
+            if x['interactive'] and x['name'] == login_response['field']
+        ]
+
+        return JsonResponse(ModalForm('chatbot/provider_login.html',
+                                      ProviderLoginForm(provider_fields=provider_fields),
+                                      request,
+                                      logo=logo,
+                                      name=provider['bank']['name']).dict(),
+                            status=200)
 
     return ErrorResponse()
 

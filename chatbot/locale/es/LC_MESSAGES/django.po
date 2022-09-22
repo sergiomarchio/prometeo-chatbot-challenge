@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-22 01:03-0300\n"
+"POT-Creation-Date: 2022-09-22 01:11-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,7 +75,8 @@ msgstr "Cerrar"
 
 #: .\templates\chatbot\index.html:20
 msgid "Hi! To play with Prometeo chatbot you must log in first:"
-msgstr "Hola! Para jugar con el chatbot de Prometeo primero debes iniciar sesión:"
+msgstr ""
+"Hola! Para jugar con el chatbot de Prometeo primero debes iniciar sesión:"
 
 #: .\templates\chatbot\index.html:21
 msgid "I already have a Prometeo account!"
@@ -109,15 +110,19 @@ msgstr ""
 "Inicio de sesión exitoso!\n"
 "Para cerrar sesión escribe <a class=\"message-link\">salir</a>."
 
-#: .\views.py:169
+#: .\views.py:165
+msgid "Incorrect credentials"
+msgstr "Credenciales erróneas!"
+
+#: .\views.py:171
 msgid "Wrong credentials!"
 msgstr "Credenciales erróneas!"
 
-#: .\views.py:173
+#: .\views.py:175
 msgid "Sorry, this provider is not available at the moment..."
 msgstr "Lo siento, este proveedor no está disponible de momento..."
 
-#: .\views.py:192
+#: .\views.py:194
 msgid ""
 "Hi! What do you want to do in Prometeo today?\n"
 "You can start typing <a class=\"message-link\">bank</a>.\n"
@@ -128,4 +133,3 @@ msgstr ""
 "Puedes empezar escribiendo <a class=\"message-link\">banco</a>.\n"
 "Si mis mensajes tienen enlaces, puedes hacerles click y yo lo escribiré por "
 "ti :)"
-

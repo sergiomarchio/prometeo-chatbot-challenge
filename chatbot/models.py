@@ -130,7 +130,10 @@ class MessageProcessor:
         return BotMessage(_("Sorry, could you give me more details about what you want to do?"))
 
     def action_provider(self) -> BotMessage:
-        provider_response = api.Provider(self.api_key).response_json
+        provider_response = api.Provider(self.api_key)
+        provider_response.validate_response()
+
+        provider_response = provider_response.response_json
 
         banks_per_country = defaultdict(list)
         for bank in provider_response['providers']:
@@ -145,7 +148,9 @@ class MessageProcessor:
         return BotMessage(bank_string)
 
     def action_login(self, provider_code) -> ModalForm:
-        provider_response = api.ProviderLoginParameters(self.api_key, {'code': provider_code}).response_json
+        provider = api.ProviderLoginParameters(self.api_key, {'code': provider_code})
+        provider.validate_response()
+        provider_response = provider.response_json
 
         self.cache['active_provider'] = provider_response
         provider = provider_response['provider']

@@ -64,7 +64,6 @@ class Api:
                 raise NameError(f"Unsupported method: '{self.method}'")
 
             self.log_response()
-            self.validate_response()
 
         return self._response
 

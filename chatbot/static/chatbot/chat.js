@@ -10,11 +10,19 @@ function processMessageResponse(data) {
     } else if ('modal-form' in data) {
         showModalForm(data['modal-form']);
     } else if ('modal-feedback' in data) {
+        clearAll();
         setModalFeedback(data['modal-feedback']);
     } else {
         addErrorMessage();
     }
 
+}
+
+function clearAll() {
+    for (field of modalContent.querySelectorAll(".input-field")) {
+        field.value = "";
+    }
+    modalContent.querySelector(".input-field").focus();
 }
 
 function showBaseModal() {
