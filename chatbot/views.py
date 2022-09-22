@@ -105,7 +105,6 @@ def process_message(request):
 
     if isinstance(processing_result, Message):
         request.session['message_history'].add(processing_result)
-        # print(request.session['message_history'])
 
     print()
     print(request.session['cache']['api-key'])
