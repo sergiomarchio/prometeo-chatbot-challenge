@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-20 19:56-0300\n"
+"POT-Creation-Date: 2022-09-21 22:45-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\api.py:75
+#: .\api.py:83
 msgid "Oh no! Something went wrong!"
 msgstr "Oh no! Algo salió mal!"
 
-#: .\api.py:108
+#: .\api.py:114
 msgid "The available banks per country are:"
 msgstr "Los bancos disponibles por país son:"
 
@@ -45,20 +45,24 @@ msgstr "Hubo un error con la API key, por favor inicia sesión nuevamente..."
 msgid "Oops! Something went wrong, please try again..."
 msgstr "Oops! Algo salió mal, por favor intenta nuevamente..."
 
+#: .\models.py:165
+msgid "Beep-bop! Something went wrong... Please try again later..."
+msgstr "Beep-bop! Algo salió mal... por favor vuelve a intentarlo más tarde..."
+
 #: .\templates\chatbot\chat.html:19
 msgid "Close"
 msgstr "Cerrar"
 
-#: .\templates\chatbot\index.html:21
+#: .\templates\chatbot\index.html:20
 msgid "Hi! To play with Prometeo chatbot you must log in first:"
 msgstr ""
 "Hola! Para jugar con el chatbot de Prometeo primero debes iniciar sesión:"
 
-#: .\templates\chatbot\index.html:22
+#: .\templates\chatbot\index.html:21
 msgid "I already have a Prometeo account!"
 msgstr "Ya tengo una cuenta en Prometeo!"
 
-#: .\templates\chatbot\index.html:23
+#: .\templates\chatbot\index.html:22
 msgid "I still don't have a Prometeo account..."
 msgstr "Aún no tengo una cuenta en Prometeo..."
 
@@ -78,11 +82,7 @@ msgstr "Vamos!"
 msgid "Log in"
 msgstr "Iniciar sesión"
 
-#: .\utils.py:20
-msgid "Something went wrong... Please try again later..."
-msgstr "Algo salió mal... por favor vuelve a intentarlo más tarde..."
-
-#: .\views.py:131
+#: .\views.py:137
 msgid ""
 "Successfully logged in!\n"
 "To log out from this provider type <a class=\"message-link\">logout</a>."
@@ -90,15 +90,15 @@ msgstr ""
 "Inicio de sesión exitoso!\n"
 "Para cerrar sesión escribe <a class=\"message-link\">salir</a>."
 
-#: .\views.py:143
+#: .\views.py:167
 msgid "Wrong credentials!"
 msgstr "Credenciales erróneas!"
 
-#: .\views.py:147
+#: .\views.py:171
 msgid "Sorry, this provider is not available at the moment..."
 msgstr "Lo siento, este proveedor no está disponible de momento..."
 
-#: .\views.py:166
+#: .\views.py:190
 msgid ""
 "Hi! What do you want to do in Prometeo today?\n"
 "You can start typing <a class=\"message-link\">bank</a>.\n"

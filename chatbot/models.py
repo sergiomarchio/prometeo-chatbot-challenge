@@ -162,6 +162,6 @@ class MessageResponse(JsonResponse):
 class ErrorResponse(MessageResponse):
     def __init__(self, content=None, status=500, **kwargs):
         if content is None:
-            content = _("Something went wrong... Please try again later...")
+            content = _("Beep-bop! Something went wrong... Please try again later...")
 
         super().__init__(content, status, **kwargs)
