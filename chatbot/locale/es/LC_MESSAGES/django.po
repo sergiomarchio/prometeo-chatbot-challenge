@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-22 19:55-0300\n"
+"POT-Creation-Date: 2022-09-23 00:56-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -74,7 +74,7 @@ msgid "The available banks per country are:"
 msgstr "Los bancos disponibles por país son:"
 
 #: .\models.py:180 .\models.py:191 .\models.py:209 .\models.py:226
-#: .\models.py:248
+#: .\models.py:252
 msgid "It seems that you are not logged in..."
 msgstr "Parece que no has iniciado sesión aún..."
 
@@ -90,36 +90,87 @@ msgstr "No hay clientes registrados para este usuario"
 msgid "Your info"
 msgstr "Tu información"
 
-#: .\models.py:278
+#: .\models.py:218
+msgid "ID"
+msgstr ""
+
+#: .\models.py:219
+msgid "Name"
+msgstr "Nombre"
+
+#: .\models.py:220
+msgid "email"
+msgstr "Correo electrónico"
+
+#: .\models.py:236
+msgid "balance"
+msgstr "Saldo"
+
+#: .\models.py:236
+msgid "branch"
+msgstr "sucursal"
+
+#: .\models.py:236
+msgid "currency"
+msgstr "moneda"
+
+#: .\models.py:237 .\models.py:263
+msgid "id"
+msgstr ""
+
+#: .\models.py:237 .\models.py:263
+msgid "name"
+msgstr "nombre"
+
+#: .\models.py:237 .\models.py:263
+msgid "number"
+msgstr "número"
+
+#: .\models.py:262
+msgid "balance_dollar"
+msgstr "Saldo (dólares)"
+
+#: .\models.py:262
+msgid "balance_local"
+msgstr "Saldo (moneda local)"
+
+#: .\models.py:262
+msgid "close_date"
+msgstr "Fecha de cierre"
+
+#: .\models.py:263
+msgid "due_date"
+msgstr "Fecha de vencimiento"
+
+#: .\models.py:281
 msgid "Beep-bop! Something went wrong... Please try again later..."
 msgstr "Beep-bop! Algo salió mal... por favor vuelve a intentarlo más tarde..."
 
-#: .\templates\chatbot\chat.html:19
+#: .\templates\chatbot\chat.html:21
 msgid "Close"
 msgstr "Cerrar"
 
-#: .\templates\chatbot\index.html:20
+#: .\templates\chatbot\index.html:22
 msgid "Hi! To play with Prometeo chatbot you must log in first:"
-msgstr ""
-"Hola! Para jugar con el chatbot de Prometeo primero debes iniciar sesión:"
+msgstr "Hola! Para jugar con el chatbot de Prometeo primero debes iniciar sesión:"
 
-#: .\templates\chatbot\index.html:21
+#: .\templates\chatbot\index.html:23
 msgid "I already have a Prometeo account!"
 msgstr "Ya tengo una cuenta en Prometeo!"
 
-#: .\templates\chatbot\index.html:22
+#: .\templates\chatbot\index.html:24
 msgid "I still don't have a Prometeo account..."
 msgstr "Aún no tengo una cuenta en Prometeo..."
 
-#: .\templates\chatbot\index.html:29
+#: .\templates\chatbot\index.html:31
 msgid "Create a Prometeo account..."
 msgstr "Crear una cuenta en Prometeo..."
 
-#: .\templates\chatbot\index.html:30
+#: .\templates\chatbot\index.html:32
 msgid "Try Prometeo Open Banking without an account!"
 msgstr "Probar Prometeo Open Banking sin una cuenta!"
 
-#: .\templates\chatbot\index.html:40
+#: .\templates\chatbot\index.html:42
 msgid "Let's go!"
 msgstr "Vamos!"
 
@@ -127,15 +178,15 @@ msgstr "Vamos!"
 msgid "Log in"
 msgstr "Iniciar sesión"
 
-#: .\views.py:140
+#: .\views.py:139
 msgid "Sorry, this provider is not available at the moment..."
 msgstr "Lo siento, este proveedor no está disponible de momento..."
 
-#: .\views.py:144
+#: .\views.py:143
 msgid "Wrong credentials!"
 msgstr "Credenciales erróneas!"
 
-#: .\views.py:151
+#: .\views.py:150
 msgid ""
 "Successfully logged in!\n"
 "To log out from this provider type <a class=\"message-link\">logout</a>.\n"
@@ -152,7 +203,7 @@ msgstr ""
 "<a class=\"message-link\">cuentas</a> para tus cuentas en este banco\n"
 "<a class=\"message-link\">tarjetas</a> para tus tarjetas en este banco"
 
-#: .\views.py:196
+#: .\views.py:198
 msgid ""
 "Hi! What do you want to do in Prometeo today?\n"
 "You can start by typing <a class=\"message-link\">banks</a>.\n"
@@ -163,30 +214,3 @@ msgstr ""
 "Puedes empezar escribiendo <a class=\"message-link\">bancos</a>.\n"
 "Si mis mensajes tienen enlaces, puedes hacerles click y yo lo escribiré por "
 "ti :)"
-
-msgid "name"
-msgstr "nombre"
-
-msgid "number"
-msgstr "número"
-
-msgid "branch"
-msgstr "sucursal"
-
-msgid "currency"
-msgstr "moneda"
-
-msgid "balance"
-msgstr "saldo"
-
-msgid "balance dollar"
-msgstr "saldo dólares"
-
-msgid "balance local"
-msgstr "saldo moneda local"
-
-msgid "close date"
-msgstr "fecha de cierre"
-
-msgid "due date"
-msgstr "fecha de vencimiento"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-22 19:55-0300\n"
+"POT-Creation-Date: 2022-09-23 00:56-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -74,7 +74,7 @@ msgid "The available banks per country are:"
 msgstr ""
 
 #: .\models.py:180 .\models.py:191 .\models.py:209 .\models.py:226
-#: .\models.py:248
+#: .\models.py:252
 msgid "It seems that you are not logged in..."
 msgstr ""
 
@@ -90,35 +90,87 @@ msgstr ""
 msgid "Your info"
 msgstr ""
 
-#: .\models.py:278
+#: .\models.py:218
+msgid "ID"
+msgstr ""
+
+#: .\models.py:219
+msgid "Name"
+msgstr ""
+
+#: .\models.py:220
+msgid "email"
+msgstr ""
+
+#: .\models.py:236
+msgid "balance"
+msgstr ""
+
+#: .\models.py:236
+msgid "branch"
+msgstr ""
+
+#: .\models.py:236
+msgid "currency"
+msgstr ""
+
+#: .\models.py:237 .\models.py:263
+msgid "id"
+msgstr ""
+
+#: .\models.py:237 .\models.py:263
+msgid "name"
+msgstr ""
+
+#: .\models.py:237 .\models.py:263
+msgid "number"
+msgstr ""
+
+#: .\models.py:262
+msgid "balance_dollar"
+msgstr "Balance (dollars)"
+
+#: .\models.py:262
+msgid "balance_local"
+msgstr "Balance (local currency)"
+
+#: .\models.py:262
+msgid "close_date"
+msgstr "Close date"
+
+#: .\models.py:263
+msgid "due_date"
+msgstr "Due date"
+
+#: .\models.py:281
 msgid "Beep-bop! Something went wrong... Please try again later..."
 msgstr ""
 
-#: .\templates\chatbot\chat.html:19
+#: .\templates\chatbot\chat.html:21
 msgid "Close"
 msgstr ""
 
-#: .\templates\chatbot\index.html:20
+#: .\templates\chatbot\index.html:22
 msgid "Hi! To play with Prometeo chatbot you must log in first:"
 msgstr ""
 
-#: .\templates\chatbot\index.html:21
+#: .\templates\chatbot\index.html:23
 msgid "I already have a Prometeo account!"
 msgstr ""
 
-#: .\templates\chatbot\index.html:22
+#: .\templates\chatbot\index.html:24
 msgid "I still don't have a Prometeo account..."
 msgstr ""
 
-#: .\templates\chatbot\index.html:29
+#: .\templates\chatbot\index.html:31
 msgid "Create a Prometeo account..."
 msgstr ""
 
-#: .\templates\chatbot\index.html:30
+#: .\templates\chatbot\index.html:32
 msgid "Try Prometeo Open Banking without an account!"
 msgstr ""
 
-#: .\templates\chatbot\index.html:40
+#: .\templates\chatbot\index.html:42
 msgid "Let's go!"
 msgstr ""
 
@@ -126,15 +178,15 @@ msgstr ""
 msgid "Log in"
 msgstr ""
 
-#: .\views.py:140
+#: .\views.py:139
 msgid "Sorry, this provider is not available at the moment..."
 msgstr ""
 
-#: .\views.py:144
+#: .\views.py:143
 msgid "Wrong credentials!"
 msgstr ""
 
-#: .\views.py:151
+#: .\views.py:150
 msgid ""
 "Successfully logged in!\n"
 "To log out from this provider type <a class=\"message-link\">logout</a>.\n"
@@ -144,7 +196,7 @@ msgid ""
 "<a class=\"message-link\">cards</a> for your cards in this provider"
 msgstr ""
 
-#: .\views.py:196
+#: .\views.py:198
 msgid ""
 "Hi! What do you want to do in Prometeo today?\n"
 "You can start by typing <a class=\"message-link\">banks</a>.\n"

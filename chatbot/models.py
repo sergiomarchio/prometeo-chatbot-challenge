@@ -215,12 +215,12 @@ class MessageProcessor:
         info = info_response['info']
 
         message = (_('Your info') + ":\n"
-                   f"{_('ID')}: {info['document']}\n"
-                   f"{_('Name')}: {info['name']}\n"
-                   f"{_('email')}: {info['email']}")
+                   + _('ID') + f": {info['document']}\n"
+                   + _('Name') + f": {info['name']}\n"
+                   + _('email') + f": {info['email']}")
 
         return BotMessage(message)
-    
+
     def action_account(self):
         if 'active_provider' not in self.cache:
             return BotMessage(_("It seems that you are not logged in..."))
@@ -231,6 +231,10 @@ class MessageProcessor:
 
         accounts = account_response['accounts']
         self.cache['active_provider']['accounts'] = accounts
+
+        # This is for translation purposes, so django can generate the .po with this strings
+        translation_names = (_('balance') + _('branch') + _('currency')
+                             + _('id') + _('name') + _('number'))
 
         message_parts = []
         for account in accounts:
@@ -254,10 +258,14 @@ class MessageProcessor:
         cards = card_response['credit_cards']
         self.cache['active_provider']['cards'] = cards
 
+        # This is for translation purposes, so django can generate the .po with this strings
+        translation_names = (_('balance_dollar') + _('balance_local') + _('close_date')
+                             + _('due_date') + _('id') + _('name') + _('number'))
+
         message_parts = []
         for card in cards:
             rows = [f'<div name="{key}" class="card row">'
-                    '<div class="key">' + _(key.replace("_", " ")) + ':</div>'
+                    '<div class="key">' + _(key) + ':</div>'
                     f'<div class="value">{value}</div>'
                     f'</div>' for key, value in card.items() if key != 'id']
 
