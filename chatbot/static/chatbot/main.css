@@ -22,7 +22,7 @@ body {
 }
 
 #main-page {
-    background: black url("images/background.png") no-repeat left center fixed;
+    background: url("images/Chatbot.png") right bottom / 70% no-repeat fixed, black url("images/Fondo-2-scaled.jpg") top/cover no-repeat fixed;
     display: flex;
     flex-direction: column;
     height: 100vh;
