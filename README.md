@@ -1,33 +1,55 @@
 # [Prometeo chatbot challenge](https://joinignitecommunity.com/desafio-chatbot/)
 
-This project implements a chatbot that allows the user to make use of the Prometeo Open Banking API functionality, from an easy to use and friendly interface.
+[Readme - english version](README_en.md)
+
+Este proyecto implementa un chatbot que permite al usuario utilizar las funcionalidades de la API de Prometeo Open Banking, desde una interfaz amigable y fácil de usar.
 
 by Sergio Marchio
 
-visit my website! [serg.ink](https://serg.ink)
+visita my sitio web! [serg.ink](https://serg.ink)
 
 
-The chatbot will be available during the contest evaluation period in [TODO set url](https://)
+El chatbot estará disponible durante la evaluación del desafío en [TODO set url](https://)
 
 
-## Setup
+## Instalación
 
-In order to run this project, you must
+Para poder ejecutar el proyecto, debes primero:
 
- - Create a secret.key file in the project root directory, with the django secure key in plain text format (can be generated with random characters, ideally with more than 50 characters and more than 5 unique characters.)
+ - Crear un archivo secret.key en la carpeta raíz del proyecto, con la clave segura de django en formato de texto plano (puede ser generada a partir de caracteres aleatorios, idealmente con más de 50 caracteres y más de 5 caracteres únicos.)
+ - Para usar la caraterísitica de usuario invitado, crear un archivo con el nombre 'api.key' en el directorio [chatbot](chatbot), conteniendo una clave API de Prometeo válida, en formato de texto plano.
 
- - To use the guest login feature, create a file named 'api.key' in the [chatbot](chatbot) directory, containing a vaild Prometeo API key in plain text.
+### Para ejecutar el servidor localmente
 
- - 
+ - crear un entorno virtual y activarlo
+```
+virtualenv prometeo
+source prometeo/bin/activate
+```
 
+ - instalar los paquetes requeridos
+```
+pip install -r requirements.txt
+```
 
-## Features
+ - Desde el directorio raíz de la aplicación, iniciar el servidor en el puerto deseado, ej: 8080
+```
+python manage.py runserver 8080 
+```
 
-The bot supports the following Prometeo operations:
+ - Ahora puedes acceder al chatbot desde tu navegador:
+```
+http://localhost:8080/
+```
 
-- Provider listing
-- Provider login with basic fields, including interactive login
-- Provider logout
+## Características
 
+El bot soporta las siguientes operaciones en Prometeo:
 
+- Listar los proveedores
+- Iniciar sesión en un proveedor con los campos requeridos, incluyendo inicio de sesión interactivo
+- Cerrar sesión en el proveedor
+- Información del usuario
+- Cuentas del usuario
+- Tarjetas del usuario
 
