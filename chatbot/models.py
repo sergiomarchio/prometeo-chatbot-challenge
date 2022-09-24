@@ -238,7 +238,7 @@ class MessageProcessor:
 
         message_parts = []
         for account in accounts:
-            rows = [f'<div name="{key}" class="account row">'
+            rows = [f'<div name="{key}" class="item row">'
                     '<div class="key">' + _(key) + ':</div>'
                     f'<div class="value">{value}</div>'
                     f'</div>' for key, value in account.items() if key != 'id']
@@ -264,7 +264,7 @@ class MessageProcessor:
 
         message_parts = []
         for card in cards:
-            rows = [f'<div name="{key}" class="card row">'
+            rows = [f'<div name="{key}" class="item row">'
                     '<div class="key">' + _(key) + ':</div>'
                     f'<div class="value">{value}</div>'
                     f'</div>' for key, value in card.items() if key != 'id']
