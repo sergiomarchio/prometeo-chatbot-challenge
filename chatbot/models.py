@@ -101,9 +101,8 @@ def normalize_string(string):
 
 class DateProcessor:
 
-    def __init__(self, language='en', date_format="%d/%m/%Y"):
+    def __init__(self, language='en'):
         self.language = language
-        self.date_format = date_format
         self.date_settings = {'DATE_ORDER': 'DMY' if language == 'es' else 'MDY',
                               'PREFER_DATES_FROM': 'past'}
         self.date_parser = DateDataParser(languages=[self.language], settings=self.date_settings)
@@ -145,14 +144,17 @@ class DateProcessor:
 
         return start_date
 
-    def get_date_range(self, string) -> Optional[List[datetime]]:
+    def get_date_range(self, string) -> List[datetime]:
         """
         Process a string looking for dates in any format.
         Parsing is done using dateparser package due to its flexibility.
         """
         dates = search_dates(string, languages=[self.language], settings=self.date_settings)
 
-        if len(dates) == 2:
+        if not dates:
+            return None
+
+        elif len(dates) == 2:
             # Get the string entered by the user to reprocess the dates and create range
             date_string_start, date_string_end = dates[0][0], dates[1][0]
 
@@ -168,7 +170,7 @@ class DateProcessor:
         elif len(dates) == 1:
             # Date entered by the user
             date_string = dates[0][0]
-            return [self.get_start_date(string), self.get_end_date(string)]
+            return [self.get_start_date(date_string), self.get_end_date(date_string)]
 
         return None
 
@@ -197,24 +199,27 @@ class MessageProcessor:
         any_before = r"^(.* +)?"
         any_after = r"( +.*)?$"
 
-        # Sequential parsing of message
+        # Sequential parsing of message. All action methods must have a **kwargs parameter,
+        # that will be used to pass matching regex named groups, if any
         actions = {
             _("log *out"): self.action_logout,
             _("customers?"): self.action_client,
             _("banks?"): self.action_provider,
+            _("_regex_account") + " +(?P<account_number>.*?) +" + _("_regex_movement") + " *(?P<dates>.*?)": self.action_account_movement,
             _("accounts?"): self.action_account,
             _("cards?"): self.action_card,
             _("(data)|(info)"): self.action_info,
-            _("(hi)|(hello)"): lambda: BotMessage(_("Hello! Nice to meet you :)")),
+            _("(hi)|(hello)"): lambda **kwargs: BotMessage(_("Hello! Nice to meet you :)")),
         }
 
         for pattern, action in actions.items():
-            if re.match(any_before + pattern + any_after, normalized_message):
-                return action()
+            match = re.match(any_before + pattern + any_after, normalized_message)
+            if match:
+                return action(**match.groupdict())
 
         return BotMessage(_("Sorry, could you give me more details about what you want to do?"))
 
-    def action_provider(self) -> BotMessage:
+    def action_provider(self, **kwargs) -> BotMessage:
         provider_response = meta.Provider(self.api_key)
         provider_response.validate_response()
 
@@ -255,7 +260,7 @@ class MessageProcessor:
                          logo=logo,
                          name=provider['bank']['name'])
 
-    def action_logout(self) -> BotMessage:
+    def action_logout(self, **kwargs) -> BotMessage:
         if 'active_provider' not in self.cache:
             return BotMessage(_("It seems that you are not logged in..."))
 
@@ -266,7 +271,7 @@ class MessageProcessor:
 
         return BotMessage(_("Thank you for operating with ") + f"{name}")
 
-    def action_client(self) -> BotMessage:
+    def action_client(self, **kwargs) -> BotMessage:
         if 'active_provider' not in self.cache:
             return BotMessage(_("It seems that you are not logged in..."))
 
@@ -284,7 +289,7 @@ class MessageProcessor:
 
         return BotMessage(client_names)
 
-    def action_info(self):
+    def action_info(self, **kwargs):
         if 'active_provider' not in self.cache:
             return BotMessage(_("It seems that you are not logged in..."))
 
@@ -301,7 +306,7 @@ class MessageProcessor:
 
         return BotMessage(message)
 
-    def action_account(self):
+    def action_account(self, **kwargs):
         if 'active_provider' not in self.cache:
             return BotMessage(_("It seems that you are not logged in..."))
 
@@ -327,7 +332,58 @@ class MessageProcessor:
 
         return BotMessage("\n".join(message_parts))
 
-    def action_card(self):
+    def action_account_movement(self, account_number=None, dates=None, **kwargs):
+        if 'active_provider' not in self.cache:
+            return BotMessage(_("It seems that you are not logged in..."))
+
+        if not account_number:
+            return BotMessage(_('Please provide an account number...\n'
+                                'Usage: "account <account number> movements"'))
+
+        if 'accounts' not in self.cache['active_provider']:
+            self.cache['active_provider']['accounts'] = transactional.Account(self.api_key,
+                                                                              self.cache['active_provider'].get('key')).response_json
+
+        if not dates:
+            return BotMessage(_("Please enter the dates that you want to check for account movements\n"))
+
+        date_range = DateProcessor(language=self.request.LANGUAGE_CODE).get_date_range(dates)
+        if not date_range:
+            return BotMessage(_("Sorry, could not get the dates, try using words like 'august 2020' "
+                                "or with the format dd/mm/YYYY"))
+
+        date_start, date_end = date_range
+        if date_start > date_end:
+            return BotMessage(_("Sorry, the first date must be before the second date..."))
+
+        movements = None
+
+        for account in self.cache['active_provider']['accounts']['accounts']:
+            if account_number == account['number']:
+                movements = transactional.AccountMovement(self.api_key,
+                                                          self.cache['active_provider'].get('key'),
+                                                          account_number=account_number,
+                                                          currency=account['currency'],
+                                                          date_start=date_start,
+                                                          date_end=date_end
+                                                          ).response_json
+
+        if not movements:
+            return BotMessage(_("Sorry, could not find that account..."
+                                "Please check that the account number is correct..."))
+
+        message_parts = []
+        for movement in movements['movements']:
+            rows = [f'<div name="{key}" class="item row">'
+                    '<div class="key">' + _(key) + ':</div>'
+                    f'<div class="value">{value}</div>'
+                    f'</div>' for key, value in movement.items() if key in ('date', 'detail', 'debit', 'credit')]
+
+            message_parts += [f'<div class="item link" name=\"{movement["id"]}\">' + "\n".join(rows) + '</div>']
+
+        return BotMessage("\n".join(message_parts))
+
+    def action_card(self, **kwargs):
         if 'active_provider' not in self.cache:
             return BotMessage(_("It seems that you are not logged in..."))
 
