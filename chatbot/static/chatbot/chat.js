@@ -28,6 +28,10 @@ function clearAll() {
 function showBaseModal() {
     mainPage.setAttribute("inert", "");
     baseModal.classList.add("modal-show");
+
+    setTimeout(() => {
+         modalContent.querySelector(".input-field").focus();
+    }, 50);
 }
 
 function hideBaseModal() {
@@ -60,10 +64,6 @@ function showModalForm(html) {
         showBaseModal();
     }
 
-    setTimeout(() => {
-         modalContent.querySelector(".input-field").focus();
-    }, 100);
-
 }
 
 function exitModal(timeout = 500) {
@@ -72,6 +72,7 @@ function exitModal(timeout = 500) {
     var modalContent = document.getElementById("modal-content");
     setTimeout(() => {
         modalContent.innerHTML = "";
+        userMessageField.focus();
         }, timeout);
 }
 
