@@ -89,11 +89,11 @@ class DateProcessor:
             date_string_start, date_string_end = dates[0][0], dates[1][0]
 
             # Process the second date
-            end_date = self.get_end_date(string)
+            end_date = self.get_end_date(date_string_end)
 
             # Get the first date relative to the second date,
             # in order to get consistent results if range is something like "december to january"
-            start_date = self.get_start_date(string, end_date)
+            start_date = self.get_start_date(date_string_start, end_date)
 
             return [start_date, end_date]
 
