@@ -1,6 +1,8 @@
+import re
+import unicodedata
 from calendar import monthrange
 from datetime import datetime
-from typing import Optional, List, Tuple
+from typing import Optional, List, Tuple, Callable
 
 from dateparser.date import DateDataParser
 from dateparser.search import search_dates
@@ -125,3 +127,33 @@ class DateProcessor:
 
         return date_start, date_end
 
+
+class ActionSelector:
+    """
+    Defines the object used to select an action, based on a string (message)
+    by applying a regex criteria if the precondition is met
+    """
+
+    def __init__(self, selection_criteria: str, action: Callable, precondition: Callable[[], bool] = None):
+        self.selection_criteria = selection_criteria
+        self.action = action
+        self.precondition = precondition
+
+    def act_on(self, string):
+        """
+        Checks if the criteria regex has any match in the target string.
+        If so, calls the action passing as parameters the named groups that matches,
+        returning the result of the action if the precondition is met
+        """
+        match = re.search(self.selection_criteria, string)
+        print("criteria", self.selection_criteria, "-------------")
+        if match and (not self.precondition or self.precondition()):
+            return self.action(**match.groupdict())
+
+        return None
+
+
+def normalize_string(string):
+    return (unicodedata.normalize('NFD', string)
+            .encode('ascii', 'ignore').decode()
+            .lower())

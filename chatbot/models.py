@@ -5,13 +5,11 @@ from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
 import re
-from typing import Callable
-import unicodedata
 
 from .api import auth, meta, transactional
 from . import settings
 from .forms import ProviderLoginForm
-from .utils import Dictionarizable, DateProcessor, BotException
+from .utils import Dictionarizable, DateProcessor, BotException, ActionSelector, normalize_string
 
 
 class ApiKey:
@@ -87,37 +85,6 @@ class MessageHistory:
     def messages(self):
         for message in self.message_history:
             yield {"sender": message.sender, "content": message.content}
-
-
-def normalize_string(string):
-    return (unicodedata.normalize('NFD', string)
-            .encode('ascii', 'ignore').decode()
-            .lower())
-
-
-class ActionSelector:
-    """
-    Defines the object used to select an action, based on a string (message)
-    by applying a regex criteria if the precondition is met
-    """
-
-    def __init__(self, selection_criteria: str, action: Callable, precondition: Callable[[], bool] = None):
-        self.selection_criteria = selection_criteria
-        self.action = action
-        self.precondition = precondition
-
-    def act_on(self, string):
-        """
-        Checks if the criteria regex has any match in the target string.
-        If so, calls the action passing as parameters the named groups that matches,
-        returning the result of the action if the precondition is met
-        """
-        match = re.search(self.selection_criteria, string)
-        print("criteria", self.selection_criteria, "-------------")
-        if match and (not self.precondition or self.precondition()):
-            return self.action(**match.groupdict())
-
-        return None
 
 
 class MessageProcessor:
