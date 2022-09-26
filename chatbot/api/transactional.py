@@ -63,7 +63,7 @@ class CreditCard(Api):
 
 
 class CreditCardMovement(Api):
-    parameters = "credit-card/{card_number}/movements/"
+    parameters = "credit-card/{card_number}/movements"
     method = Method.GET
     date_format = "%d/%m/%Y"
 

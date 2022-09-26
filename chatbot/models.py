@@ -113,6 +113,7 @@ class ActionSelector:
         returning the result of the action if the precondition is met
         """
         match = re.search(self.selection_criteria, string)
+        print("criteria", self.selection_criteria, "-------------")
         if match and (not self.precondition or self.precondition()):
             return self.action(**match.groupdict())
 
@@ -203,6 +204,9 @@ class MessageProcessor:
                            + " *(?P<dates>.*)",
                            self.action_account_movement, self.require_logged_in),
             ActionSelector(_("accounts?"), self.action_account, self.require_logged_in),
+            ActionSelector(_("_regex_card") + " *(?P<card_number>.*?) *" + _("_regex_movement")
+                           + " *" + _("_regex_currency") + "? *(?P<currency>[A-Za-z]{3}?)" + " *(?P<dates>.*)",
+                           self.action_credit_card_movement, self.require_logged_in),
             ActionSelector(_("cards?"), self.action_card, self.require_logged_in),
             ActionSelector(_("(data)|(info)"), self.action_info, self.require_logged_in),
             ActionSelector(_("(hi)|(hello)"), lambda **kwargs: BotMessage(_("Hello! Nice to meet you :)")))
@@ -328,7 +332,7 @@ class MessageProcessor:
                     '<div class="key">' + _(key) + ':</div>'
                                                    f'<div class="value">{value}</div>'
                                                    f'</div>' for key, value in movement.items() if
-                    key in ('date', 'detail', 'debit', 'credit')]
+                    key in ('reference', 'date', 'detail', 'debit', 'credit')]
 
             message_parts += [f'<div class="item link" name=\"{movement["id"]}\">' + "\n".join(rows) + '</div>']
 
@@ -347,6 +351,44 @@ class MessageProcessor:
                                                    f'</div>' for key, value in card.items() if key != 'id']
 
             message_parts += [f'<div class="item link" name=\"{card["id"]}\">' + "\n".join(rows) + '</div>']
+
+        return BotMessage("\n".join(message_parts))
+
+    def action_credit_card_movement(self, card_number=None, dates=None, currency: str = None, **kwargs):
+        if not card_number:
+            return BotMessage(_('Please provide a credit card number...\n'
+                                'Usage: "card <card number> movements"'))
+
+        if not currency or not re.match("[A-Z]{3}", currency.upper()):
+            return BotMessage(_('Please provide a currency symbol for the transactions\n'
+                                'e.g. USD for United States Dollars, UYU for Uruguayan peso'))
+
+        date_start, date_end = DateProcessor(language=self.request.LANGUAGE_CODE).get_valid_date_range(dates)
+
+        movements = None
+        for credit_card in self.session_credit_cards:
+            if card_number == credit_card['number']:
+                movements = transactional.CreditCardMovement(self.api_key,
+                                                             self.provider_session.get('key'),
+                                                             card_number=card_number,
+                                                             currency=currency.upper(),
+                                                             date_start=date_start,
+                                                             date_end=date_end
+                                                             ).successful_json()
+
+        if not movements:
+            return BotMessage(_("Sorry, could not find that credit card..."
+                                "Please check that the card number is correct..."))
+
+        message_parts = []
+        for movement in movements['movements']:
+            rows = [f'<div name="{key}" class="item row">'
+                    '<div class="key">' + _(key) + ':</div>'
+                                                   f'<div class="value">{value}</div>'
+                                                   f'</div>' for key, value in movement.items() if
+                    key in ('reference', 'date', 'detail', 'debit', 'credit')]
+
+            message_parts += [f'<div class="item link" name=\"{movement["id"]}\">' + "\n".join(rows) + '</div>']
 
         return BotMessage("\n".join(message_parts))
 
