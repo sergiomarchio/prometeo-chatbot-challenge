@@ -60,3 +60,23 @@ class CreditCard(Api):
         return (self.response.status_code == 200
                 and self.response_json.get('status') == "success"
                 and 'credit_cards' in self.response_json)
+
+
+class CreditCardMovement(Api):
+    parameters = "credit-card/{card_number}/movements/"
+    method = Method.GET
+    date_format = "%d/%m/%Y"
+
+    def __init__(self, api_key, key, card_number, currency, date_start: datetime, date_end: datetime):
+        super().__init__(api_key,
+                         path_params={'card_number': card_number},
+                         query_params={'key': key,
+                                       'currency': currency,
+                                       'date_start': date_start.strftime(self.date_format),
+                                       'date_end': date_end.strftime(self.date_format)
+                                       })
+
+    def is_ok(self) -> bool:
+        return (self.response.status_code == 200
+                and self.response_json.get('status') == "success"
+                and 'movements' in self.response_json)

@@ -11,7 +11,8 @@ from .api import api, auth, meta
 from .forms import LoginForm, ChatForm, ProviderLoginForm
 from .models import ApiKey, MessageHistory, MessageProcessor, \
     Message, BotMessage, UserMessage, \
-    ErrorResponse, ModalForm, BotException
+    ErrorResponse, ModalForm
+from .utils import BotException
 
 
 def log_me_in(session: dict, api_key: str) -> bool:
