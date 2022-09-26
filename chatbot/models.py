@@ -224,6 +224,19 @@ class MessageProcessor:
     def provider_session(self):
         del self.cache['provider_session']
 
+    @property
+    def session_accounts(self):
+        self.require_logged_in()
+
+        accounts = self.provider_session.get('accounts')
+        if not accounts:
+            accounts = transactional.Account(self.api_key, self.provider_session.get('key')
+                                             ).successful_json()['accounts']
+
+            self.provider_session['accounts'] = accounts
+
+        return accounts
+
     def is_user_logged_in(self):
         return self.provider_session and 'key' in self.provider_session
     
@@ -345,17 +358,12 @@ class MessageProcessor:
         return BotMessage(message)
 
     def action_account(self, **kwargs):
-        account_response = transactional.Account(self.api_key, self.provider_session.get('key')).successful_json()
-
-        accounts = account_response['accounts']
-        self.provider_session['accounts'] = accounts
-
         # This is for translation purposes, so django can generate the .po with this strings
         translation_names = (_('balance') + _('branch') + _('currency')
                              + _('id') + _('name') + _('number'))
 
         message_parts = []
-        for account in accounts:
+        for account in self.session_accounts:
             rows = [f'<div name="{key}" class="item row">'
                     '<div class="key">' + _(key) + ':</div>'
                                                    f'<div class="value">{value}</div>'
@@ -369,10 +377,6 @@ class MessageProcessor:
         if not account_number:
             return BotMessage(_('Please provide an account number...\n'
                                 'Usage: "account <account number> movements"'))
-
-        if 'accounts' not in self.provider_session:
-            self.provider_session['accounts'] = transactional.Account(self.api_key,
-                                                                      self.provider_session.get('key')).successful_json()
 
         if not dates:
             return BotMessage(_("Please enter the dates that you want to check for account movements\n"))
@@ -390,8 +394,7 @@ class MessageProcessor:
             return BotMessage(_("Sorry, I can't see the future... yet ;)"))
 
         movements = None
-
-        for account in self.provider_session['accounts']['accounts']:
+        for account in self.session_accounts:
             if account_number == account['number']:
                 movements = transactional.AccountMovement(self.api_key,
                                                           self.provider_session.get('key'),
