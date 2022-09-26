@@ -1,5 +1,5 @@
 from django.core.exceptions import BadRequest
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
@@ -11,7 +11,7 @@ from .api import api, auth, meta
 from .forms import LoginForm, ChatForm, ProviderLoginForm
 from .models import ApiKey, MessageHistory, MessageProcessor, \
     Message, BotMessage, UserMessage, \
-    ErrorResponse, ModalForm
+    ErrorResponse, ModalForm, BotException
 
 
 def log_me_in(session: dict, api_key: str) -> bool:
@@ -95,6 +95,8 @@ def process_message(request):
 
     try:
         processing_result = MessageProcessor(request.session['cache'], request).process_message(user_message_content)
+    except BotException as e:
+        processing_result = BotMessage(e.message)
     except api.ApiException as e:
         return ErrorResponse(f"Beep-bop! {e.message}", status=e.status)
     except Exception as e:
@@ -120,16 +122,16 @@ def provider_login(request):
     """
     validate_ajax(request)
 
-    active_provider = request.session['cache']['active_provider']
-    provider = active_provider['provider']
+    provider_session = request.session['cache']['provider_session']
+    provider = provider_session['provider']
     credentials = {
         "provider": provider['name'],
         **json.loads(request.body),
-        **active_provider.get("credentials", {})
+        **provider_session.get("credentials", {})
     }
 
     login = auth.Login(request.session['cache']['api-key'],
-                       key=active_provider.get('key'), data=credentials)
+                       key=provider_session.get('key'), data=credentials)
     login_response = login.response_json
     status = login_response.get('status')
 
@@ -144,7 +146,7 @@ def provider_login(request):
 
     login.validate_response()
 
-    active_provider['key'] = login_response['key']
+    provider_session['key'] = login_response['key']
 
     if status == "logged_in":
         message = BotMessage(_('Successfully logged in!\n'
@@ -160,7 +162,7 @@ def provider_login(request):
         return JsonResponse(message.dict(), status=200)
 
     elif status == "interaction_required":
-        active_provider['credentials'] = credentials
+        provider_session['credentials'] = credentials
         logo = provider['logo']
 
         provider_fields = [

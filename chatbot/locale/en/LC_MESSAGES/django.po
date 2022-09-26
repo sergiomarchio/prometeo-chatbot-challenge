@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-23 00:56-0300\n"
+"POT-Creation-Date: 2022-09-25 20:37-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,116 +33,151 @@ msgstr ""
 msgid "Type your message here..."
 msgstr ""
 
-#: .\models.py:122
-msgid "log *out"
-msgstr ""
-
-#: .\models.py:123
-msgid "customers?"
-msgstr ""
-
-#: .\models.py:124
-msgid "banks?"
-msgstr ""
-
-#: .\models.py:125
-msgid "accounts?"
-msgstr ""
-
-#: .\models.py:126
-msgid "cards?"
-msgstr ""
-
-#: .\models.py:127
-msgid "(data)|(info)"
-msgstr ""
-
-#: .\models.py:128
-msgid "(hi)|(hello)"
-msgstr ""
-
-#: .\models.py:128
-msgid "Hello! Nice to meet you :)"
-msgstr ""
-
-#: .\models.py:135
-msgid "Sorry, could you give me more details about what you want to do?"
-msgstr ""
-
-#: .\models.py:147
-msgid "The available banks per country are:"
-msgstr ""
-
-#: .\models.py:180 .\models.py:191 .\models.py:209 .\models.py:226
-#: .\models.py:252
-msgid "It seems that you are not logged in..."
-msgstr ""
-
-#: .\models.py:187
-msgid "Thank you for operating with "
-msgstr ""
-
-#: .\models.py:201
-msgid "There are no registered customers for this user"
-msgstr ""
-
-#: .\models.py:217
-msgid "Your info"
-msgstr ""
-
-#: .\models.py:218
-msgid "ID"
+#: .\models.py:208
+#, python-brace-format
+msgid "You are already logged in {provider}, please <a class=\"message-link\">logout</a> first"
 msgstr ""
 
 #: .\models.py:219
-msgid "Name"
+msgid "log *out"
 msgstr ""
 
 #: .\models.py:220
+msgid "customers?"
+msgstr ""
+
+#: .\models.py:221
+msgid "banks?"
+msgstr ""
+
+#: .\models.py:222
+msgid "_regex_account"
+msgstr "accounts?"
+
+#: .\models.py:222
+msgid "_regex_movement"
+msgstr "movements?"
+
+#: .\models.py:223
+msgid "accounts?"
+msgstr ""
+
+#: .\models.py:224
+msgid "cards?"
+msgstr ""
+
+#: .\models.py:225
+msgid "(data)|(info)"
+msgstr ""
+
+#: .\models.py:226
+msgid "(hi)|(hello)"
+msgstr ""
+
+#: .\models.py:226
+msgid "Hello! Nice to meet you :)"
+msgstr ""
+
+#: .\models.py:234
+msgid "Sorry, could you give me more details about what you want to do?"
+msgstr ""
+
+#: .\models.py:246
+msgid "The available banks per country are:"
+msgstr ""
+
+#: .\models.py:279 .\models.py:290 .\models.py:308 .\models.py:325
+#: .\models.py:351 .\models.py:402
+msgid "It seems that you are not logged in..."
+msgstr ""
+
+#: .\models.py:286
+msgid "Thank you for operating with "
+msgstr ""
+
+#: .\models.py:300
+msgid "There are no registered customers for this user"
+msgstr ""
+
+#: .\models.py:316
+msgid "Your info"
+msgstr ""
+
+#: .\models.py:317
+msgid "ID"
+msgstr ""
+
+#: .\models.py:318
+msgid "Name"
+msgstr ""
+
+#: .\models.py:319
 msgid "email"
 msgstr ""
 
-#: .\models.py:236
+#: .\models.py:335
 msgid "balance"
 msgstr ""
 
-#: .\models.py:236
+#: .\models.py:335
 msgid "branch"
 msgstr ""
 
-#: .\models.py:236
+#: .\models.py:335
 msgid "currency"
 msgstr ""
 
-#: .\models.py:237 .\models.py:263
+#: .\models.py:336 .\models.py:413
 msgid "id"
 msgstr ""
 
-#: .\models.py:237 .\models.py:263
+#: .\models.py:336 .\models.py:413
 msgid "name"
 msgstr ""
 
-#: .\models.py:237 .\models.py:263
+#: .\models.py:336 .\models.py:413
 msgid "number"
 msgstr ""
 
-#: .\models.py:262
+#: .\models.py:354
+msgid ""
+"Please provide an account number...\n"
+"Usage: \"account <account number> movements\""
+msgstr ""
+
+#: .\models.py:362
+msgid "Please enter the dates that you want to check for account movements\n"
+msgstr ""
+
+#: .\models.py:366
+msgid "Sorry, could not get the dates, try using words like 'august 2020' or with the format dd/mm/YYYY"
+msgstr ""
+
+#: .\models.py:371
+msgid "Sorry, the first date must be before the second date..."
+msgstr ""
+
+#: .\models.py:386
+msgid "Sorry, could not find that account...Please check that the account number is correct..."
+msgstr ""
+
+#: .\models.py:412
 msgid "balance_dollar"
 msgstr "Balance (dollars)"
 
-#: .\models.py:262
+#: .\models.py:412
 msgid "balance_local"
 msgstr "Balance (local currency)"
 
-#: .\models.py:262
+#: .\models.py:412
 msgid "close_date"
 msgstr "Close date"
 
-#: .\models.py:263
+#: .\models.py:413
 msgid "due_date"
 msgstr "Due date"
 
-#: .\models.py:281
+#: .\models.py:431
 msgid "Beep-bop! Something went wrong... Please try again later..."
 msgstr ""
 
@@ -200,6 +235,5 @@ msgstr ""
 msgid ""
 "Hi! What do you want to do in Prometeo today?\n"
 "You can start by typing <a class=\"message-link\">banks</a>.\n"
-"If my messages have links, you can click them and I will write that for "
-"you :)"
+"If my messages have links, you can click them and I will write that for you :)"
 msgstr ""
