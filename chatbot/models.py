@@ -200,7 +200,6 @@ class ActionSelector:
         """
         match = re.search(self.selection_criteria, string)
         if match and (not self.precondition or self.precondition()):
-            print("I'm in!")
             return self.action(**match.groupdict())
 
         return None
@@ -261,7 +260,7 @@ class MessageProcessor:
             ActionSelector(_("customers?"), self.action_client, self.require_logged_in),
             ActionSelector(_("banks?"), self.action_provider, self.require_not_logged_in),
             ActionSelector(_("_regex_account") + " +(?P<account_number>.*?) +" + _("_regex_movement")
-                           + " *(?P<dates>.*?)",
+                           + " *(?P<dates>.*)",
                            self.action_account_movement, self.require_logged_in),
             ActionSelector(_("accounts?"), self.action_account, self.require_logged_in),
             ActionSelector(_("cards?"), self.action_card, self.require_logged_in),
@@ -397,6 +396,9 @@ class MessageProcessor:
         date_start, date_end = date_range
         if date_start > date_end:
             return BotMessage(_("Sorry, the first date must be before the second date..."))
+
+        if date_end > datetime.today():
+            return BotMessage(_("Sorry, I can't see the future... yet ;)"))
 
         movements = None
 
