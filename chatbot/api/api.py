@@ -63,7 +63,7 @@ class Api:
             else:
                 raise NameError(f"Unsupported method: '{self.method}'")
 
-            self.log_response()
+            self._log_response()
 
         return self._response
 
@@ -81,9 +81,11 @@ class Api:
         """
         pass
 
-    def validate_response(self):
+    def successful_json(self):
         """
-        Checks if the API was successful or not, raising API Exception if not
+        Checks if the API was successful or not, raising ApiException if not.
+        @return
+        json response
         """
         if not self.response:
             raise ApiException(_("Something went wrong!"))
@@ -94,7 +96,9 @@ class Api:
         if not self.is_ok():
             raise ApiException(_("Something went wrong... Please try again later..."))
 
-    def log_response(self):
+        return self.response_json
+
+    def _log_response(self):
         print()
         print(self.url)
         print(self.headers)

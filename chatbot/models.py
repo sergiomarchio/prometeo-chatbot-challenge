@@ -276,10 +276,7 @@ class MessageProcessor:
         return BotMessage(_("Sorry, could you give me more details about what you want to do?"))
 
     def action_provider(self, **kwargs) -> BotMessage:
-        provider_response = meta.Provider(self.api_key)
-        provider_response.validate_response()
-
-        provider_response = provider_response.response_json
+        provider_response = meta.Provider(self.api_key).successful_json()
 
         banks_per_country = defaultdict(list)
         for bank in provider_response['providers']:
@@ -294,9 +291,7 @@ class MessageProcessor:
         return BotMessage(bank_string)
 
     def action_login(self, provider_code) -> ModalForm:
-        provider = meta.ProviderDetail(self.api_key, provider_code=provider_code)
-        provider.validate_response()
-        provider_response = provider.response_json
+        provider_response = meta.ProviderDetail(self.api_key, provider_code=provider_code).successful_json()
 
         provider = provider_response['provider']
         self.provider_session = {'provider': provider}
@@ -317,7 +312,7 @@ class MessageProcessor:
                          name=provider['bank']['name'])
 
     def action_logout(self, **kwargs) -> BotMessage:
-        auth.Logout(self.api_key, self.provider_session.get('key')).validate_response()
+        auth.Logout(self.api_key, self.provider_session.get('key')).successful_json()
 
         name = self.provider_session['bank']['name']
         del self.provider_session
@@ -325,9 +320,7 @@ class MessageProcessor:
         return BotMessage(_("Thank you for operating with ") + f"{name}")
 
     def action_client(self, **kwargs) -> BotMessage:
-        client_api = auth.Client(self.api_key, self.provider_session.get('key'))
-        client_api.validate_response()
-        client_response = client_api.response_json
+        client_response = auth.Client(self.api_key, self.provider_session.get('key')).successful_json()
 
         clients = client_response['clients']
         self.provider_session['clients'] = clients
@@ -340,9 +333,7 @@ class MessageProcessor:
         return BotMessage(client_names)
 
     def action_info(self, **kwargs):
-        info_api = transactional.Info(self.api_key, self.provider_session.get('key'))
-        info_api.validate_response()
-        info_response = info_api.response_json
+        info_response = transactional.Info(self.api_key, self.provider_session.get('key')).successful_json()
 
         info = info_response['info']
 
@@ -354,9 +345,7 @@ class MessageProcessor:
         return BotMessage(message)
 
     def action_account(self, **kwargs):
-        account_api = transactional.Account(self.api_key, self.provider_session.get('key'))
-        account_api.validate_response()
-        account_response = account_api.response_json
+        account_response = transactional.Account(self.api_key, self.provider_session.get('key')).successful_json()
 
         accounts = account_response['accounts']
         self.provider_session['accounts'] = accounts
@@ -383,7 +372,7 @@ class MessageProcessor:
 
         if 'accounts' not in self.provider_session:
             self.provider_session['accounts'] = transactional.Account(self.api_key,
-                                                                      self.provider_session.get('key')).response_json
+                                                                      self.provider_session.get('key')).successful_json()
 
         if not dates:
             return BotMessage(_("Please enter the dates that you want to check for account movements\n"))
@@ -410,7 +399,7 @@ class MessageProcessor:
                                                           currency=account['currency'],
                                                           date_start=date_start,
                                                           date_end=date_end
-                                                          ).response_json
+                                                          ).successful_json()
 
         if not movements:
             return BotMessage(_("Sorry, could not find that account..."
@@ -429,9 +418,7 @@ class MessageProcessor:
         return BotMessage("\n".join(message_parts))
 
     def action_card(self, **kwargs):
-        card_api = transactional.Card(self.api_key, self.provider_session.get('key'))
-        card_api.validate_response()
-        card_response = card_api.response_json
+        card_response = transactional.Card(self.api_key, self.provider_session.get('key')).successful_json()
 
         cards = card_response['credit_cards']
         self.provider_session['cards'] = cards

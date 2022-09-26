@@ -132,11 +132,11 @@ def provider_login(request):
 
     login = auth.Login(request.session['cache']['api-key'],
                        key=provider_session.get('key'), data=credentials)
-    login_response = login.response_json
-    status = login_response.get('status')
+
+    status = login.response_json.get('status')
 
     if status == "error":
-        message = login_response['message']
+        message = login.response_json['message']
         if message == "Unauthorized provider":
             return ErrorResponse(_('Sorry, this provider is not available at the moment...'),
                                  status=400)
@@ -144,7 +144,7 @@ def provider_login(request):
     elif status == "wrong_credentials":
         return JsonResponse({'modal-feedback': _('Wrong credentials!')}, status=400)
 
-    login.validate_response()
+    login_response = login.successful_json()
 
     provider_session['key'] = login_response['key']
 
