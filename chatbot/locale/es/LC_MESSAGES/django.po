@@ -1,31 +1,31 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Sergio Marchio <serg@serg.ink>, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-25 23:35-0300\n"
+"POT-Creation-Date: 2022-09-26 02:43-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Last-Translator: Sergio Marchio <serg@serg.ink>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: Spanish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\api\api.py:89
+#: .\api\api.py:91
 msgid "Something went wrong!"
 msgstr "Algo salió mal!"
 
-#: .\api\api.py:92
+#: .\api\api.py:94
 msgid "There was an error with the API key, please start again..."
 msgstr "Hubo un error con la API key, por favor comienza nuevamente..."
 
-#: .\api\api.py:95
+#: .\api\api.py:97
 msgid "Something went wrong... Please try again later..."
 msgstr "Algo salió mal... por favor vuelve a intentarlo más tarde..."
 
@@ -33,154 +33,160 @@ msgstr "Algo salió mal... por favor vuelve a intentarlo más tarde..."
 msgid "Type your message here..."
 msgstr "Escribe tu mensaje aquí..."
 
-#: .\models.py:234
+#: .\models.py:173
 msgid "You must log in first!"
-msgstr ""
+msgstr "Primero debes iniciar sesión!"
 
-#: .\models.py:239
+#: .\models.py:178
 #, python-brace-format
 msgid "You are already logged in {provider}, please <a class=\"message-link\">logout</a> first"
 msgstr "Ya has iniciado sesión en {provider}, primero debes <a class=\"message-link\">salir</a>."
 
-#: .\models.py:261
-msgid "log *out"
+#: .\models.py:200
+msgid "_regex_logout"
 msgstr "salir"
 
-#: .\models.py:262
-msgid "customers?"
+#: .\models.py:201
+msgid "_regex_customer"
 msgstr "clientes?"
 
-#: .\models.py:263
-msgid "banks?"
+#: .\models.py:202
+msgid "_regex_bank"
 msgstr "bancos?"
 
-#: .\models.py:264
+#: .\models.py:203 .\models.py:206
 msgid "_regex_account"
 msgstr "cuentas?"
 
-#: .\models.py:264
+#: .\models.py:203 .\models.py:207
 msgid "_regex_movement"
 msgstr "movimientos?"
 
-#: .\models.py:268
-msgid "accounts?"
-msgstr "cuentas?"
+#: .\models.py:207 .\models.py:210
+msgid "_regex_card"
+msgstr "tarjetas?( de credito)?"
 
-#: .\models.py:269
-msgid "cards?"
-msgstr "tarjetas?"
+#: .\models.py:208
+msgid "_regex_currency"
+msgstr "moneda"
 
-#: .\models.py:270
-msgid "(data)|(info)"
-msgstr "(datos)|(info)"
+#: .\models.py:211
+msgid "_regex_info"
+msgstr "(mis )?((datos)|(info))"
 
-#: .\models.py:271
-msgid "(hi)|(hello)"
-msgstr "hola"
+#: .\models.py:212
+msgid "_regex_greeting"
+msgstr "(hola)|(buenas)"
 
-#: .\models.py:271
+#: .\models.py:212
 msgid "Hello! Nice to meet you :)"
 msgstr "¡Hola! Gusto en conocerte :)"
 
-#: .\models.py:279
+#: .\models.py:220
 msgid "Sorry, could you give me more details about what you want to do?"
 msgstr "Lo siento, podrías darme más detalles acerca de lo que quieres hacer?"
 
-#: .\models.py:291
+#: .\models.py:229
 msgid "The available banks per country are:"
 msgstr "Los bancos disponibles por país son:"
 
-#: .\models.py:328
+#: .\models.py:264
 msgid "Thank you for operating with "
 msgstr "Gracias por operar con "
 
-#: .\models.py:339
+#: .\models.py:273
 msgid "There are no registered customers for this user"
 msgstr "No hay clientes registrados para este usuario"
 
-#: .\models.py:352
+#: .\models.py:284
 msgid "Your info"
 msgstr "Tu información"
 
-#: .\models.py:353
+#: .\models.py:285
 msgid "ID"
 msgstr ""
 
-#: .\models.py:354
+#: .\models.py:286
 msgid "Name"
 msgstr "Nombre"
 
-#: .\models.py:355
+#: .\models.py:287
 msgid "email"
 msgstr "Correo electrónico"
 
-#: .\models.py:368
+#: .\models.py:293
 msgid "balance"
 msgstr "Saldo"
 
-#: .\models.py:368
+#: .\models.py:293
 msgid "branch"
-msgstr "sucursal"
+msgstr "Sucursal"
 
-#: .\models.py:368
+#: .\models.py:293
 msgid "currency"
-msgstr "moneda"
+msgstr "Moneda"
 
-#: .\models.py:369 .\models.py:444
+#: .\models.py:294 .\models.py:344
 msgid "id"
-msgstr ""
+msgstr "ID"
 
-#: .\models.py:369 .\models.py:444
+#: .\models.py:294 .\models.py:344
 msgid "name"
-msgstr "nombre"
+msgstr "Nombre"
 
-#: .\models.py:369 .\models.py:444
+#: .\models.py:294 .\models.py:344
 msgid "number"
-msgstr "número"
+msgstr "Número"
 
-#: .\models.py:384
+#: .\models.py:309
 msgid ""
 "Please provide an account number...\n"
 "Usage: \"account <account number> movements\""
 msgstr ""
+"Por favor ingresa un número de cuenta...\n"
+"Forma de uso: \"movimientos cuenta <número de cuenta>\""
 
-#: .\models.py:392
-msgid "Please enter the dates that you want to check for account movements\n"
-msgstr ""
-
-#: .\models.py:396
-msgid "Sorry, could not get the dates, try using words like 'august 2020' or with the format dd/mm/YYYY"
-msgstr ""
-
-#: .\models.py:401
-msgid "Sorry, the first date must be before the second date..."
-msgstr ""
-
-#: .\models.py:404
-msgid "Sorry, I can't see the future... yet ;)"
-msgstr ""
-
-#: .\models.py:419
+#: .\models.py:326
 msgid "Sorry, could not find that account...Please check that the account number is correct..."
-msgstr ""
+msgstr "Lo siento, no pude encontrar esa cuenta... Por vafor verifica que el número es correcto..."
 
-#: .\models.py:443
+#: .\models.py:343
 msgid "balance_dollar"
 msgstr "Saldo (dólares)"
 
-#: .\models.py:443
+#: .\models.py:343
 msgid "balance_local"
 msgstr "Saldo (moneda local)"
 
-#: .\models.py:443
+#: .\models.py:343
 msgid "close_date"
 msgstr "Fecha de cierre"
 
-#: .\models.py:444
+#: .\models.py:344
 msgid "due_date"
 msgstr "Fecha de vencimiento"
 
-#: .\models.py:462
+#: .\models.py:359
+msgid ""
+"Please provide a credit card number...\n"
+"Usage: \"card <card number> movements\""
+msgstr ""
+"Por favor ingresa un número de tarjeta de crédito...\n"
+"Forma de uso: \"movimientos tarjeta <número de tarjeta> <codigo de moneda> <fechas>\""
+
+#: .\models.py:363
+msgid ""
+"Please provide a currency symbol for the transactions\n"
+"e.g. USD for United States Dollars, UYU for Uruguayan peso"
+msgstr ""
+"Por favor ingresa un codigo de moneda para las transacciones\n"
+"ej: USD para Dólares Estadounidenses, UYU para Pesos Uruguayos"
+
+#: .\models.py:380
+msgid "Sorry, could not find that credit card...Please check that the card number is correct..."
+msgstr "Lo siento, no pude encontrar esa tarjeta de crédito... Por favor verifica que el número es correcto..."
+
+#: .\models.py:400
 msgid "Beep-bop! Something went wrong... Please try again later..."
 msgstr "Beep-bop! Algo salió mal... por favor vuelve a intentarlo más tarde..."
 
@@ -216,15 +222,35 @@ msgstr "Vamos!"
 msgid "Log in"
 msgstr "Iniciar sesión"
 
-#: .\views.py:141
+#: .\utils.py:114
+msgid ""
+"Sorry, could not get the dates... \n"
+"please check that you are using a valid format\n"
+"You can use words like 'july'\n"
+"or the date format dd/mm/YYYY, e.g. 31/12/1999"
+msgstr ""
+"Lo siento, no pude obtener las fechas... \n"
+"Por favor verifica que estás usando un formato válido\n"
+"Puedes usar palabras como 'julio'\n"
+"o el formato de fecha dd/mm/YYYY, ej: 31/12/1999"
+
+#: .\utils.py:121
+msgid "Sorry, the first date must be before the second date..."
+msgstr "Lo siento, la primer fecha debe ser anterior a la segunda fecha..."
+
+#: .\utils.py:124
+msgid "Sorry, I can't see the future... yet ;)"
+msgstr "Lo siento, no puedo ver el futuro... aún ;)"
+
+#: .\views.py:142
 msgid "Sorry, this provider is not available at the moment..."
 msgstr "Lo siento, este proveedor no está disponible de momento..."
 
-#: .\views.py:145
+#: .\views.py:146
 msgid "Wrong credentials!"
 msgstr "Credenciales erróneas!"
 
-#: .\views.py:152
+#: .\views.py:153
 msgid ""
 "Successfully logged in!\n"
 "To log out from this provider type <a class=\"message-link\">logout</a>.\n"
@@ -240,7 +266,7 @@ msgstr ""
 "<a class=\"message-link\">cuentas</a> para tus cuentas en este banco\n"
 "<a class=\"message-link\">tarjetas</a> para tus tarjetas en este banco"
 
-#: .\views.py:200
+#: .\views.py:201
 msgid ""
 "Hi! What do you want to do in Prometeo today?\n"
 "You can start by typing <a class=\"message-link\">banks</a>.\n"

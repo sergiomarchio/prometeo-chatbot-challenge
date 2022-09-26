@@ -197,19 +197,19 @@ class MessageProcessor:
         # Message processing cascade. All action methods must have a **kwargs parameter
         # that will be used to pass matching regex named groups, if any
         actions = (
-            ActionSelector(_("log *out"), self.action_logout, self.require_logged_in),
-            ActionSelector(_("customers?"), self.action_client, self.require_logged_in),
-            ActionSelector(_("banks?"), self.action_provider, self.require_not_logged_in),
+            ActionSelector(_("_regex_logout"), self.action_logout, self.require_logged_in),
+            ActionSelector(_("_regex_customer"), self.action_client, self.require_logged_in),
+            ActionSelector(_("_regex_bank"), self.action_provider, self.require_not_logged_in),
             ActionSelector(_("_regex_account") + " +(?P<account_number>.*?) +" + _("_regex_movement")
                            + " *(?P<dates>.*)",
                            self.action_account_movement, self.require_logged_in),
-            ActionSelector(_("accounts?"), self.action_account, self.require_logged_in),
+            ActionSelector(_("_regex_account"), self.action_account, self.require_logged_in),
             ActionSelector(_("_regex_card") + " *(?P<card_number>.*?) *" + _("_regex_movement")
-                           + " *" + _("_regex_currency") + "? *(?P<currency>[A-Za-z]{3}?)" + " *(?P<dates>.*)",
+                           + " *(" + _("_regex_currency") + ")? *(?P<currency>[A-Za-z]{3}?)" + " *(?P<dates>.*)",
                            self.action_credit_card_movement, self.require_logged_in),
-            ActionSelector(_("cards?"), self.action_card, self.require_logged_in),
-            ActionSelector(_("(data)|(info)"), self.action_info, self.require_logged_in),
-            ActionSelector(_("(hi)|(hello)"), lambda **kwargs: BotMessage(_("Hello! Nice to meet you :)")))
+            ActionSelector(_("_regex_card"), self.action_card, self.require_logged_in),
+            ActionSelector(_("_regex_info"), self.action_info, self.require_logged_in),
+            ActionSelector(_("_regex_greeting"), lambda **kwargs: BotMessage(_("Hello! Nice to meet you :)")))
         )
 
         for action in actions:
