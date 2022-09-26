@@ -237,6 +237,19 @@ class MessageProcessor:
 
         return accounts
 
+    @property
+    def session_credit_cards(self):
+        self.require_logged_in()
+
+        cards = self.provider_session.get('credit_cards')
+        if not cards:
+            cards = transactional.CreditCard(self.api_key, self.provider_session.get('key')
+                                             ).successful_json()['credit_cards']
+
+            self.provider_session['credit_cards'] = cards
+
+        return cards
+
     def is_user_logged_in(self):
         return self.provider_session and 'key' in self.provider_session
     
@@ -421,17 +434,12 @@ class MessageProcessor:
         return BotMessage("\n".join(message_parts))
 
     def action_card(self, **kwargs):
-        card_response = transactional.Card(self.api_key, self.provider_session.get('key')).successful_json()
-
-        cards = card_response['credit_cards']
-        self.provider_session['cards'] = cards
-
         # This is for translation purposes, so django can generate the .po with this strings
         translation_names = (_('balance_dollar') + _('balance_local') + _('close_date')
                              + _('due_date') + _('id') + _('name') + _('number'))
 
         message_parts = []
-        for card in cards:
+        for card in self.session_credit_cards:
             rows = [f'<div name="{key}" class="item row">'
                     '<div class="key">' + _(key) + ':</div>'
                                                    f'<div class="value">{value}</div>'

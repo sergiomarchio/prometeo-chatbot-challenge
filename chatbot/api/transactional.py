@@ -49,7 +49,7 @@ class AccountMovement(Api):
                 and 'movements' in self.response_json)
 
 
-class Card(Api):
+class CreditCard(Api):
     parameters = "credit-card/"
     method = Method.GET
 
