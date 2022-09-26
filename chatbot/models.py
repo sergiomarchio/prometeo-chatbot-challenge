@@ -176,7 +176,7 @@ class MessageProcessor:
         if self.is_user_logged_in():
             raise BotException(_('You are already logged in {provider}, '
                                  'please <a class="message-link">logout</a> first'
-                                 ).format(provider=self.provider_session['name']))
+                                 ).format(provider=self.provider_session['provider']['bank']['name']))
         return True
 
     def process_message(self, message) -> Dictionarizable:
@@ -254,7 +254,7 @@ class MessageProcessor:
     def action_logout(self, **kwargs) -> BotMessage:
         auth.Logout(self.api_key, self.provider_session.get('key')).successful_json()
 
-        name = self.provider_session['bank']['name']
+        name = self.provider_session['provider']['bank']['name']
         del self.provider_session
 
         return BotMessage(_("Thank you for operating with ") + f"{name}")
