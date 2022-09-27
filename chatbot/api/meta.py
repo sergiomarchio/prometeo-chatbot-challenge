@@ -6,7 +6,10 @@ class Provider(Api):
     method = Method.GET
 
     def is_ok(self):
-        return (200 <= self.response.status_code < 300
+        """
+        contract from https://docs.prometeoapi.com/reference/getproviders
+        """
+        return (self.response.status_code == 200
                 and self.response_json.get('status') == "success"
                 and "providers" in self.response_json)
 

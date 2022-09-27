@@ -77,7 +77,8 @@ class Api:
     @abstractmethod
     def is_ok(self) -> bool:
         """
-        Checks if the API response was successful
+        Checks if the API response was successful,
+        based on the contract in the API documentation
         """
         pass
 
@@ -87,7 +88,7 @@ class Api:
         @return
         json response
         """
-        if not self.response:
+        if not self.response or not self.response_json:
             raise ApiException(_("Something went wrong!"))
 
         if self.response_json.get('message') == 'Key not Found':
