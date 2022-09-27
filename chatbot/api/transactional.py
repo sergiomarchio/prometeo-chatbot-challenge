@@ -11,6 +11,9 @@ class Info(Api):
         super().__init__(api_key, query_params={'key': key})
 
     def is_ok(self) -> bool:
+        """
+        contract from https://docs.prometeoapi.com/reference/getpersonalinfo
+        """
         return (self.response.status_code == 200
                 and self.response_json.get('status') == "success"
                 and 'info' in self.response_json)
@@ -24,6 +27,9 @@ class Account(Api):
         super().__init__(api_key, query_params={'key': key})
 
     def is_ok(self) -> bool:
+        """
+        contract from https://docs.prometeoapi.com/reference/getaccounts
+        """
         return (self.response.status_code == 200
                 and self.response_json.get('status') == "success"
                 and 'accounts' in self.response_json)
@@ -44,6 +50,9 @@ class AccountMovement(Api):
                                        })
 
     def is_ok(self) -> bool:
+        """
+        contract from https://docs.prometeoapi.com/reference/getmovements
+        """
         return (self.response.status_code == 200
                 and self.response_json.get('status') == "success"
                 and 'movements' in self.response_json)
@@ -57,6 +66,9 @@ class CreditCard(Api):
         super().__init__(api_key, query_params={'key': key})
 
     def is_ok(self) -> bool:
+        """
+        contract from https://docs.prometeoapi.com/reference/getcreditcards
+        """
         return (self.response.status_code == 200
                 and self.response_json.get('status') == "success"
                 and 'credit_cards' in self.response_json)
@@ -77,6 +89,9 @@ class CreditCardMovement(Api):
                                        })
 
     def is_ok(self) -> bool:
+        """
+        contract from https://docs.prometeoapi.com/reference/getcreditcardmovements
+        """
         return (self.response.status_code == 200
                 and self.response_json.get('status') == "success"
                 and 'movements' in self.response_json)
