@@ -101,10 +101,10 @@ class Api:
 
     def _log_response(self):
         print()
-        print(self.url)
-        print(self.headers)
+        print("URL:", self.url)
+        print("headers:", self.headers)
         print()
-        print(self._response.status_code)
-        print(self._response.headers)
-        print(self._response.content)
+        print("response status code:", self._response.status_code)
+        print("response headers:", self._response.headers)
+        print("response content:", self._response.content)
         print()
