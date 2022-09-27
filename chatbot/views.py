@@ -17,7 +17,7 @@ from .utils import BotException
 
 def log_me_in(session: dict, api_key: str) -> bool:
     """
-    Validates the  key by requesting the provider list
+    Validates the key by requesting the provider list
     saves the api key in the session
     creates an empty dict to store cached responses
     """
