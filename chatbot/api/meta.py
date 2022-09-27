@@ -22,8 +22,12 @@ class ProviderDetail(Api):
         super().__init__(api_key, path_params={'provider_code': provider_code})
 
     def is_ok(self) -> bool:
-        return (200 <= self.response.status_code < 300
-                and self.response_json.get('status') == "success")
+        """
+        contract from https://docs.prometeoapi.com/reference/getproviderdetail
+        """
+        return (self.response.status_code == 200
+                and self.response_json.get('status') == "success"
+                and "provider" in self.response_json)
 
 
 class ProviderBranches(Api):
@@ -34,8 +38,12 @@ class ProviderBranches(Api):
         super().__init__(api_key, path_params={'code': provider_code}, query_params={'zip': zip_code})
 
     def is_ok(self) -> bool:
-        return (200 <= self.response.status_code < 300
-                and self.response_json.get('status') == "success")
+        """
+        contract from https://docs.prometeoapi.com/reference/getproviderbranches
+        """
+        return (self.response.status_code == 200
+                and self.response_json.get('status') == "success"
+                and "branches" in self.response_json)
 
 
 class ProviderAtm(Api):
@@ -46,5 +54,9 @@ class ProviderAtm(Api):
         super().__init__(api_key, path_params={'code': provider_code}, query_params={'zip': zip_code})
 
     def is_ok(self) -> bool:
-        return (200 <= self.response.status_code < 300
-                and self.response_json.get('status') == "success")
+        """
+        contract from https://docs.prometeoapi.com/reference/getprovideratms
+        """
+        return (self.response.status_code == 200
+                and self.response_json.get('status') == "success"
+                and "branches" in self.response_json)
