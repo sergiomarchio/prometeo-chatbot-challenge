@@ -15,7 +15,7 @@ class TestProvider(SimpleTestCase):
         (200, {"status": "success", "providers": None}),
         (200, {"status": "success", "providers": {}}),
     ])
-    def test_successful_json_ok(self, mock_response, status_code, json):
+    def test_successful_json_happy(self, mock_response, status_code, json):
         print()
         print("Testing behavior of successful_json() method - happy path scenario.")
         print("status code:", status_code)
