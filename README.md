@@ -11,12 +11,18 @@ by [Sergio Marchio](https://serg.ink)
 The chatbot will be available during the contest evaluation period in [TODO set url](https://)
 
 
+## Test data
+
+To log into a provider you can use the credentials available in [Prometeo docs](https://docs.prometeoapi.com/docs/introducci%C3%B3n-1).
+
+
 ## Setup
 
 In order to run this project, you must
 
  - Create a secret.key file in the project root directory, with the django secure key in plain text format (can be generated with random characters, ideally with more than 50 characters and more than 5 unique characters.)
  - To use the guest login feature, create a file named 'api.key' in the [chatbot](chatbot) directory, containing a vaild Prometeo API key in plain text format.
+
 
 ### To run the server locally
 
@@ -40,6 +46,7 @@ python manage.py runserver 8080
 ```
 http://localhost:8080/
 ```
+
 
 ## Features
 

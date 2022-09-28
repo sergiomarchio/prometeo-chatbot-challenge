@@ -12,12 +12,18 @@ by [Sergio Marchio](https://serg.ink)
 El chatbot estará disponible durante la evaluación del desafío en [TODO set url](https://)
 
 
+## Datos de test
+
+Para iniciar sesión en un banco puedes utilizar las credenciales disponibles en [Prometeo docs](https://docs.prometeoapi.com/docs/introducci%C3%B3n-1).
+
+
 ## Instalación
 
 Para poder ejecutar el proyecto, debes primero:
 
  - Crear un archivo secret.key en la carpeta raíz del proyecto, con la clave segura de django en formato de texto plano (puede ser generada a partir de caracteres aleatorios, idealmente con más de 50 caracteres y más de 5 caracteres únicos.)
  - Para usar la caraterísitica de usuario invitado, crear un archivo con el nombre 'api.key' en el directorio [chatbot](chatbot), conteniendo una clave API de Prometeo válida, en formato de texto plano.
+
 
 ### Para ejecutar el servidor localmente
 
@@ -41,6 +47,7 @@ python manage.py runserver 8080
 ```
 http://localhost:8080/
 ```
+
 
 ## Características
 
