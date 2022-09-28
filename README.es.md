@@ -25,7 +25,14 @@ Para poder ejecutar el proyecto, debes primero:
  - Para usar la caraterísitica de usuario invitado, crear un archivo con el nombre 'api.key' en el directorio [chatbot](chatbot), conteniendo una clave API de Prometeo válida, en formato de texto plano.
 
 
-### Para ejecutar el servidor localmente
+### Para ejecutar el servidor *localmente*
+
+
+Desactivar configuración de seguridad **Cuidado:** esto es únicamente para ejecutar el proyecto de manera local, con el fines de debugging o testing
+ - En el archivo [settings.py](/prometeo_chatbot/settings.py) del proyecto,
+   - Definir DEBUG a True
+   - Comentar las líneas ALLOWED_HOSTS, CSRF_COOKIE_SECURE, SESSION_COOKIE_SECURE, SECURE_SSL_REDIRECT
+
 
  - crear un entorno virtual y activarlo
 ```

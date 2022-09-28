@@ -24,7 +24,13 @@ In order to run this project, you must
  - To use the guest login feature, create a file named 'api.key' in the [chatbot](chatbot) directory, containing a vaild Prometeo API key in plain text format.
 
 
-### To run the server locally
+### To run the server *locally*
+
+Remove security settings **Warning:** this is only for running the project locally for debugging/testing purposes
+ - In the project's [settings.py](/prometeo_chatbot/settings.py) file,
+   - Set DEBUG to True
+   - Comment ALLOWED_HOSTS, CSRF_COOKIE_SECURE, SESSION_COOKIE_SECURE, SECURE_SSL_REDIRECT settings
+
 
  - create virtual env and activate it
 ```
