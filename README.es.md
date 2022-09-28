@@ -21,12 +21,11 @@ Para iniciar sesión en un banco puedes utilizar las credenciales disponibles en
 
 Para poder ejecutar el proyecto, debes primero:
 
- - Crear un archivo secret.key en la carpeta raíz del proyecto, con la clave segura de django en formato de texto plano (puede ser generada a partir de caracteres aleatorios, idealmente con más de 50 caracteres y más de 5 caracteres únicos.)
- - Para usar la caraterísitica de usuario invitado, crear un archivo con el nombre 'api.key' en el directorio [chatbot](chatbot), conteniendo una clave API de Prometeo válida, en formato de texto plano.
+ - Crear un archivo secret.key en la carpeta raíz del proyecto, con la clave segura de django en formato de texto plano (puede ser generada a partir de caracteres aleatorios, idealmente con más de 50 caracteres y más de 5 caracteres únicos).
+ - Para usar la caraterística de usuario invitado, crear un archivo con el nombre 'api.key' en el directorio [chatbot](chatbot), conteniendo una API key de Prometeo válida, en formato de texto plano.
 
 
 ### Para ejecutar el servidor *localmente*
-
 
 Desactivar configuración de seguridad **Cuidado:** esto es únicamente para ejecutar el proyecto de manera local, con el fines de debugging o testing
  - En el archivo [settings.py](/prometeo_chatbot/settings.py) del proyecto,
