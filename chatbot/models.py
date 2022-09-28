@@ -216,6 +216,8 @@ class MessageProcessor:
             if not x['interactive'] and not x['optional']
         ]
 
+        self.provider_session['expected-fields'] = provider_fields
+
         return ModalForm('chatbot/provider_login.html',
                          ProviderLoginForm(provider_fields=provider_fields),
                          self.request,

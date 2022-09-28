@@ -110,7 +110,6 @@ function clickListener(event) {
 }
 
 function post(url, body, action, errorAction) {
-    console.log(getCookie("csrftoken"));
     fetch(url, {
       method: "POST",
       credentials: "same-origin",
@@ -118,7 +117,7 @@ function post(url, body, action, errorAction) {
         "X-Requested-With": "XMLHttpRequest",
         "X-CSRFToken": getCookie("csrftoken"),
       },
-      body: JSON.stringify(body)
+      body: body
     })
     .then(response => response.json())
     .then(data => action(data))
@@ -135,14 +134,15 @@ function messageSubmit(event) {
         sender: "user",
         content: userMessageField.value
     }
-
     addNewMessage(userMessage);
+
+    formData = new FormData(chatForm)
 
     userMessageField.value = "";
     userMessageField.focus();
 
     showMessageSpinner();
-    post("process_message/", userMessage, processMessageResponse,
+    post("process_message/", formData, processMessageResponse,
         (error) => {
             hideMessageSpinner();
             addErrorMessage();
@@ -156,12 +156,10 @@ function loginSubmit(event) {
     }
 
     data = {};
-    fields = document.getElementById("modal-form").querySelectorAll(".input-field");
-    for (let field of fields) {
-        data[field.getAttribute('name')] = field.value;
-    }
+    formData = new FormData(document.getElementById("modal-form"));
 
-    post("provider_login/", data, processMessageResponse, (error) => {
+    post("provider_login/", formData, processMessageResponse,
+        (error) => {
             hideMessageSpinner();
             addErrorMessage();
         });

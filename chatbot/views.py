@@ -1,11 +1,13 @@
+import functools
+import traceback
+
 from django.core.exceptions import BadRequest
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-
-import json
+from django.views.decorators.http import require_POST
 
 from .api import api, auth, meta
 from .forms import LoginForm, ChatForm, ProviderLoginForm
@@ -66,33 +68,47 @@ def close(request):
     return HttpResponseRedirect(reverse('chatbot:homepage'))
 
 
-def validate_ajax(request):
-    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-
-    if not is_ajax or request.method != 'POST':
-        raise BadRequest
+def is_ajax(request):
+    return request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
 
+def require_ajax(view):
+    """
+    Decorator to allow only AJAX requests in the decorated view
+    """
+    @functools.wraps(view)
+    def wrapper(request):
+        if not is_ajax(request):
+            print("request is not AJAX...")
+            raise BadRequest
+
+        return view(request)
+
+    return wrapper
+
+
+@require_ajax
+@require_POST
 def process_message(request):
     """
     Processes the message from the user (sent via AJAX) and returns the bot response.
     """
-    validate_ajax(request)
-
     if ('cache' not in request.session
             or 'message_history' not in request.session
             or 'api-key' not in request.session['cache']):
 
         return ErrorResponse()
 
-    user_message = json.loads(request.body)
-    print(user_message)
+    chat_form = ChatForm(request.POST)
 
-    if user_message.get('sender') != 'user':
-        return JsonResponse({'status': 'Invalid request'}, status=400)
+    if not chat_form.is_valid():
+        print("Invalid form... ChatForm")
+        return ErrorResponse()
 
-    user_message_content = user_message.get('content')
-    request.session['message_history'].add(UserMessage(user_message_content))
+    user_message_content = chat_form.cleaned_data['text_field']
+    user_message = UserMessage(user_message_content)
+
+    request.session['message_history'].add(user_message)
 
     try:
         processing_result = MessageProcessor(request.session['cache'], request).process_message(user_message_content)
@@ -102,7 +118,7 @@ def process_message(request):
         return ErrorResponse(f"Beep-bop! {e.message}", status=e.status)
     except Exception as e:
         print("Exception: ", e)
-        print(e.with_traceback())
+        print(traceback.format_exc())
 
         return ErrorResponse()
 
@@ -117,17 +133,24 @@ def process_message(request):
     return JsonResponse(processing_result.dict(), status=200)
 
 
+@require_ajax
+@require_POST
 def provider_login(request):
     """
     Processes the login request for a provider (sent via AJAX).
     """
-    validate_ajax(request)
-
     provider_session = request.session['cache']['provider_session']
+    expected_fields = provider_session['expected-fields']
+
+    provider_login_form = ProviderLoginForm(request.POST, provider_fields=expected_fields)
+    if not provider_login_form.is_valid():
+        print("Invalid form... ProviderLoginForm")
+        return ErrorResponse()
+
     provider = provider_session['provider']
     credentials = {
         "provider": provider['name'],
-        **json.loads(request.body),
+        **provider_login_form.cleaned_data,
         **provider_session.get("credentials", {})
     }
 
@@ -150,6 +173,8 @@ def provider_login(request):
     provider_session['key'] = login_response['key']
 
     if status == "logged_in":
+        del provider_session['expected-fields']
+
         message = BotMessage(_('Successfully logged in!\n'
                                'To log out from this provider type <a class="message-link">logout</a>.\n'
                                'You can try also:\n'
@@ -174,6 +199,8 @@ def provider_login(request):
              } for x in provider['auth_fields']
             if x['interactive'] and x['name'] == login_response['field']
         ]
+
+        provider_session['expected-fields'] = provider_fields
 
         return JsonResponse(ModalForm('chatbot/provider_login.html',
                                       ProviderLoginForm(provider_fields=provider_fields),
