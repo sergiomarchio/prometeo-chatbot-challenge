@@ -17,17 +17,18 @@ El chatbot estará disponible durante la evaluación del desafío en [TODO set u
 Para iniciar sesión en un banco puedes utilizar las credenciales disponibles en [Prometeo docs](https://docs.prometeoapi.com/docs/introducci%C3%B3n-1).
 
 
-## Instalación
+## Configuración inicial - archivos extra requeridos
 
-Para poder ejecutar el proyecto, debes primero:
-
- - Crear un archivo secret.key en la carpeta raíz del proyecto, con la clave segura de django en formato de texto plano (puede ser generada a partir de caracteres aleatorios, idealmente con más de 50 caracteres y más de 5 caracteres únicos).
- - Para usar la caraterística de usuario invitado, crear un archivo con el nombre 'api.key' en el directorio [chatbot](chatbot), conteniendo una API key de Prometeo válida, en formato de texto plano.
+Para ejecutar el proyecto, debes crear el archivo
+ - `secret.key` en el [directorio raíz](/), conteniendo la clave segura de django en formato de texto plano (idealmente generada con más de 50 caracteres aleatorios y más de 5 caracteres únicos).
+ 
+Para usar la caraterística de usuario invitado, debes crear el archivo
+- `api.key` en el directorio [chatbot](chatbot), conteniendo una API key de Prometeo válida, en formato de texto plano.
 
 
 ### Para ejecutar el servidor *localmente*
 
-Desactivar configuración de seguridad **Cuidado:** esto es únicamente para ejecutar el proyecto de manera local, con el fines de debugging o testing
+Desactivar configuración de seguridad **Cuidado:** esto es únicamente para ejecutar el proyecto de manera local, con fines de debugging o testing
  - En el archivo [settings.py](/prometeo_chatbot/settings.py) del proyecto,
    - Definir DEBUG a True
    - Comentar las líneas ALLOWED_HOSTS, CSRF_COOKIE_SECURE, SESSION_COOKIE_SECURE, SECURE_SSL_REDIRECT
@@ -44,7 +45,7 @@ source prometeo/bin/activate
 pip install -r requirements.txt
 ```
 
- - Desde el directorio raíz de la aplicación, iniciar el servidor en el puerto deseado, ej: 8080
+ - Desde el directorio raíz de la aplicación, iniciar el servidor en el puerto deseado, ej.: 8080
 ```
 python manage.py runserver 8080 
 ```
@@ -57,7 +58,7 @@ http://localhost:8080/
 
 ## Características
 
-- Soporte para distintos idiomas en base a la configuración del navegador (Español e Inglés)
+- Soporte para distintos idiomas dependiendo de la configuración del navegador (Español e Inglés)
 - Protección contra ataques CSRF
 
 - Operaciones en Prometeo
