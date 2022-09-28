@@ -1,7 +1,7 @@
 # [Prometeo chatbot challenge](https://joinignitecommunity.com/desafio-chatbot/)
 
-[![en](https://img.shields.io/badge/lang-en-red.svg)](README.md)
-[![es](https://img.shields.io/badge/lang-es-yellow.svg)](README.es.md)
+[![en](https://img.shields.io/badge/lang-en-silver.svg)](README.md)
+[![es](https://img.shields.io/badge/lang-es-green.svg)](README.es.md)
 
 
 Este proyecto implementa un chatbot que permite al usuario utilizar las funcionalidades de la API de Prometeo Open Banking, desde una interfaz amigable y fácil de usar.
