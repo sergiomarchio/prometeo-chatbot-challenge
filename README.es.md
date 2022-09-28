@@ -51,12 +51,16 @@ http://localhost:8080/
 
 ## Características
 
-El bot soporta las siguientes operaciones en Prometeo:
+- Soporte para distintos idiomas en base a la configuración del navegador (Español e Inglés)
+- Protección contra ataques CSRF
 
-- Listar los proveedores
-- Iniciar sesión en un proveedor con los campos requeridos, incluyendo inicio de sesión interactivo
-- Cerrar sesión en el proveedor
-- Información del usuario
-- Cuentas del usuario
-- Tarjetas del usuario
+- Operaciones en Prometeo
+  - Listar los proveedores
+  - Iniciar sesión en un proveedor con los campos requeridos, incluyendo inicio de sesión interactivo
+  - Cerrar sesión en el proveedor
+  - Información del usuario
+  - Cuentas del usuario
+  - Movimientos de cuenta
+  - Tarjetas del usuario
+  - Movimientos de tarjeta
 

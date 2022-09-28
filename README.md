@@ -50,12 +50,16 @@ http://localhost:8080/
 
 ## Features
 
-The bot supports the following Prometeo operations:
+- Multi-language support based on browser settings (English and Spanish)
+- Protection against CSRF attacks
 
-- Provider listing
-- Provider login with required fields, including interactive login
-- Provider logout
-- User info
-- User accounts
-- User cards
+- Prometeo operations
+  - Provider listing
+  - Provider login with required fields, including interactive login
+  - Provider logout
+  - User info
+  - User accounts
+  - Account movements
+  - User cards
+  - Card movements
 
