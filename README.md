@@ -63,3 +63,10 @@ http://localhost:8080/
   - User cards
   - Card movements
 
+
+## Possible improvements
+
+- Increase testing coverage
+- Improve display of movements (account and card)
+- Export movements to csv and/or pdf
+- Language selection from UI

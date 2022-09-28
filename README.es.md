@@ -64,3 +64,10 @@ http://localhost:8080/
   - Tarjetas del usuario
   - Movimientos de tarjeta
 
+
+## Mejoras posibles
+
+- Aumentar la cobertura de testing
+- Mejorar la forma que se muestran los movimientos (cuenta y tarjeta)
+- Exportar movimientos a csv y/o pdf
+- Elección de idioma desde la interfaz
