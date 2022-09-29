@@ -28,24 +28,27 @@ Para usar la caraterística de usuario invitado, debes crear el archivo
 
 ### Para ejecutar el servidor *localmente*
 
-Desactivar configuración de seguridad **Cuidado:** esto es únicamente para ejecutar el proyecto de manera local, con fines de debugging o testing
- - En el archivo [settings.py](/prometeo_chatbot/settings.py) del proyecto,
-   - Definir DEBUG a True
-   - Comentar las líneas ALLOWED_HOSTS, CSRF_COOKIE_SECURE, SESSION_COOKIE_SECURE, SECURE_SSL_REDIRECT
+El proyecto ya está configurado por defecto para su ejecución local, con fines de debugging o testing.
 
+Desde el [directorio raíz](/) del proyecto, en la consola:
 
- - crear un entorno virtual y activarlo
-```
-virtualenv prometeo
-source prometeo/bin/activate
-```
+ - Crear un entorno virtual
+`python -m venv prometeo`
+
+ - Activarlo
+
+   - linux / MacOS:
+   - `source prometeo/bin/activate`
+
+   - Windows
+   - `prometeo\Scripts\activate.bat`
 
  - instalar los paquetes requeridos
 ```
 pip install -r requirements.txt
 ```
 
- - Desde el directorio raíz de la aplicación, iniciar el servidor en el puerto deseado, ej.: 8080
+ - Iniciar el servidor en el puerto deseado, ej.: 8080
 ```
 python manage.py runserver 8080 
 ```
@@ -61,15 +64,23 @@ http://localhost:8080/
 - Soporte para distintos idiomas dependiendo de la configuración del navegador (Español e Inglés)
 - Protección contra ataques CSRF
 
-- Operaciones en Prometeo
+- Operaciones en Prometeo y `mensajes` para relizarlas
   - Listar los proveedores
+    - `bancos`
   - Iniciar sesión en un proveedor con los campos requeridos, incluyendo inicio de sesión interactivo
+    - `<nombre del banco>`
   - Cerrar sesión en el proveedor
+    - `salir`
   - Información del usuario
+    - `info`
   - Cuentas del usuario
+    - `cuentas`
   - Movimientos de cuenta
+    - `cuenta <acount number> movimentos <date range>`
   - Tarjetas del usuario
+    - `tarjetas`
   - Movimientos de tarjeta
+    - `tarjeta <acount number> movimentos <date range>`
 
 
 ## Mejoras posibles

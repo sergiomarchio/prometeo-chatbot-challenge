@@ -27,24 +27,31 @@ To use the guest login feature, you must create the file
 
 ### To run the server *locally*
 
-Remove security settings **Warning:** this is only for running the project locally for debugging/testing purposes
+The project is configured by default for its local execution, for debugging/testing purposes
+
  - In the project's [settings.py](/prometeo_chatbot/settings.py) file,
    - Set DEBUG to True
    - Comment ALLOWED_HOSTS, CSRF_COOKIE_SECURE, SESSION_COOKIE_SECURE, SECURE_SSL_REDIRECT settings
 
+From the project's [root directory](/), in the console:
 
- - create virtual env and activate it
-```
-virtualenv prometeo
-source prometeo/bin/activate
-```
+ - Create virtual environment
+`python -m venv prometeo`
+
+ - Activate it
+
+   - linux / MacOS:
+   - `source prometeo/bin/activate`
+
+   - Windows
+   - `prometeo\Scripts\activate.bat`
 
  - install required packages
 ```
 pip install -r requirements.txt
 ```
 
- - From the app root directory, start the server in the desired port, e.g. 8080
+ - Start the server in the desired port, e.g. 8080
 ```
 python manage.py runserver 8080 
 ```
@@ -60,15 +67,23 @@ http://localhost:8080/
 - Multi-language support based on browser settings (English and Spanish)
 - Protection against CSRF attacks
 
-- Prometeo operations
+- Prometeo operations and `messages` to trigger them
   - Provider listing
+    - `banks`
   - Provider login with required fields, including interactive login
+    - `<provider name>`
   - Provider logout
+    - `logout`
   - User info
+    - `info`
   - User accounts
+    - `accounts`
   - Account movements
+    - `account <acount number> movements <date range>`
   - User cards
+    - `cards`
   - Card movements
+    - `card <acount number> movements <date range>`
 
 
 ## Possible improvements

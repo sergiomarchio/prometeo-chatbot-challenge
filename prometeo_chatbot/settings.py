@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
 from pathlib import Path
 
 from django.utils.translation import gettext_lazy as _
@@ -27,18 +26,7 @@ with open('secret.key', 'r') as f:
     SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
-ALLOWED_HOSTS = ['.prometeo.serg.ink']
-
-# Send CSRF cookie through HTTPS only
-CSRF_COOKIE_SECURE = True
-
-# Send session cookie through HTTPS only
-SESSION_COOKIE_SECURE = True
-
-SECURE_SSL_REDIRECT = True
-
+DEBUG = True
 
 # Application definition
 
