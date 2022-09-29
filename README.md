@@ -16,7 +16,7 @@ To log into a provider you can use the credentials available in [Prometeo docs](
 ## Initial setup - extra files required
 
 To run this project, you must create the file
- - `secret.key` in the [root directory](/), containing the django secure key in plain text format (ideally created with more than 50 random characters and more than 5 unique characters).
+ - `secret.key` in the root directory of the project, containing the django secure key in plain text format (ideally created with more than 50 random characters and more than 5 unique characters).
  
 To use the guest login feature, you must create the file
 - `api.key` in the [chatbot](chatbot) directory, containing a valid Prometeo API key in plain text format.
@@ -26,11 +26,7 @@ To use the guest login feature, you must create the file
 
 The project is configured by default for its local execution, for debugging/testing purposes
 
- - In the project's [settings.py](/prometeo_chatbot/settings.py) file,
-   - Set DEBUG to True
-   - Comment ALLOWED_HOSTS, CSRF_COOKIE_SECURE, SESSION_COOKIE_SECURE, SECURE_SSL_REDIRECT settings
-
-From the project's [root directory](/), in the console:
+From the project's root directory, in the console:
 
  - Create virtual environment
 `python -m venv prometeo`
