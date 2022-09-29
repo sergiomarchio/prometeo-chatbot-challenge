@@ -6,10 +6,7 @@
 
 Este proyecto implementa un chatbot que permite al usuario utilizar las funcionalidades de la API de Prometeo Open Banking, desde una interfaz amigable y fácil de usar.
 
-by [Sergio Marchio](https://serg.ink)
-
-
-El chatbot estará disponible durante la evaluación del desafío en [TODO set url](https://)
+by Sergio Marchio
 
 
 ## Datos de test
