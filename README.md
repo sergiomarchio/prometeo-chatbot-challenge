@@ -16,7 +16,7 @@ To log into a provider you can use the credentials available in [Prometeo docs](
 ## Initial setup - extra files required
 
 To run this project, you must create the file
- - `secret.key` in the root directory of the project, containing the django secure key in plain text format (ideally created with more than 50 random characters and more than 5 unique characters).
+ - `secret.key` in the root directory of the project (where you can also find [manage.py](manage.py) file), containing the django secure key in plain text format (ideally created with more than 50 random characters and more than 5 unique characters).
  
 To use the guest login feature, you must create the file
 - `api.key` in the [chatbot](chatbot) directory, containing a valid Prometeo API key in plain text format.

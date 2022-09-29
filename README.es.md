@@ -17,7 +17,7 @@ Para iniciar sesión en un banco puedes utilizar las credenciales disponibles en
 ## Configuración inicial - archivos extra requeridos
 
 Para ejecutar el proyecto, debes crear el archivo
- - `secret.key` en el directorio raíz del proyecto, conteniendo la clave segura de django en formato de texto plano (idealmente generada con más de 50 caracteres aleatorios y más de 5 caracteres únicos).
+ - `secret.key` en el directorio raíz del proyecto (donde se encuentra el archivo [manage.py](manage.py)), conteniendo la clave segura de django en formato de texto plano (idealmente generada con más de 50 caracteres aleatorios y más de 5 caracteres únicos).
  
 Para usar la caraterística de usuario invitado, debes crear el archivo
 - `api.key` en el directorio [chatbot](chatbot), conteniendo una API key de Prometeo válida, en formato de texto plano.
